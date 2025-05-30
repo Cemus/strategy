@@ -1,0 +1,26 @@
+<footer
+  class="flex justify-between items-center bg-red-600 text-white font-semibold md:text-xl sm:text-xs p-1"
+>
+  <div class="flex items-center lg:gap-10 gap-2">
+    <button class="button lg:px-20" (click)="onMenuClick('map')">Map</button>
+    <button class="button lg:px-20" (click)="onMenuClick('item')">Item</button>
+    <button
+      class="button lg:px-20"
+      (click)="onMenuClick(currentMenu !== 'troops' ? 'troops' : 'map')"
+    >
+      Troops
+    </button>
+    <button class="button lg:px-20" (click)="onMenuClick('prison')">
+      Prison
+    </button>
+  </div>
+
+  <div class="flex">
+    <div class="flex flex-row gap-2 gold">
+      <p>{{ playerFaction.gold }}G</p>
+    </div>
+    <div class="flex flex-row gap-2 reserve">
+      <p>{{ playerFaction.gold }}R</p>
+    </div>
+  </div>
+</footer>
