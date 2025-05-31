@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { MapComponent } from './features/map/map.component';
 import { City } from './core/models/city.model';
 import { Faction } from './core/models/faction.model';
@@ -10,7 +9,7 @@ import { FooterComponent } from './shared/components/footer/footer.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, MapComponent, HeaderComponent, FooterComponent],
+  imports: [MapComponent, HeaderComponent, FooterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
@@ -27,6 +26,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     const { factions, cities } = buildDefaultData();
+
     this.factions = factions;
     this.cities = cities;
     this.playerFaction = factions.find((f) => f.player)!;
