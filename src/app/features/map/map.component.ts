@@ -12,12 +12,14 @@ import { Faction } from '../../core/models/faction.model';
 import { CommonModule } from '@angular/common';
 import { citiesSetup } from '../../core/utils/cities-setup-utils';
 import { GameStoreService } from '../../core/services/game-store.service';
+import { MapControlsDirective } from '../../directives/map-controls.directive';
 
 @Component({
   selector: 'app-map',
-  imports: [CommonModule],
+  imports: [CommonModule, MapControlsDirective],
   templateUrl: './map.component.html',
   styleUrl: './map.component.css',
+  standalone: true,
 })
 export class MapComponent implements AfterViewInit, OnChanges {
   @Input() playerFaction?: Faction;
