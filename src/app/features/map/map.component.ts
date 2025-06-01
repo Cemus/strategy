@@ -13,10 +13,11 @@ import { CommonModule } from '@angular/common';
 import { citiesSetup } from '../../core/utils/cities-setup-utils';
 import { GameStoreService } from '../../core/services/game-store.service';
 import { MapControlsDirective } from '../../directives/map-controls.directive';
+import { CityCommandsComponent } from '../city-commands/city-commands.component';
 
 @Component({
   selector: 'app-map',
-  imports: [CommonModule, MapControlsDirective],
+  imports: [CommonModule, MapControlsDirective, CityCommandsComponent],
   templateUrl: './map.component.html',
   styleUrl: './map.component.css',
   standalone: true,
@@ -55,9 +56,8 @@ export class MapComponent implements OnChanges, AfterViewInit {
 
   setupCities() {
     const svg = this.svgRef?.nativeElement;
-    const paths = svg?.querySelectorAll('path') || [];
 
-    if (svg && paths.length > 0) {
+    if (svg) {
       citiesSetup(svg, this.cities, this.factions);
     }
   }

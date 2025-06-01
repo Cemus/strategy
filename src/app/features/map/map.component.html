@@ -6,6 +6,13 @@
   appMapControls
   #mapContainerRef
 >
+  <ng-container *ngIf="selectedCity">
+    <app-city-commands
+      [playerFaction]="playerFaction"
+      [selectedCity]="selectedCity"
+    ></app-city-commands
+  ></ng-container>
+
   <svg
     version="1.1"
     id="svg1"
@@ -26,6 +33,7 @@
             stroke-width="0.5"
             (click)="handleCitySelection(city)"
             stroke-dashoffset="2"
+            class="cursor-pointer"
           />
         </g>
       </ng-container>
@@ -38,7 +46,7 @@
           [attr.d]="selectedCity.pathData"
           [attr.fill]="city.mapColor"
           stroke="yellow"
-          stroke-width="1"
+          stroke-width="2"
           (click)="handleCitySelection(selectedCity)"
           stroke-dashoffset="2"
           class="cursor-pointer"
