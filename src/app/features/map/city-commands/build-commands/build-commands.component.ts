@@ -6,9 +6,9 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core';
-import { City } from '../../../core/models/city.model';
-import { getDistanceToClosestCity } from '../../../core/utils/formulae';
-import { Faction } from '../../../core/models/faction.model';
+import { City } from '../../../../core/models/city.model';
+import { Faction } from '../../../../core/models/faction.model';
+import { getDistanceToClosestCity } from '../../../../core/utils/formulae';
 
 export interface Command {
   id: string;
@@ -175,7 +175,14 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
   }
 
   statInfoStyle(bgColor: string, textColor: string): string {
-    return `px-2 ${bgColor} text-${textColor} border-solid w-2/6 text-center border-black border-2 font-semibold  lg:text-base text-xs`;
+    const textClass =
+      textColor === 'black'
+        ? 'text-black'
+        : textColor === 'slate-100'
+        ? 'text-slate-100'
+        : '';
+
+    return `px-2 ${bgColor} ${textClass} border-solid w-2/6 text-center border-black border-2 font-semibold lg:text-base text-xs`;
   }
 
   textInfoStyle(): string {

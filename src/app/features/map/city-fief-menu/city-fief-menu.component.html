@@ -1,0 +1,36 @@
+<div
+  class="flex flex-col items-center absolute lg:bottom-12 lg:right-1 bottom-12 right-1 bg-slate-600 rounded-md z-10 select-none cursor-auto"
+  (mousedown)="$event.stopPropagation()"
+  (touchstart)="$event.stopPropagation()"
+>
+  <h3
+    class="text-slate-200 lg:text-lg text-sm font-bold bg-red-600 rounded-t-md w-full p-2 text-center"
+  >
+    {{ selectedCity?.name }}
+  </h3>
+
+  <ng-container *ngFor="let fief of selectedCity?.fiefs">
+    <div class="flex w-full justify-end text-slate-200">
+      <button
+        class="flex flex-col items-center bg-slate-700 m-2 p-1 rounded-md border-slate-200 border-2 disabled:border-slate-700 hover:border-yellow-500 hover:cursor-pointer"
+        (click)="onDistrictClick(fief)"
+        [disabled]="!fief.owner.player"
+      >
+        <p class="lg:text-lg text-sm">{{ fief?.type }}</p>
+        <svg [attr.width]="80" [attr.height]="80">
+          <circle
+            [attr.cx]="40"
+            [attr.cy]="40"
+            [attr.r]="20"
+            [attr.fill]="selectedCity?.owner?.color"
+            stroke="black"
+            stroke-width="1"
+            class="cursor-help"
+          >
+            <title>{{ selectedCity?.owner?.name }}</title>
+          </circle>
+        </svg>
+      </button>
+    </div>
+  </ng-container>
+</div>

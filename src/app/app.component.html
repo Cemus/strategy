@@ -1,12 +1,12 @@
 <main class="flex flex-col h-screen">
   <app-header [turn]="turn" (turnChange)="turn = $event"></app-header>
 
-  <app-map
+  <app-map-menu
     class="flex flex-1"
     [playerFaction]="playerFaction"
     [factions]="factions"
     [cities]="cities"
-  ></app-map>
+  ></app-map-menu>
 
   <app-footer
     [playerFaction]="playerFaction"

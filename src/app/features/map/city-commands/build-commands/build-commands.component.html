@@ -6,8 +6,8 @@
       (click)="handleEventMenuDisplay(cmd.id, cmd.requirement)"
     >
       <p [ngClass]="statInfoStyle(cmd.bgColor, cmd.textColor)">
-        {{ cmd.stat
-        }}<span *ngIf="cmd.requirement !== null">: {{ cmd.requirement }}</span>
+        {{ cmd.stat }}
+        <span *ngIf="cmd.requirement !== null">: {{ cmd.requirement }}</span>
       </p>
       <p [ngClass]="textInfoStyle()">
         {{ cmd.label }}

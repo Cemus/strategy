@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MapComponent } from './features/map/map.component';
+import { MapMenuComponent } from './features/map/map-menu/map-menu.component';
 import { City } from './core/models/city.model';
 import { Faction } from './core/models/faction.model';
 import { GameStoreService } from './core/services/game-store.service';
@@ -9,7 +9,7 @@ import { FooterComponent } from './shared/components/footer/footer.component';
 
 @Component({
   selector: 'app-root',
-  imports: [MapComponent, HeaderComponent, FooterComponent],
+  imports: [MapMenuComponent, HeaderComponent, FooterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
