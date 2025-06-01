@@ -1,9 +1,9 @@
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   Input,
   OnChanges,
+  AfterViewInit,
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
@@ -21,51 +21,49 @@ import { MapControlsDirective } from '../../directives/map-controls.directive';
   styleUrl: './map.component.css',
   standalone: true,
 })
-export class MapComponent implements AfterViewInit, OnChanges {
+export class MapComponent implements OnChanges, AfterViewInit {
   @Input() playerFaction?: Faction;
+  @Input() factions: Faction[] = [];
+  @Input() cities: City[] = [];
 
-  @ViewChild('svgRef', { static: false }) svgRef!: ElementRef<SVGSVGElement>;
+  @ViewChild('svgRef', { static: true }) svgRef!: ElementRef<SVGSVGElement>;
   @ViewChild('mapContainerRef', { static: false })
   mapContainerRef!: ElementRef<HTMLDivElement>;
 
   selectedCity: City | null = null;
-  cities: City[] = [];
-  factions: Faction[] = [];
   isDragging = false;
+  private initialized = false;
 
   constructor(private gameStore: GameStoreService) {}
 
+  ngOnInit() {
+    this.selectedCity = this.gameStore.getSelectedCity();
+  }
+
   ngAfterViewInit() {
-    this.setupCities();
+    setTimeout(() => {
+      this.initialized = true;
+      this.setupCities();
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['cities'] && this.svgRef) {
+    if (this.initialized && (changes['cities'] || changes['playerFaction'])) {
       this.setupCities();
     }
   }
 
-  ngOnInit() {
-    this.cities = this.gameStore.getAllCities();
-    this.factions = this.gameStore.getCurrentFactions();
-    this.selectedCity = this.gameStore.getSelectedCity();
-  }
-
   setupCities() {
-    if (this.svgRef?.nativeElement) {
-      citiesSetup(this.svgRef.nativeElement, this.cities, this.factions);
+    const svg = this.svgRef?.nativeElement;
+    const paths = svg?.querySelectorAll('path') || [];
+
+    if (svg && paths.length > 0) {
+      citiesSetup(svg, this.cities, this.factions);
     }
-  }
-
-  onMouseDown() {
-    this.isDragging = true;
-  }
-
-  onTouchStart() {
-    this.isDragging = true;
   }
 
   handleCitySelection(city: City) {
     this.gameStore.updateSelectedCity(city);
+    this.selectedCity = this.gameStore.getSelectedCity();
   }
 }

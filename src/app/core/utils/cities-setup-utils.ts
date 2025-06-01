@@ -10,7 +10,6 @@ export const citiesSetup = (
   const playerFaction = Object.values(factions).find(
     (faction) => faction.player
   );
-
   if (paths && paths.length > 0) {
     paths.forEach((path) => {
       const group = path.parentElement;
@@ -25,32 +24,29 @@ export const citiesSetup = (
         if (currentCity) {
           const currentOwner = currentCity.owner;
           const isPlayerCity = currentOwner?.name === playerFaction?.name;
-
           if (isPlayerCity) {
-            path.setAttribute('fill', 'green');
+            currentCity.mapColor = 'green';
           } else {
             const hasPlayerNeighbor = currentCity.neighbors.some((neighbor) => {
               return neighbor.owner?.name === playerFaction?.name;
             });
 
             if (hasPlayerNeighbor) {
-              path.setAttribute('fill', 'orange');
+              currentCity.mapColor = 'orange';
             } else {
-              path.setAttribute('fill', 'gray');
+              currentCity.mapColor = 'gray';
             }
           }
 
           currentOwner?.atWar.forEach((enemy) => {
             if (enemy.name === playerFaction?.name) {
-              path.setAttribute('fill', 'red');
+              currentCity.mapColor = 'red';
             }
           });
 
           if (svg && currentOwner) {
             getBlason(svg, path, currentOwner, currentCity);
           }
-        } else {
-          path.removeAttribute('fill');
         }
       }
 

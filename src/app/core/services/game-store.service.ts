@@ -26,7 +26,9 @@ export class GameStoreService {
   }
 
   updateSelectedCity(city: City | null) {
-    this.selectedCitySubject.next(city);
+    this.selectedCitySubject.getValue() == city
+      ? this.selectedCitySubject.next(null)
+      : this.selectedCitySubject.next(city);
   }
 
   getSelectedCity(): City | null {

@@ -10,6 +10,7 @@ export class City {
   fiefs: Fief[];
   defenseLvl: number;
   pathData: string;
+  mapColor: string;
 
   constructor(name: string, owner: Faction, fiefs: Fief[], pathData: string) {
     this.name = name;
@@ -20,5 +21,6 @@ export class City {
     this.id = uuidv4();
     this.defenseLvl = 0;
     this.neighbors = [];
+    this.mapColor = 'gray';
   }
 }

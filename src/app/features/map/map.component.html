@@ -10,7 +10,6 @@
     version="1.1"
     id="svg1"
     xmlns="http://www.w3.org/2000/svg"
-    fill="red"
     #svgRef
     width="100%"
     height="100%"
@@ -22,7 +21,7 @@
           <title>{{ city.name }} - {{ city.owner.name }}</title>
           <path
             [attr.d]="city.pathData"
-            [attr.fill]="'gray'"
+            [attr.fill]="city.mapColor"
             stroke="black"
             stroke-width="0.5"
             (click)="handleCitySelection(city)"
@@ -37,11 +36,12 @@
         <title>{{ selectedCity.name }} - {{ selectedCity.owner.name }}</title>
         <path
           [attr.d]="selectedCity.pathData"
-          [attr.fill]="'gray'"
+          [attr.fill]="city.mapColor"
           stroke="yellow"
           stroke-width="1"
           (click)="handleCitySelection(selectedCity)"
           stroke-dashoffset="2"
+          class="cursor-pointer"
         />
       </g>
     </ng-container>
