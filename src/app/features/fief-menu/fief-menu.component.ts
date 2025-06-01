@@ -16,5 +16,6 @@ export class FiefMenuComponent implements OnInit {
 
   ngOnInit(): void {
     this.selectedFief = this.gameStore.getSelectedFief();
+    console.log(this.selectedFief);
   }
 }

@@ -2,12 +2,15 @@
   <h3>{{ selectedFief?.type }} ({{ selectedFief?.owner?.name }})</h3>
   <h4>Assigned character :</h4>
 
-  <ng-container *ngIf="selectedFief?.assigned?.length !== 0; else noCharacter">
+  <div class="flex justify-around">
     <ng-container *ngFor="let assignedCharacter of selectedFief?.assigned">
-      <p>{{ assignedCharacter?.name }}</p>
+      <ng-container *ngIf="assignedCharacter !== null; else noCharacter">
+        <p>{{ assignedCharacter?.name }}</p>
+      </ng-container>
+
+      <ng-template #noCharacter>
+        <p>No Character assigned</p>
+      </ng-template>
     </ng-container>
-  </ng-container>
-  <ng-template #noCharacter>
-    <p>No character assigned</p>
-  </ng-template>
+  </div>
 </div>
