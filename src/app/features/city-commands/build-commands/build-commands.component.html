@@ -1,0 +1,17 @@
+<ul>
+  <ng-container *ngFor="let cmd of commands">
+    <li
+      *ngIf="cmd.show"
+      class="flex w-full p-1 items-center hover:bg-slate-700 hover:cursor-pointer"
+      (click)="handleEventMenuDisplay(cmd.id, cmd.requirement)"
+    >
+      <p [ngClass]="statInfoStyle(cmd.bgColor, cmd.textColor)">
+        {{ cmd.stat
+        }}<span *ngIf="cmd.requirement !== null">: {{ cmd.requirement }}</span>
+      </p>
+      <p [ngClass]="textInfoStyle()">
+        {{ cmd.label }}
+      </p>
+    </li>
+  </ng-container>
+</ul>

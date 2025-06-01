@@ -21,8 +21,7 @@ export function getCityById(id: string, cities: City[]) {
 
 export function getDistanceToClosestCity(
   selectedCity: City,
-  playerFaction: Faction,
-  cities: City[]
+  playerFaction: Faction
 ) {
   const selectedCityName = selectedCity.name;
   if (!selectedCityName || !playerFaction) {
@@ -35,8 +34,7 @@ export function getDistanceToClosestCity(
     if (playerControlledCity) {
       const distance = calculateDistanceBetweenCities(
         selectedCity,
-        playerControlledCity,
-        cities
+        playerControlledCity
       );
       if (distance < minDistance) {
         minDistance = distance;
@@ -49,14 +47,13 @@ export function getDistanceToClosestCity(
 
 export function calculateDistanceBetweenCities(
   provinceA: City,
-  provinceB: City,
-  cities: City[]
+  provinceB: City
 ) {
   const queue: [City, number][] = [];
   const visited: Set<string> = new Set();
 
   queue.push([provinceA, 0]);
-  visited.add(provinceA.name);
+  visited.add(provinceA.id);
 
   while (queue.length > 0) {
     const [currentCity, currentDistance] = queue.shift()!;
@@ -66,9 +63,8 @@ export function calculateDistanceBetweenCities(
     }
 
     for (const neighbor of currentCity.neighbors) {
-      const neighborCity = getCityById(neighbor.id, cities);
-      if (neighborCity && !visited.has(neighbor.id)) {
-        queue.push([neighborCity, currentDistance + 1]);
+      if (neighbor.id && !visited.has(neighbor.id)) {
+        queue.push([neighbor, currentDistance + 1]);
         visited.add(neighbor.id);
       }
     }

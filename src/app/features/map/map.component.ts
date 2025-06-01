@@ -13,19 +13,19 @@ import { CommonModule } from '@angular/common';
 import { citiesSetup } from '../../core/utils/cities-setup-utils';
 import { GameStoreService } from '../../core/services/game-store.service';
 import { MapControlsDirective } from '../../directives/map-controls.directive';
-import { CityCommandsComponent } from '../city-commands/city-commands.component';
+import { CityCommandsMenuComponent } from '../city-commands/city-commands-menu/city-commands-menu.component';
 
 @Component({
   selector: 'app-map',
-  imports: [CommonModule, MapControlsDirective, CityCommandsComponent],
+  imports: [CommonModule, MapControlsDirective, CityCommandsMenuComponent],
   templateUrl: './map.component.html',
   styleUrl: './map.component.css',
   standalone: true,
 })
 export class MapComponent implements OnChanges, AfterViewInit {
   @Input() playerFaction?: Faction;
-  @Input() factions: Faction[] = [];
-  @Input() cities: City[] = [];
+  @Input() factions?: Faction[];
+  @Input() cities?: City[];
 
   @ViewChild('svgRef', { static: true }) svgRef!: ElementRef<SVGSVGElement>;
   @ViewChild('mapContainerRef', { static: false })
@@ -57,7 +57,7 @@ export class MapComponent implements OnChanges, AfterViewInit {
   setupCities() {
     const svg = this.svgRef?.nativeElement;
 
-    if (svg) {
+    if (svg && this.cities && this.factions) {
       citiesSetup(svg, this.cities, this.factions);
     }
   }

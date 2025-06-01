@@ -7,10 +7,11 @@
   #mapContainerRef
 >
   <ng-container *ngIf="selectedCity">
-    <app-city-commands
+    <app-city-commands-menu
       [playerFaction]="playerFaction"
       [selectedCity]="selectedCity"
-    ></app-city-commands
+      [cities]="cities"
+    ></app-city-commands-menu
   ></ng-container>
 
   <svg
