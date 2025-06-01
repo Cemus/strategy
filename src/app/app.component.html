@@ -1,16 +1,16 @@
 <main class="flex flex-col h-screen">
   <app-header [turn]="turn" (turnChange)="turn = $event"></app-header>
 
-  <app-map-menu
-    class="flex flex-1"
-    [playerFaction]="playerFaction"
-    [factions]="factions"
-    [cities]="cities"
-  ></app-map-menu>
+  <ng-container [ngSwitch]="menu">
+    <app-map-menu
+      class="flex flex-1"
+      *ngSwitchCase="'map'"
+      [playerFaction]="playerFaction"
+      [factions]="factions"
+      [cities]="cities"
+    ></app-map-menu>
+    <app-fief-menu *ngSwitchCase="'fief'" class="flex flex-1"></app-fief-menu>
+  </ng-container>
 
-  <app-footer
-    [playerFaction]="playerFaction"
-    [currentMenu]="menu"
-    (menuSelect)="handleMenuChange($event)"
-  ></app-footer>
+  <app-footer [playerFaction]="playerFaction"></app-footer>
 </main>

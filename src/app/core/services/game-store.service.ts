@@ -17,6 +17,12 @@ export class GameStoreService {
   private selectedCitySubject = new BehaviorSubject<City | null>(null);
   selectedCity$ = this.selectedCitySubject.asObservable();
 
+  private selectedMenuSubject = new BehaviorSubject<string>('map');
+  selectedMenu$ = this.selectedMenuSubject.asObservable();
+
+  private zoomScaleSubject = new BehaviorSubject<number>(1);
+  zoomScale$ = this.zoomScaleSubject.asObservable();
+
   updateFactions(factions: Faction[]) {
     this.factionsSubject.next(factions);
   }
@@ -31,6 +37,22 @@ export class GameStoreService {
       : this.selectedCitySubject.next(city);
   }
 
+  updateSelectedMenu(menu: string) {
+    this.selectedMenuSubject.next(menu);
+  }
+
+  updateZoomScale(value: number) {
+    this.zoomScaleSubject.next(value);
+  }
+
+  getZoomScale(): number {
+    return this.zoomScaleSubject.getValue();
+  }
+
+  getSelectedMenu(): string {
+    return this.selectedMenuSubject.getValue();
+  }
+
   getSelectedCity(): City | null {
     return this.selectedCitySubject.getValue();
   }
@@ -39,7 +61,7 @@ export class GameStoreService {
     return this.factionsSubject.getValue();
   }
 
-  getCurrentSelectedFief(): Fief | null {
+  getSelectedFief(): Fief | null {
     return this.selectedFiefSubject.getValue();
   }
 

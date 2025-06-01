@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Faction } from '../../../core/models/faction.model';
+import { GameStoreService } from '../../../core/services/game-store.service';
 
 @Component({
   selector: 'app-footer',
@@ -10,9 +11,10 @@ import { Faction } from '../../../core/models/faction.model';
 export class FooterComponent {
   @Input() playerFaction!: Faction;
   @Input() currentMenu!: string;
-  @Output() menuSelect = new EventEmitter<string>();
+
+  constructor(private gameStore: GameStoreService) {}
 
   onMenuClick(menu: string) {
-    this.menuSelect.emit(menu);
+    this.gameStore.updateSelectedMenu(menu);
   }
 }

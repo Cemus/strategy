@@ -5,6 +5,8 @@ import {
   OnInit,
   OnDestroy,
 } from '@angular/core';
+import { GameStoreService } from '../core/services/game-store.service';
+import { Subscription } from 'rxjs';
 
 @Directive({
   selector: '[appMapControls]',
@@ -17,18 +19,27 @@ export class MapControlsDirective implements OnInit, OnDestroy {
   private dragStart = { x: 0, y: 0 };
   private translate = { x: 0, y: 0 };
   private scale = 1;
+  private zoomSubscription: Subscription | undefined;
 
-  constructor(private elRef: ElementRef<HTMLElement>) {}
+  constructor(
+    private elRef: ElementRef<HTMLElement>,
+    private gameStore: GameStoreService
+  ) {}
 
   ngOnInit(): void {
     this.svgRef = this.elRef.nativeElement.querySelector('svg')!;
     this.elRef.nativeElement.addEventListener('wheel', this.onWheel, {
       passive: false,
     });
+    this.zoomSubscription = this.gameStore.zoomScale$.subscribe((scale) => {
+      this.scale = scale;
+      this.applyTransform();
+    });
   }
 
   ngOnDestroy(): void {
     this.elRef.nativeElement.removeEventListener('wheel', this.onWheel);
+    this.zoomSubscription?.unsubscribe();
   }
 
   @HostListener('mousedown', ['$event'])
@@ -46,18 +57,23 @@ export class MapControlsDirective implements OnInit, OnDestroy {
   @HostListener('mousemove', ['$event'])
   onMouseMove(event: MouseEvent) {
     if (!this.isDragging) return;
+
     const dx = event.clientX - this.dragStart.x;
     const dy = event.clientY - this.dragStart.y;
+
     this.translate.x += dx;
     this.translate.y += dy;
     this.dragStart = { x: event.clientX, y: event.clientY };
+
     this.applyTransform();
   }
 
   @HostListener('touchstart', ['$event'])
   onTouchStart(event: TouchEvent) {
     const touch = event.touches[0];
+
     if (!touch) return;
+
     this.isDragging = true;
     this.dragStart = { x: touch.clientX, y: touch.clientY };
   }
@@ -71,21 +87,27 @@ export class MapControlsDirective implements OnInit, OnDestroy {
   @HostListener('touchmove', ['$event'])
   onTouchMove(event: TouchEvent) {
     if (!this.isDragging || event.touches.length === 0) return;
+
     const touch = event.touches[0];
     const dx = touch.clientX - this.dragStart.x;
     const dy = touch.clientY - this.dragStart.y;
+
     this.translate.x += dx;
     this.translate.y += dy;
     this.dragStart = { x: touch.clientX, y: touch.clientY };
+
     this.applyTransform();
     event.preventDefault();
   }
 
   private onWheel = (event: WheelEvent) => {
     event.preventDefault();
+
     const zoomSpeed = 0.0015;
     this.scale += -event.deltaY * zoomSpeed;
     this.scale = Math.max(0.5, Math.min(3, this.scale));
+    this.gameStore.updateZoomScale(this.scale);
+
     this.applyTransform();
   };
 

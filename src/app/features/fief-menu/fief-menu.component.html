@@ -1,0 +1,13 @@
+<div class="flex flex-1 flex-col bg-slate-900 text-slate-200 p-2">
+  <h3>{{ selectedFief?.type }} ({{ selectedFief?.owner?.name }})</h3>
+  <h4>Assigned character :</h4>
+
+  <ng-container *ngIf="selectedFief?.assigned?.length !== 0; else noCharacter">
+    <ng-container *ngFor="let assignedCharacter of selectedFief?.assigned">
+      <p>{{ assignedCharacter?.name }}</p>
+    </ng-container>
+  </ng-container>
+  <ng-template #noCharacter>
+    <p>No character assigned</p>
+  </ng-template>
+</div>
