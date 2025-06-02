@@ -20,7 +20,7 @@ export class GameStoreService {
   private selectedMenuSubject = new BehaviorSubject<string>('map');
   selectedMenu$ = this.selectedMenuSubject.asObservable();
 
-  private zoomScaleSubject = new BehaviorSubject<number>(1);
+  private zoomScaleSubject = new BehaviorSubject<number>(5);
   zoomScale$ = this.zoomScaleSubject.asObservable();
 
   updateFactions(factions: Faction[]) {

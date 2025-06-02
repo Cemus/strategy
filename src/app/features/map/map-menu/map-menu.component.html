@@ -14,49 +14,50 @@
     ></app-city-commands-menu
   ></ng-container>
 
-  <svg
-    version="1.1"
-    id="svg1"
-    xmlns="http://www.w3.org/2000/svg"
-    #svgRef
-    width="100%"
-    height="100%"
-    viewBox="0 0 250 125"
-  >
-    <ng-container *ngFor="let city of cities">
-      <ng-container *ngIf="city.name !== selectedCity?.name">
+  <div class="flex">
+    <svg
+      version="1.1"
+      id="svg1"
+      xmlns="http://www.w3.org/2000/svg"
+      #svgRef
+      width="100%"
+      height="100%"
+    >
+      <ng-container *ngFor="let city of cities">
+        <ng-container *ngIf="city.name !== selectedCity?.name">
+          <g>
+            <title>{{ city.name }} - {{ city.owner.name }}</title>
+            <path
+              [attr.d]="city.pathData"
+              [attr.fill]="city.mapColor"
+              stroke="black"
+              stroke-width="0.5"
+              (click)="handleCitySelection(city)"
+              stroke-dashoffset="2"
+              class="cursor-pointer"
+            />
+          </g>
+        </ng-container>
+      </ng-container>
+
+      <ng-container *ngIf="selectedCity as city">
         <g>
-          <title>{{ city.name }} - {{ city.owner.name }}</title>
+          <title>{{ selectedCity.name }} - {{ selectedCity.owner.name }}</title>
           <path
-            [attr.d]="city.pathData"
+            [attr.d]="selectedCity.pathData"
             [attr.fill]="city.mapColor"
-            stroke="black"
-            stroke-width="0.5"
-            (click)="handleCitySelection(city)"
+            stroke="yellow"
+            stroke-width="2"
+            (click)="handleCitySelection(selectedCity)"
             stroke-dashoffset="2"
             class="cursor-pointer"
           />
         </g>
       </ng-container>
-    </ng-container>
 
-    <ng-container *ngIf="selectedCity as city">
-      <g>
-        <title>{{ selectedCity.name }} - {{ selectedCity.owner.name }}</title>
-        <path
-          [attr.d]="selectedCity.pathData"
-          [attr.fill]="city.mapColor"
-          stroke="yellow"
-          stroke-width="2"
-          (click)="handleCitySelection(selectedCity)"
-          stroke-dashoffset="2"
-          class="cursor-pointer"
-        />
-      </g>
-    </ng-container>
-
-    <g id="blason-layer"></g>
-  </svg>
+      <g id="blason-layer"></g>
+    </svg>
+  </div>
 
   <ng-container *ngIf="selectedCity">
     <app-city-fief-menu [selectedCity]="selectedCity"></app-city-fief-menu

@@ -1,1 +1,17 @@
 @import "tailwindcss";
+
+.menu-button {
+  text-align: center;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  border: solid 2px red;
+  transition: all;
+  padding-inline: 4rem;
+  transition-duration: 250ms;
+  width: 200px;
+}
+
+.menu-button:hover {
+  letter-spacing: 0.125rem;
+  border-color: rgb(253, 253, 253);
+}
