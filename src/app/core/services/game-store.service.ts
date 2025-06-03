@@ -3,6 +3,8 @@ import { BehaviorSubject } from 'rxjs';
 import { Faction } from '../models/faction.model';
 import { Fief } from '../models/fief.model';
 import { City } from '../models/city.model';
+import { Character } from '../models/character/character.model';
+import { FiefType } from '../enums/fief-type.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -67,5 +69,72 @@ export class GameStoreService {
 
   getAllCities(): City[] {
     return this.getCurrentFactions().flatMap((f) => f.cities || []);
+  }
+
+  assignCharacterToFief(fiefId: string, character: Character | null): void {
+    const factions = this.getCurrentFactions();
+
+    for (const faction of factions) {
+      for (const city of faction.cities) {
+        const fief = city.fiefs.find((f) => f.id === fiefId);
+
+        if (fief) {
+          if (character === null && fief.assigned) {
+            fief.currentAction = null;
+
+            const previous = faction.characters.find(
+              (c) => c.id === fief.assigned?.id
+            );
+            if (previous) previous.job = null;
+          }
+
+          if (character !== null) {
+            const previous = faction.characters.find(
+              (c) => c.id === fief.assigned?.id
+            );
+            if (previous) previous.job = null;
+
+            const newChar = faction.characters.find(
+              (c) => c.id === character.id
+            );
+            if (newChar) {
+              newChar.job = fief;
+            }
+          }
+
+          fief.assigned = character;
+
+          this.updateFactions(factions);
+          this.updateSelectedFief(fief);
+          return;
+        }
+      }
+    }
+
+    console.warn('Fief not found for assignment');
+  }
+
+  destroyFief(fiefId: string): void {
+    const factions = this.getCurrentFactions();
+
+    for (const faction of factions) {
+      for (const city of faction.cities) {
+        const fief = city.fiefs.find((f) => f.id === fiefId);
+
+        if (fief) {
+          if (fief.assigned !== null) {
+            const assignedCharacter = faction.characters.find(
+              (c) => c.id === fief.assigned?.id
+            );
+            if (assignedCharacter) assignedCharacter.job = null;
+          }
+          fief.type = FiefType.Empty;
+          fief.upgrades = [];
+          this.updateFactions(factions);
+          this.updateSelectedFief(fief);
+          return;
+        }
+      }
+    }
   }
 }

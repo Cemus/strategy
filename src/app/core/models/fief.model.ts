@@ -2,6 +2,7 @@ import { FiefType } from '../enums/fief-type.enum';
 import { Character } from './character/character.model';
 import { Faction } from './faction.model';
 import { CivicStat } from '../../../../../src/enums/CivicStat';
+import { v4 as uuidv4 } from 'uuid';
 
 export type FiefUpgrade = {
   name: string;
@@ -11,9 +12,10 @@ export type FiefUpgrade = {
 };
 
 export class Fief {
+  id: string;
   type: FiefType;
   currentAction: string | null;
-  assigned: (Character | null)[];
+  assigned: Character | null;
   upgrades: FiefUpgrade[];
   owner: Faction;
 
@@ -21,8 +23,9 @@ export class Fief {
     this.type = type;
     this.owner = owner;
 
+    this.id = uuidv4();
     this.currentAction = null;
-    this.assigned = Array(this.getInitialSlotCount(type)).fill(null);
+    this.assigned = null;
     this.upgrades = this.initUpgrades();
   }
 
@@ -48,12 +51,6 @@ export class Fief {
     }
   }
 
-  private getAvailableUpgrades(): FiefUpgrade[] {
-    return this.upgrades.filter((upgrade) => {
-      upgrade.bought === false;
-    });
-  }
-
   private initUpgrades(): FiefUpgrade[] {
     const upgrades: FiefUpgrade[] = [];
 
@@ -63,6 +60,14 @@ export class Fief {
           name: 'Irrigation System',
           cost: 500,
           effect: { [CivicStat.Population]: 5 },
+          bought: false,
+        });
+        break;
+      case FiefType.Castle:
+        upgrades.push({
+          name: 'Rampart',
+          cost: 500,
+          effect: { [CivicStat.Security]: 5 },
           bought: false,
         });
         break;

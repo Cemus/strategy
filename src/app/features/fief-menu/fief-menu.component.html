@@ -1,16 +1,114 @@
-<div class="flex flex-1 flex-col bg-slate-900 text-slate-200 p-2">
-  <h3>{{ selectedFief?.type }} ({{ selectedFief?.owner?.name }})</h3>
-  <h4>Assigned character :</h4>
+<div class="flex flex-1 gap-2 flex-col bg-slate-900 text-slate-200 p-2">
+  <h3 class="text-xl font-semibold mb-2">
+    {{ selectedFief?.type }} ({{ selectedFief?.owner?.name }})
+  </h3>
 
-  <div class="flex justify-around">
-    <ng-container *ngFor="let assignedCharacter of selectedFief?.assigned">
-      <ng-container *ngIf="assignedCharacter !== null; else noCharacter">
-        <p>{{ assignedCharacter?.name }}</p>
-      </ng-container>
+  <div class="flex flex-1 flex-col justify-between">
+    <div class="flex flex-col gap-2">
+      <div>
+        <h4 class="block text-slate-200 text-md font-bold mb-2">
+          Assigned Character:
+        </h4>
+        <ng-container *ngIf="selectedFief?.assigned !== null; else noCharacter">
+          <p>{{ selectedFief?.assigned?.name }}</p>
+        </ng-container>
+        <ng-template #noCharacter>
+          <p class="text-sm italic">No Character assigned</p>
+        </ng-template>
+      </div>
 
-      <ng-template #noCharacter>
-        <p>No Character assigned</p>
-      </ng-template>
-    </ng-container>
+      <div>
+        <label
+          class="block text-slate-200 text-md font-bold mb-2"
+          for="fiefAction-select"
+          >Choose an action:</label
+        >
+        <select
+          name="fiefActions"
+          id="fiefAction-select"
+          [disabled]="!selectedFief?.assigned"
+          [ngClass]="{ 'text-red-500': !selectedFief?.assigned }"
+        >
+          <option value="">
+            {{
+              !selectedFief?.assigned
+                ? "-- No character assigned --"
+                : "-- Please choose an option --"
+            }}
+          </option>
+        </select>
+      </div>
+
+      <div class="mt-4">
+        <h4 class="text-lg font-semibold mb-2">Fief Upgrades</h4>
+        <ul
+          *ngIf="selectedFief?.upgrades?.length; else noUpgrades"
+          class="list-disc list-inside"
+        >
+          <li *ngFor="let upgrade of selectedFief?.upgrades">
+            <span [class.line-through]="upgrade.bought" class="mr-2">
+              {{ upgrade.name }} (Cost: {{ upgrade.cost }})
+            </span>
+            <small *ngIf="upgrade.bought" class="text-green-400"
+              >(Bought)</small
+            >
+          </li>
+        </ul>
+        <ng-template #noUpgrades>
+          <p class="italic text-sm">No upgrades available.</p>
+        </ng-template>
+      </div>
+
+      <div class="mt-4">
+        <ng-container
+          *ngIf="selectedFief?.type !== fiefTypeEnum.Empty; else newFief"
+        >
+          <button
+            class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded cursor-pointer"
+            (click)="destroyFief()"
+            [disabled]="!selectedFief"
+          >
+            Destroy Fief
+          </button>
+        </ng-container>
+        <ng-template #newFief>
+          <button
+            class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded cursor-pointer"
+            [disabled]="!selectedFief"
+          >
+            New fief
+          </button>
+        </ng-template>
+      </div>
+    </div>
+
+    <div class="mt-4">
+      <h4 class="text-lg font-semibold mb-2">Available Characters</h4>
+      <div class="flex flex-col gap-2 max-h-60 overflow-y-auto">
+        <div
+          *ngFor="let character of selectedFief?.owner?.characters"
+          class="p-2 bg-slate-800 rounded hover:bg-slate-700 cursor-pointer"
+          (click)="assignCharacterToFief(character)"
+          [ngClass]="{
+            'text-yellow-500': character.job === selectedFief,
+            'text-red-500': character.exhausted === true
+          }"
+        >
+          <p class="font-bold">{{ character.name }}</p>
+          <p class="text-sm">
+            Martial: {{ character.stats.martial }} | Int:{{
+              character.stats.knowledge
+            }}
+            | Cha: {{ character.stats.charisma }}
+          </p>
+          <p
+            class="text-xs italic text-slate-400"
+            *ngIf="character.traits?.length"
+          >
+            Traits: {{ character.traits.join(", ") }}
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
