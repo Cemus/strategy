@@ -55,6 +55,22 @@ export class Fief {
     const upgrades: FiefUpgrade[] = [];
 
     switch (this.type) {
+      case FiefType.Empty:
+        upgrades.push(
+          {
+            name: 'Build Farm',
+            cost: 500,
+            effect: { [CivicStat.Population]: 5 },
+            bought: false,
+          },
+          {
+            name: 'Build Castle',
+            cost: 500,
+            effect: { [CivicStat.Population]: 5 },
+            bought: false,
+          }
+        );
+        break;
       case FiefType.Farm:
         upgrades.push({
           name: 'Irrigation System',
@@ -71,8 +87,16 @@ export class Fief {
           bought: false,
         });
         break;
+      default:
+        break;
     }
-
     return upgrades;
+  }
+
+  public resetFief(): void {
+    this.type = FiefType.Empty;
+    this.upgrades = this.initUpgrades();
+    this.currentAction = null;
+    this.assigned = null;
   }
 }

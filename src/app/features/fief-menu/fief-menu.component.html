@@ -39,30 +39,47 @@
         </select>
       </div>
 
-      <div class="mt-4">
+      <div *ngIf="selectedFief?.type === fiefTypeEnum.Empty; else showUpgrades">
+        <h4 class="text-lg font-semibold mb-2">Build a new Fief</h4>
+        <ul class="list-inside">
+          <li *ngFor="let upgrade of selectedFief?.upgrades">
+            <button
+              class="m-1 bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded cursor-pointer"
+              (click)="buildFief(upgrade.name)"
+            >
+              {{ upgrade.name }} (Cost: {{ upgrade.cost }})
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <ng-template #showUpgrades>
         <h4 class="text-lg font-semibold mb-2">Fief Upgrades</h4>
         <ul
           *ngIf="selectedFief?.upgrades?.length; else noUpgrades"
-          class="list-disc list-inside"
+          class="list-inside"
         >
           <li *ngFor="let upgrade of selectedFief?.upgrades">
-            <span [class.line-through]="upgrade.bought" class="mr-2">
-              {{ upgrade.name }} (Cost: {{ upgrade.cost }})
-            </span>
-            <small *ngIf="upgrade.bought" class="text-green-400"
-              >(Bought)</small
+            <button
+              class="m-1 bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded cursor-pointer"
+              (click)="buildFief(upgrade.name)"
             >
+              <span [class.line-through]="upgrade.bought" class="mr-2">
+                {{ upgrade.name }} (Cost: {{ upgrade.cost }})
+              </span>
+              <small *ngIf="upgrade.bought" class="text-green-400"
+                >(Bought)</small
+              >
+            </button>
           </li>
         </ul>
         <ng-template #noUpgrades>
           <p class="italic text-sm">No upgrades available.</p>
         </ng-template>
-      </div>
+      </ng-template>
 
       <div class="mt-4">
-        <ng-container
-          *ngIf="selectedFief?.type !== fiefTypeEnum.Empty; else newFief"
-        >
+        <ng-container *ngIf="selectedFief?.type !== fiefTypeEnum.Empty">
           <button
             class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded cursor-pointer"
             (click)="destroyFief()"
@@ -71,14 +88,6 @@
             Destroy Fief
           </button>
         </ng-container>
-        <ng-template #newFief>
-          <button
-            class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded cursor-pointer"
-            [disabled]="!selectedFief"
-          >
-            New fief
-          </button>
-        </ng-template>
       </div>
     </div>
 

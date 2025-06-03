@@ -38,4 +38,8 @@ export class FiefMenuComponent implements OnInit {
 
     this.gameStore.destroyFief(this.selectedFief.id);
   }
+
+  buildFief(upgradeName: string) {
+    console.log(upgradeName);
+  }
 }

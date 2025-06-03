@@ -4,7 +4,6 @@ import { Faction } from '../models/faction.model';
 import { Fief } from '../models/fief.model';
 import { City } from '../models/city.model';
 import { Character } from '../models/character/character.model';
-import { FiefType } from '../enums/fief-type.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -128,8 +127,8 @@ export class GameStoreService {
             );
             if (assignedCharacter) assignedCharacter.job = null;
           }
-          fief.type = FiefType.Empty;
-          fief.upgrades = [];
+          fief.resetFief();
+          console.log(fief);
           this.updateFactions(factions);
           this.updateSelectedFief(fief);
           return;
