@@ -1,5 +1,5 @@
 <main class="flex flex-col h-screen">
-  <app-header [turn]="turn" (turnChange)="turn = $event"></app-header>
+  <app-header></app-header>
 
   <ng-container [ngSwitch]="menu">
     <app-map-menu
@@ -8,8 +8,11 @@
       [playerFaction]="playerFaction"
       [factions]="factions"
       [cities]="cities"
-    ></app-map-menu>
-    <app-fief-menu *ngSwitchCase="'fief'" class="flex flex-1"></app-fief-menu>
+    />
+
+    <app-fief-menu *ngSwitchCase="'fief'" class="flex flex-1" />
+
+    <app-turn-report *ngSwitchCase="'report'" class="flex flex-1" />
   </ng-container>
 
   <app-footer [playerFaction]="playerFaction"></app-footer>

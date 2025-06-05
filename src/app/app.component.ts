@@ -8,6 +8,7 @@ import { HeaderComponent } from './shared/components/header/header.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { CommonModule } from '@angular/common';
 import { FiefMenuComponent } from './features/fief-menu/fief-menu.component';
+import { TurnReportComponent } from './features/turn-report/turn-report.component';
 
 @Component({
   selector: 'app-root',
@@ -17,18 +18,18 @@ import { FiefMenuComponent } from './features/fief-menu/fief-menu.component';
     HeaderComponent,
     FooterComponent,
     FiefMenuComponent,
+    TurnReportComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit {
-  title = 'dynasty-warlords';
+  protected title = 'dynasty-warlords';
 
-  factions: Faction[] = [];
-  cities: City[] = [];
-  turn = 1;
-  menu = '';
-  playerFaction!: Faction;
+  protected factions: Faction[] = [];
+  protected cities: City[] = [];
+  protected menu = '';
+  protected playerFaction!: Faction;
 
   constructor(private gameStore: GameStoreService) {}
 
@@ -40,6 +41,7 @@ export class AppComponent implements OnInit {
     this.playerFaction = factions.find((f) => f.player)!;
 
     this.gameStore.updateFactions(factions);
+
     this.gameStore.selectedMenu$.subscribe((menu) => {
       this.menu = menu;
     });

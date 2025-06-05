@@ -4,14 +4,14 @@
   text-align: center;
   border-radius: 0.25rem;
   cursor: pointer;
-  border: solid 2px red;
+  border: solid 2px var(--color-red-600);
   transition: all;
-  padding-inline: 4rem;
   transition-duration: 250ms;
-  width: 200px;
+  width: 150px;
+  font-size: large;
 }
 
 .menu-button:hover {
-  letter-spacing: 0.125rem;
+  letter-spacing: 0.05rem;
   border-color: rgb(253, 253, 253);
 }

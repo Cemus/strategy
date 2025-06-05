@@ -4,6 +4,8 @@ import { Faction } from '../models/faction.model';
 import { Fief, FiefUpgrade } from '../models/fief.model';
 import { City } from '../models/city.model';
 import { Character } from '../models/character/character.model';
+import { TurnReport } from '../types/turn-report.interface';
+import { generateTurnReport } from '../utils/turn-report';
 
 @Injectable({
   providedIn: 'root',
@@ -23,6 +25,24 @@ export class GameStoreService {
 
   private zoomScaleSubject = new BehaviorSubject<number>(5);
   zoomScale$ = this.zoomScaleSubject.asObservable();
+
+  private turnSubject = new BehaviorSubject<number>(1);
+  turn$ = this.turnSubject.asObservable();
+
+  private turnReport = new BehaviorSubject<TurnReport>({
+    goldGained: 0,
+    foodProduced: 0,
+    charactersStatus: [],
+    fiefChanges: [],
+  });
+  turnReport$ = this.turnReport.asObservable();
+
+  endTurn(): TurnReport {
+    this.turnSubject.next(this.turnSubject.value + 1);
+    const turnReport = generateTurnReport();
+    this.selectedMenuSubject.next('report');
+    return turnReport;
+  }
 
   updateFactions(factions: Faction[]) {
     this.factionsSubject.next(factions);
