@@ -1,0 +1,18 @@
+<ng-container *ngIf="fief.type !== fiefTypeEnum.Empty">
+  <h4 class="block text-slate-200 text-md font-bold mb-2">
+    Assigned Character:
+  </h4>
+  <ng-container *ngIf="fief?.assigned !== null; else noCharacter">
+    <div class="">
+      <img
+        [src]="fief.assigned?.avatar"
+        [alt]="fief.assigned?.name"
+        class="w-24 h-24 rounded object-cover border border-slate-600"
+      />
+      <p class="">{{ fief.assigned?.name }}</p>
+    </div>
+  </ng-container>
+  <ng-template #noCharacter>
+    <p class="text-sm italic">No Character assigned</p>
+  </ng-template>
+</ng-container>

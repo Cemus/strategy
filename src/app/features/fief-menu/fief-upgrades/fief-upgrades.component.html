@@ -1,0 +1,53 @@
+<div *ngIf="fief?.type === fiefTypeEnum.Empty; else showUpgrades">
+  <h4 class="text-lg font-semibold mb-2">Build a new Fief</h4>
+  <ul class="list-inside">
+    <li *ngFor="let upgrade of fief?.upgrades">
+      <button
+        class="m-1 bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded cursor-pointer"
+        [ngClass]="{
+          'bg-gray-700': upgrade.cost > fief.owner.gold,
+          'hover:bg-gray-700': upgrade.cost > fief.owner.gold
+        }"
+        (click)="buildFief(upgrade)"
+      >
+        {{ upgrade.name }} (Cost: {{ upgrade.cost }})
+        <small
+          *ngIf="!upgrade.bought && fief.owner.gold < upgrade.cost"
+          class="text-red-300"
+        >
+          (Too expensive)
+        </small>
+      </button>
+    </li>
+  </ul>
+</div>
+
+<ng-template #showUpgrades>
+  <h4 class="text-lg font-semibold mb-2">Fief Upgrades</h4>
+  <ul *ngIf="fief?.upgrades?.length; else noUpgrades" class="list-inside">
+    <li *ngFor="let upgrade of fief?.upgrades">
+      <button
+        class="m-1 bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded cursor-pointer"
+        [ngClass]="{
+          'bg-gray-700': upgrade.cost > fief.owner.gold,
+          'hover:bg-gray-700': upgrade.cost > fief.owner.gold
+        }"
+        (click)="buildFief(upgrade)"
+      >
+        <span [class.line-through]="upgrade.bought" class="mr-2">
+          {{ upgrade.name }} (Cost: {{ upgrade.cost }})
+        </span>
+        <small *ngIf="upgrade.bought" class="text-green-400">(Bought)</small>
+        <small
+          *ngIf="!upgrade.bought && fief.owner.gold < upgrade.cost"
+          class="text-red-300"
+        >
+          (Too expensive)
+        </small>
+      </button>
+    </li>
+  </ul>
+  <ng-template #noUpgrades>
+    <p class="italic text-sm">No upgrades available.</p>
+  </ng-template>
+</ng-template>

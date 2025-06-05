@@ -2,13 +2,23 @@ import { Component, Input, OnInit } from '@angular/core';
 import { GameStoreService } from '../../core/services/game-store.service';
 import { Fief, FiefUpgrade } from '../../core/models/fief.model';
 import { CommonModule } from '@angular/common';
-import { Character } from '../../core/models/character/character.model';
 import { FiefType } from '../../core/enums/fief-type.enum';
+import { AssignedCharacterComponent } from './assigned-character/assigned-character.component';
+import { FiefActionsComponent } from './fief-actions/fief-actions.component';
+import { FiefUpgradesComponent } from './fief-upgrades/fief-upgrades.component';
+import { AvailableCharactersComponent } from './available-characters/available-characters.component';
 @Component({
   selector: 'app-fief-menu',
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    AssignedCharacterComponent,
+    FiefActionsComponent,
+    FiefUpgradesComponent,
+    AvailableCharactersComponent,
+  ],
   templateUrl: './fief-menu.component.html',
   styleUrl: './fief-menu.component.css',
+  standalone: true,
 })
 export class FiefMenuComponent implements OnInit {
   @Input() selectedFief: Fief | null = null;
@@ -19,18 +29,6 @@ export class FiefMenuComponent implements OnInit {
 
   ngOnInit(): void {
     this.selectedFief = this.gameStore.getSelectedFief();
-    console.log(this.selectedFief);
-  }
-
-  assignCharacterToFief(character: Character) {
-    if (this.selectedFief) {
-      this.selectedFief.assigned == character
-        ? this.gameStore.assignCharacterToFief(this.selectedFief?.id, null)
-        : this.gameStore.assignCharacterToFief(
-            this.selectedFief?.id,
-            character
-          );
-    }
   }
 
   destroyFief() {

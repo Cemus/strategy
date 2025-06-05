@@ -1,0 +1,26 @@
+<ng-container *ngIf="fief.type !== fiefTypeEnum.Empty">
+  <label
+    class="block text-slate-200 text-md font-bold mb-2"
+    for="fiefAction-select"
+    >Choose an action:</label
+  >
+  <select
+    name="fiefActions"
+    id="fiefAction-select"
+    [disabled]="!fief.assigned"
+    class="bg-slate-800 text-slate-200 border border-slate-200 rounded px-2 py-1 disabled:text-red-300 disabled:border-slate-800"
+  >
+    <option value="">
+      {{
+        !fief.assigned
+          ? "-- No character assigned --"
+          : "-- Please choose an option --"
+      }}
+    </option>
+    <ng-container *ngFor="let action of fief.getAvailableActions()">
+      <option [value]="action">
+        {{ action }}
+      </option></ng-container
+    >
+  </select>
+</ng-container>
