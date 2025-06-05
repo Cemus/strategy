@@ -47,7 +47,7 @@ export class CharacterFactory {
   }
 
   private static getRandomAvatar(gender: string): string {
-    const avatarBasePath = 'src/assets/avatars/';
+    const avatarBasePath = 'assets/avatars/';
     const maleAvatars = [
       'generic0.jpg',
       'generic1.jpg',

@@ -7,7 +7,8 @@ import { v4 as uuidv4 } from 'uuid';
 export type FiefUpgrade = {
   name: string;
   cost: number;
-  effect: Partial<Record<CivicStat, number>>;
+  effect?: Partial<Record<CivicStat, number>>;
+  actionBoosts?: Record<string, Partial<Record<CivicStat, number>>>;
   bought: boolean;
 };
 
@@ -75,7 +76,10 @@ export class Fief {
         upgrades.push({
           name: 'Irrigation System',
           cost: 500,
-          effect: { [CivicStat.Population]: 5 },
+          effect: { [CivicStat.Population]: 2 },
+          actionBoosts: {
+            Cultivate: { [CivicStat.Population]: 5 },
+          },
           bought: false,
         });
         break;
@@ -91,6 +95,66 @@ export class Fief {
         break;
     }
     return upgrades;
+  }
+
+  public build(upgrade: FiefUpgrade) {
+    switch (upgrade.name) {
+      case 'Build Farm':
+        this.type = FiefType.Farm;
+        break;
+      case 'Build Castle':
+        this.type = FiefType.Castle;
+        break;
+      case 'Build Market':
+        this.type = FiefType.Market;
+        break;
+    }
+    this.upgrades = this.initUpgrades();
+  }
+
+  public upgrade(upgrade: FiefUpgrade) {
+    if (this.owner.gold < upgrade.cost || upgrade.bought) {
+      return;
+    }
+
+    this.owner.gold -= upgrade.cost;
+
+    if (this.type === FiefType.Empty) {
+      this.build(upgrade);
+    } else {
+      const targetUpgrade = this.upgrades.find((u) => u.name === upgrade.name);
+      if (targetUpgrade) {
+        targetUpgrade.bought = true;
+      }
+    }
+  }
+
+  public getUpgradeEffectsForAction(
+    action: string
+  ): Partial<Record<CivicStat, number>> {
+    const total: Partial<Record<CivicStat, number>> = {};
+
+    this.upgrades.forEach((upgrade) => {
+      if (!upgrade.bought) return;
+
+      if (upgrade.effect) {
+        for (const stat in upgrade.effect) {
+          total[stat as CivicStat] =
+            (total[stat as CivicStat] ?? 0) +
+            (upgrade.effect[stat as CivicStat] ?? 0);
+        }
+      }
+
+      if (upgrade.actionBoosts && upgrade.actionBoosts[action]) {
+        for (const stat in upgrade.actionBoosts[action]) {
+          total[stat as CivicStat] =
+            (total[stat as CivicStat] ?? 0) +
+            (upgrade.actionBoosts[action][stat as CivicStat] ?? 0);
+        }
+      }
+    });
+
+    return total;
   }
 
   public resetFief(): void {

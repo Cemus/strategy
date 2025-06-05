@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Faction } from '../models/faction.model';
-import { Fief } from '../models/fief.model';
+import { Fief, FiefUpgrade } from '../models/fief.model';
 import { City } from '../models/city.model';
 import { Character } from '../models/character/character.model';
 
@@ -128,11 +128,27 @@ export class GameStoreService {
             if (assignedCharacter) assignedCharacter.job = null;
           }
           fief.resetFief();
-          console.log(fief);
           this.updateFactions(factions);
           this.updateSelectedFief(fief);
           return;
         }
+      }
+    }
+  }
+  upgradeFief(fiefId: string, upgrade: FiefUpgrade): void {
+    const factions = this.getCurrentFactions();
+
+    for (const faction of factions) {
+      for (const city of faction.cities) {
+        const fief = city.fiefs.find((f) => f.id === fiefId);
+
+        if (fief) {
+          fief.upgrade(upgrade);
+          this.updateFactions(factions);
+          this.updateSelectedFief(fief);
+        }
+
+        return;
       }
     }
   }

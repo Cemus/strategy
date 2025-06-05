@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { GameStoreService } from '../../core/services/game-store.service';
-import { Fief } from '../../core/models/fief.model';
+import { Fief, FiefUpgrade } from '../../core/models/fief.model';
 import { CommonModule } from '@angular/common';
 import { Character } from '../../core/models/character/character.model';
 import { FiefType } from '../../core/enums/fief-type.enum';
@@ -39,7 +39,9 @@ export class FiefMenuComponent implements OnInit {
     this.gameStore.destroyFief(this.selectedFief.id);
   }
 
-  buildFief(upgradeName: string) {
-    console.log(upgradeName);
+  buildFief(upgrade: FiefUpgrade) {
+    if (!this.selectedFief) return;
+
+    this.gameStore.upgradeFief(this.selectedFief?.id, upgrade);
   }
 }

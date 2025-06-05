@@ -1,43 +1,59 @@
-<div class="flex flex-1 gap-2 flex-col bg-slate-900 text-slate-200 p-2">
+<div
+  *ngIf="selectedFief as fief"
+  class="flex flex-1 gap-2 flex-col bg-slate-900 text-slate-200 p-2"
+>
   <h3 class="text-xl font-semibold mb-2">
-    {{ selectedFief?.type }} ({{ selectedFief?.owner?.name }})
+    {{ selectedFief.type }} ({{ selectedFief.owner.name }})
   </h3>
 
   <div class="flex flex-1 flex-col justify-between">
     <div class="flex flex-col gap-2">
-      <div>
+      <ng-container *ngIf="selectedFief.type !== fiefTypeEnum.Empty">
         <h4 class="block text-slate-200 text-md font-bold mb-2">
           Assigned Character:
         </h4>
         <ng-container *ngIf="selectedFief?.assigned !== null; else noCharacter">
-          <p>{{ selectedFief?.assigned?.name }}</p>
+          <div class="">
+            <img
+              [src]="selectedFief.assigned?.avatar"
+              [alt]="selectedFief.assigned?.name"
+              class="w-24 h-24 rounded object-cover border border-slate-600"
+            />
+            <p class="">{{ selectedFief.assigned?.name }}</p>
+          </div>
+          <div>
+            <label
+              class="block text-slate-200 text-md font-bold mb-2"
+              for="fiefAction-select"
+              >Choose an action:</label
+            >
+            <select
+              name="fiefActions"
+              id="fiefAction-select"
+              [disabled]="!selectedFief.assigned"
+              class="bg-slate-800 text-slate-200 border border-slate-200 rounded px-2 py-1 disabled:text-red-300 disabled:border-slate-800"
+            >
+              <option value="">
+                {{
+                  !selectedFief.assigned
+                    ? "-- No character assigned --"
+                    : "-- Please choose an option --"
+                }}
+              </option>
+              <ng-container
+                *ngFor="let action of selectedFief.getAvailableActions()"
+              >
+                <option [value]="action">
+                  {{ action }}
+                </option></ng-container
+              >
+            </select>
+          </div>
         </ng-container>
         <ng-template #noCharacter>
           <p class="text-sm italic">No Character assigned</p>
         </ng-template>
-      </div>
-
-      <div>
-        <label
-          class="block text-slate-200 text-md font-bold mb-2"
-          for="fiefAction-select"
-          >Choose an action:</label
-        >
-        <select
-          name="fiefActions"
-          id="fiefAction-select"
-          [disabled]="!selectedFief?.assigned"
-          [ngClass]="{ 'text-red-500': !selectedFief?.assigned }"
-        >
-          <option value="">
-            {{
-              !selectedFief?.assigned
-                ? "-- No character assigned --"
-                : "-- Please choose an option --"
-            }}
-          </option>
-        </select>
-      </div>
+      </ng-container>
 
       <div *ngIf="selectedFief?.type === fiefTypeEnum.Empty; else showUpgrades">
         <h4 class="text-lg font-semibold mb-2">Build a new Fief</h4>
@@ -45,9 +61,21 @@
           <li *ngFor="let upgrade of selectedFief?.upgrades">
             <button
               class="m-1 bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded cursor-pointer"
-              (click)="buildFief(upgrade.name)"
+              [ngClass]="{
+                'bg-gray-700': upgrade.cost > selectedFief.owner.gold,
+                'hover:bg-gray-700': upgrade.cost > selectedFief.owner.gold
+              }"
+              (click)="buildFief(upgrade)"
             >
               {{ upgrade.name }} (Cost: {{ upgrade.cost }})
+              <small
+                *ngIf="
+                  !upgrade.bought && selectedFief.owner.gold < upgrade.cost
+                "
+                class="text-red-300"
+              >
+                (Too expensive)
+              </small>
             </button>
           </li>
         </ul>
@@ -62,7 +90,11 @@
           <li *ngFor="let upgrade of selectedFief?.upgrades">
             <button
               class="m-1 bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded cursor-pointer"
-              (click)="buildFief(upgrade.name)"
+              [ngClass]="{
+                'bg-gray-700': upgrade.cost > selectedFief.owner.gold,
+                'hover:bg-gray-700': upgrade.cost > selectedFief.owner.gold
+              }"
+              (click)="buildFief(upgrade)"
             >
               <span [class.line-through]="upgrade.bought" class="mr-2">
                 {{ upgrade.name }} (Cost: {{ upgrade.cost }})
@@ -70,6 +102,14 @@
               <small *ngIf="upgrade.bought" class="text-green-400"
                 >(Bought)</small
               >
+              <small
+                *ngIf="
+                  !upgrade.bought && selectedFief.owner.gold < upgrade.cost
+                "
+                class="text-red-300"
+              >
+                (Too expensive)
+              </small>
             </button>
           </li>
         </ul>
@@ -91,33 +131,35 @@
       </div>
     </div>
 
-    <div class="mt-4">
-      <h4 class="text-lg font-semibold mb-2">Available Characters</h4>
-      <div class="flex flex-col gap-2 max-h-60 overflow-y-auto">
-        <div
-          *ngFor="let character of selectedFief?.owner?.characters"
-          class="p-2 bg-slate-800 rounded hover:bg-slate-700 cursor-pointer"
-          (click)="assignCharacterToFief(character)"
-          [ngClass]="{
-            'text-yellow-500': character.job === selectedFief,
-            'text-red-500': character.exhausted === true
-          }"
-        >
-          <p class="font-bold">{{ character.name }}</p>
-          <p class="text-sm">
-            Martial: {{ character.stats.martial }} | Int:{{
-              character.stats.knowledge
-            }}
-            | Cha: {{ character.stats.charisma }}
-          </p>
-          <p
-            class="text-xs italic text-slate-400"
-            *ngIf="character.traits?.length"
+    <ng-container *ngIf="selectedFief.type !== fiefTypeEnum.Empty">
+      <div class="mt-4">
+        <h4 class="text-lg font-semibold mb-2">Available Characters</h4>
+        <div class="flex flex-col gap-2 max-h-60 overflow-y-auto">
+          <div
+            *ngFor="let character of selectedFief?.owner?.characters"
+            class="p-2 bg-slate-800 rounded hover:bg-slate-700 cursor-pointer"
+            (click)="assignCharacterToFief(character)"
+            [ngClass]="{
+              'text-yellow-500': character.job === selectedFief,
+              'text-red-500': character.exhausted === true
+            }"
           >
-            Traits: {{ character.traits.join(", ") }}
-          </p>
+            <p class="font-bold">{{ character.name }}</p>
+            <p class="text-sm">
+              Martial: {{ character.stats.martial }} | Int:{{
+                character.stats.knowledge
+              }}
+              | Cha: {{ character.stats.charisma }}
+            </p>
+            <p
+              class="text-xs italic text-slate-400"
+              *ngIf="character.traits?.length"
+            >
+              Traits: {{ character.traits.join(", ") }}
+            </p>
+          </div>
         </div>
       </div>
-    </div>
+    </ng-container>
   </div>
 </div>
