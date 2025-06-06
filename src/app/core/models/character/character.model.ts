@@ -13,7 +13,7 @@ export class Character {
   stats: CharacterStats;
   exhausted: boolean;
   traits: Trait[];
-  relations: Record<string, number>[];
+  relations: Record<string, number> = {};
 
   constructor(
     name: string,
@@ -31,7 +31,7 @@ export class Character {
     this.stats = stats;
     this.exhausted = false;
     this.traits = traits;
-    this.relations = [];
+    this.relations = {};
   }
 
   public getCost(): number {

@@ -6,6 +6,8 @@ import { City } from '../models/city.model';
 import { Character } from '../models/character/character.model';
 import { TurnReport } from '../types/turn-report.interface';
 import { generateTurnReport } from '../utils/turn-report';
+import { CharacterStats } from '../models/character/character-stats.model';
+import { Trait } from '../types/trait.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -78,7 +80,7 @@ export class GameStoreService {
     return this.selectedCitySubject.getValue();
   }
 
-  getCurrentFactions(): Faction[] {
+  getAllFactions(): Faction[] {
     return this.factionsSubject.getValue();
   }
 
@@ -87,11 +89,15 @@ export class GameStoreService {
   }
 
   getAllCities(): City[] {
-    return this.getCurrentFactions().flatMap((f) => f.cities || []);
+    return this.getAllFactions().flatMap((f) => f.cities || []);
+  }
+
+  getAllCharacters(): Character[] {
+    return this.getAllFactions().flatMap((f) => f.characters || []);
   }
 
   assignCharacterToFief(fiefId: string, character: Character | null): void {
-    const factions = this.getCurrentFactions();
+    const factions = this.getAllFactions();
 
     for (const faction of factions) {
       for (const city of faction.cities) {
@@ -134,7 +140,7 @@ export class GameStoreService {
   }
 
   destroyFief(fiefId: string): void {
-    const factions = this.getCurrentFactions();
+    const factions = this.getAllFactions();
 
     for (const faction of factions) {
       for (const city of faction.cities) {
@@ -156,7 +162,7 @@ export class GameStoreService {
     }
   }
   upgradeFief(fiefId: string, upgrade: FiefUpgrade): void {
-    const factions = this.getCurrentFactions();
+    const factions = this.getAllFactions();
 
     for (const faction of factions) {
       for (const city of faction.cities) {
@@ -169,6 +175,40 @@ export class GameStoreService {
         }
 
         return;
+      }
+    }
+  }
+
+  characterImproveRelation(c1: string, c2: string, value: number) {
+    const characters = this.getAllCharacters();
+    const character1 = characters.find((c) => c.id == c1);
+    const character2 = characters.find((c) => c.id == c2);
+
+    if (character1 && character2) {
+      character1.relations[c2] = (character1.relations[c2] ?? 0) + value;
+      character2.relations[c1] = (character2.relations[c1] ?? 0) + value;
+    }
+  }
+
+  characterGainStat(
+    characterId: string,
+    stat: keyof CharacterStats,
+    value: number
+  ) {
+    const character = this.getAllCharacters().find((c) => c.id == characterId);
+
+    if (character) {
+      if (character && stat in character.stats) {
+        character.stats[stat] += value;
+      }
+    }
+  }
+  characterGainTrait(characterId: string, trait: Trait) {
+    const character = this.getAllCharacters().find((c) => c.id == characterId);
+
+    if (character) {
+      if (character) {
+        character.traits.push(trait);
       }
     }
   }

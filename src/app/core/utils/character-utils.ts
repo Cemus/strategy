@@ -1,9 +1,160 @@
 import { CharacterStats } from '../models/character/character-stats.model';
 import { Character } from '../models/character/character.model';
+import { Trait } from '../types/trait.interface';
 import { Formulae } from './formulae';
 
 export class CharacterFactory {
-  static generateCharacter(): Character {
+  public static readonly traits: Trait[] = [
+    {
+      label: 'sage',
+      description: 'Bonus de connaissance et d’administration.',
+      statModifiers: {
+        knowledge: 2,
+        administration: 1,
+      },
+    },
+
+    {
+      label: 'courageous',
+      description:
+        'Not afraid of danger. Martial bonus but may take unnecessary risks.',
+      statModifiers: {
+        martial: 2,
+        knowledge: -1,
+      },
+    },
+    {
+      label: 'greedy',
+      description:
+        'Thinks about money first. Administration bonus but poor reputation.',
+      statModifiers: {
+        administration: 2,
+        charisma: -2,
+      },
+    },
+    {
+      label: 'eloquent',
+      description: 'Master of speech. Charisma bonus.',
+      statModifiers: {
+        charisma: 3,
+      },
+    },
+    {
+      label: 'lazy',
+      description: 'Unmotivated. Reduces overall performance.',
+      statModifiers: {
+        martial: -1,
+        administration: -1,
+        dexterity: -1,
+      },
+    },
+    {
+      label: 'genius',
+      description: 'A brilliant mind. Massive knowledge bonus.',
+      statModifiers: {
+        knowledge: 4,
+      },
+    },
+    {
+      label: 'clumsy',
+      description: 'Often makes mistakes. Poor dexterity.',
+      statModifiers: {
+        dexterity: -3,
+      },
+    },
+    {
+      label: 'diligent',
+      description: 'Works hard. Balanced bonus on multiple skills.',
+      statModifiers: {
+        administration: 1,
+        dexterity: 1,
+        martial: 1,
+      },
+    },
+    {
+      label: 'cruel',
+      description: 'Uses fear to control. Less charisma, more martial.',
+      statModifiers: {
+        martial: 2,
+        charisma: -2,
+      },
+    },
+    {
+      label: 'honest',
+      description: 'Trustworthy. Liked but sometimes too blunt.',
+      statModifiers: {
+        charisma: 1,
+        administration: 1,
+      },
+    },
+    {
+      label: 'schemer',
+      description:
+        'Plots behind the scenes. Bonus in knowledge and secret relations.',
+      statModifiers: {
+        knowledge: 2,
+        charisma: 1,
+      },
+    },
+  ];
+  public static readonly avatarBasePath = 'assets/avatars/';
+  public static readonly maleAvatars = [
+    'generic0.jpg',
+    'generic1.jpg',
+    'generic2.jpg',
+    'generic3.jpg',
+    'generic4.jpg',
+    'generic5.jpg',
+    'generic6.jpg',
+    'generic7.jpg',
+    'generic8.jpg',
+    'generic9.jpg',
+    'generic10.jpg',
+    'generic11.jpg',
+    'generic12.jpg',
+    'generic13.jpg',
+    'generic14.jpg',
+    'generic15.jpg',
+    'generic16.jpg',
+    'generic17.jpg',
+    'generic18.jpg',
+    'generic19.jpg',
+  ];
+  public static readonly femaleAvatars = [
+    'generic21.jpg',
+    'generic22.jpg',
+    'generic23.jpg',
+    'generic24.jpg',
+    'generic25.jpg',
+    'generic26.jpg',
+    'generic27.jpg',
+    'generic28.jpg',
+    'generic29.jpg',
+    'generic30.jpg',
+    'generic31.jpg',
+  ];
+  public static readonly prefixes = [
+    'A',
+    'Ao',
+    'Ae',
+    'An',
+    'Ar',
+    'At',
+    'As',
+    'Ba',
+    'Bi',
+    'Ca',
+    'Da',
+    'Fa',
+    'Ta',
+    'Ra',
+    'Sa',
+    'Ja',
+    'Ju',
+  ];
+  public static readonly suffixes = ['n', 'rne', 'me', 'z', 'eis', 'branth'];
+
+  public static generateCharacter(): Character {
     const name = this.getRandomName();
     const gender: 'Male' | 'Female' = Math.random() > 0.5 ? 'Male' : 'Female';
     const stats: CharacterStats = {
@@ -19,76 +170,26 @@ export class CharacterFactory {
     return new Character(name, gender, stats, avatar);
   }
 
+  public static getRandomTrait(): Trait {
+    return this.traits[Math.floor(Math.random() * this.traits.length)];
+  }
+
   private static getRandomName(): string {
-    const prefixes = [
-      'A',
-      'Ao',
-      'Ae',
-      'An',
-      'Ar',
-      'At',
-      'As',
-      'Ba',
-      'Bi',
-      'Ca',
-      'Da',
-      'Fa',
-      'Ta',
-      'Ra',
-      'Sa',
-      'Ja',
-      'Ju',
-    ];
-    const suffixes = ['n', 'rne', 'me', 'z', 'eis', 'branth'];
     return (
-      prefixes[Math.floor(Math.random() * prefixes.length)] +
-      suffixes[Math.floor(Math.random() * suffixes.length)]
+      this.prefixes[Math.floor(Math.random() * this.prefixes.length)] +
+      this.suffixes[Math.floor(Math.random() * this.suffixes.length)]
     );
   }
 
   private static getRandomAvatar(gender: string): string {
-    const avatarBasePath = 'assets/avatars/';
-    const maleAvatars = [
-      'generic0.jpg',
-      'generic1.jpg',
-      'generic2.jpg',
-      'generic3.jpg',
-      'generic4.jpg',
-      'generic5.jpg',
-      'generic6.jpg',
-      'generic7.jpg',
-      'generic8.jpg',
-      'generic9.jpg',
-      'generic10.jpg',
-      'generic11.jpg',
-      'generic12.jpg',
-      'generic13.jpg',
-      'generic14.jpg',
-      'generic15.jpg',
-      'generic16.jpg',
-      'generic17.jpg',
-      'generic18.jpg',
-      'generic19.jpg',
-    ];
-    const femaleAvatars = [
-      'generic21.jpg',
-      'generic22.jpg',
-      'generic23.jpg',
-      'generic24.jpg',
-      'generic25.jpg',
-      'generic26.jpg',
-      'generic27.jpg',
-      'generic28.jpg',
-      'generic29.jpg',
-      'generic30.jpg',
-      'generic31.jpg',
-    ];
     let randomAvatar;
     gender === 'male'
       ? (randomAvatar =
-          maleAvatars[Math.floor(Math.random() * maleAvatars.length)])
+          this.maleAvatars[Math.floor(Math.random() * this.maleAvatars.length)])
       : (randomAvatar =
-          femaleAvatars[Math.floor(Math.random() * femaleAvatars.length)]);
-    return avatarBasePath + randomAvatar;
+          this.femaleAvatars[
+            Math.floor(Math.random() * this.femaleAvatars.length)
+          ]);
+    return this.avatarBasePath + randomAvatar;
   }
 }
