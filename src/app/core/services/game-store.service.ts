@@ -42,16 +42,15 @@ export class GameStoreService {
 
   constructor(private readonly worldEventService: WorldEventService) {}
 
-  endTurn(): TurnReport {
+  endTurn() {
     this.turnSubject.next(this.turnSubject.value + 1);
 
     const turnReport = generateTurnReport();
 
     const worldEvents = this.worldEventService.generateEvents();
-
+    console.log(worldEvents);
     this.selectedMenuSubject.next('report');
-
-    return { ...turnReport, worldEvents };
+    this.turnReport.next({ ...turnReport, worldEvents });
   }
 
   updateFactions(factions: Faction[]) {
