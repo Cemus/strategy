@@ -12,7 +12,7 @@ export class WorldEventService {
     private readonly factionEventService: FactionEventService
   ) {}
 
-  simulateTurn(): WorldEvent[] {
+  generateEvents(): WorldEvent[] {
     return [
       ...this.cityEventService.generateEvents(),
       ...this.characterEventService.generateEvents(),

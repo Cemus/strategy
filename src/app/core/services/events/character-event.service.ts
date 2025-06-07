@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { GameStoreService } from '../game-store.service';
 import { Character } from '../../models/character/character.model';
 import { WorldEvent } from '../../types/world-event.interface';
@@ -6,7 +6,17 @@ import { CharacterFactory } from '../../utils/character-utils';
 
 @Injectable({ providedIn: 'root' })
 export class CharacterEventService {
-  constructor(private readonly gameStore: GameStoreService) {}
+  private _gameStore?: GameStoreService;
+
+  constructor(private injector: Injector) {}
+
+  private get gameStore(): GameStoreService {
+    if (!this._gameStore) {
+      this._gameStore = this.injector.get(GameStoreService);
+    }
+    return this._gameStore;
+  }
+
   public generateEvents(): WorldEvent[] {
     const characters = this.gameStore.getAllCharacters();
 

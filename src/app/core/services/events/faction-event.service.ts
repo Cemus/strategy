@@ -1,11 +1,20 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { WorldEvent } from '../../types/world-event.interface';
 import { GameStoreService } from '../game-store.service';
 import { Faction } from '../../models/faction.model';
 
 @Injectable({ providedIn: 'root' })
 export default class FactionEventService {
-  constructor(private readonly gameStore: GameStoreService) {}
+  private _gameStore?: GameStoreService;
+
+  constructor(private injector: Injector) {}
+
+  private get gameStore(): GameStoreService {
+    if (!this._gameStore) {
+      this._gameStore = this.injector.get(GameStoreService);
+    }
+    return this._gameStore;
+  }
 
   public generateEvents(): WorldEvent[] {
     const factions = this.gameStore.getAllFactions();

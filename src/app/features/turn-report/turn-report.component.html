@@ -1,4 +1,10 @@
 <h2>Month report</h2>
 <p>{{ previousTurnReport?.goldGained }}</p>
 
-<p>{{ currentTurnReport?.goldGained }}</p>
+<p>{{ currentTurnReport.goldGained }}</p>
+
+<h3>Events</h3>
+<ng-container *ngFor="let event of currentTurnReport.worldEvents">
+  <p>{{ event.type }}</p>
+  <p>{{ event.message }}</p>
+</ng-container>

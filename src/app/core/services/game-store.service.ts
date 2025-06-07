@@ -8,6 +8,7 @@ import { TurnReport } from '../types/turn-report.interface';
 import { generateTurnReport } from '../utils/turn-report';
 import { CharacterStats } from '../models/character/character-stats.model';
 import { Trait } from '../types/trait.interface';
+import { WorldEventService } from './world-event.service';
 
 @Injectable({
   providedIn: 'root',
@@ -39,11 +40,18 @@ export class GameStoreService {
   });
   turnReport$ = this.turnReport.asObservable();
 
+  constructor(private readonly worldEventService: WorldEventService) {}
+
   endTurn(): TurnReport {
     this.turnSubject.next(this.turnSubject.value + 1);
+
     const turnReport = generateTurnReport();
+
+    const worldEvents = this.worldEventService.generateEvents();
+
     this.selectedMenuSubject.next('report');
-    return turnReport;
+
+    return { ...turnReport, worldEvents };
   }
 
   updateFactions(factions: Faction[]) {

@@ -1,3 +1,5 @@
+import { WorldEvent } from './world-event.interface';
+
 export interface TurnReport {
   goldGained: number;
   foodProduced: number;
@@ -13,4 +15,5 @@ export interface TurnReport {
     newLevel?: number;
     destroyed?: boolean;
   }[];
+  worldEvents?: WorldEvent[];
 }

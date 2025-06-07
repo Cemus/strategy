@@ -1,11 +1,20 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { City } from '../../models/city.model';
 import { WorldEvent } from '../../types/world-event.interface';
 import { GameStoreService } from '../game-store.service';
 
 @Injectable({ providedIn: 'root' })
 export default class CityEventService {
-  constructor(private readonly gameStore: GameStoreService) {}
+  private _gameStore?: GameStoreService;
+
+  constructor(private injector: Injector) {}
+
+  private get gameStore(): GameStoreService {
+    if (!this._gameStore) {
+      this._gameStore = this.injector.get(GameStoreService);
+    }
+    return this._gameStore;
+  }
 
   public generateEvents(): WorldEvent[] {
     const events: WorldEvent[] = [];
