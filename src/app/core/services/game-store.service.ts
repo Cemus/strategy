@@ -45,10 +45,9 @@ export class GameStoreService {
   endTurn() {
     this.turnSubject.next(this.turnSubject.value + 1);
 
+    const worldEvents = this.worldEventService.generateEvents();
     const turnReport = generateTurnReport();
 
-    const worldEvents = this.worldEventService.generateEvents();
-    console.log(worldEvents);
     this.selectedMenuSubject.next('report');
     this.turnReport.next({ ...turnReport, worldEvents });
   }

@@ -1,10 +1,14 @@
-<h2>Month report</h2>
-<p>{{ previousTurnReport?.goldGained }}</p>
+<div class="flex flex-col">
+  <h2>Month report</h2>
+  <div class="flex">
+    <p>{{ previousTurnReport?.goldGained }}</p>
 
-<p>{{ currentTurnReport.goldGained }}</p>
+    <p>{{ currentTurnReport.goldGained }}</p>
+  </div>
 
-<h3>Events</h3>
-<ng-container *ngFor="let event of currentTurnReport.worldEvents">
-  <p>{{ event.type }}</p>
-  <p>{{ event.message }}</p>
-</ng-container>
+  <h3>Events</h3>
+  <ng-container *ngFor="let event of currentTurnReport.worldEvents">
+    <p>{{ event.type }}</p>
+    <p>{{ event.message }}</p>
+  </ng-container>
+</div>
