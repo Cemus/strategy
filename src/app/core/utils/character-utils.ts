@@ -171,7 +171,7 @@ export class CharacterFactory {
   }
 
   public static getRandomTrait(): Trait {
-    return this.traits[Math.floor(Math.random() * this.traits.length)];
+    return this.traits[(this.traits.length * Math.random()) | 0];
   }
 
   private static getRandomName(): string {
