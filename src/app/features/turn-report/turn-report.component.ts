@@ -23,4 +23,15 @@ export class TurnReportComponent implements OnInit {
       this.currentTurnReport = report;
     });
   }
+
+  formatDiff(diff: number): string {
+    if (diff > 0) {
+      return '+' + diff;
+    } else if (diff < 0) {
+      return diff.toString();
+    } else {
+      return '—';
+    }
+    return diff > 0 ? '+' + diff : diff.toString();
+  }
 }

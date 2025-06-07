@@ -39,9 +39,10 @@ export default class CityEventService {
       city.defenseLvl = Math.max(0, city.defenseLvl - 1);
 
       return {
+        title: `Disorder in ${city.name}`,
         type: 'disorder',
         cityId: city.id,
-        message: `Disorder erupts out in ${city.name} due to a lack of security.`,
+        message: `Acts of vandalism occured in ${city.name} due to a lack of security.`,
       };
     }
 

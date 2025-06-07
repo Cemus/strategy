@@ -43,6 +43,7 @@ export class CharacterEventService {
 
           if (Math.random() < 0.3) {
             events.push({
+              title: `Relationship`,
               type: 'relationImproved',
               characters: [c1.id, c2.id],
               message: `${c1.name} and ${c2.name} have improved their bond.`,
@@ -65,6 +66,7 @@ export class CharacterEventService {
         const statValue = 1;
         this.gameStore.characterGainStat(character.id, 'knowledge', statValue);
         events.push({
+          title: `Stat gain`,
           type: 'statGain',
           characterId: character.id,
           message: `${character.name} gain ${statValue} knowledge.`,
@@ -83,6 +85,7 @@ export class CharacterEventService {
         const newTrait = CharacterFactory.getRandomTrait();
         this.gameStore.characterGainTrait(character.id, newTrait);
         events.push({
+          title: `New trait`,
           type: 'traitGain',
           characterId: character.id,
           message: `${character.name} has acquired the trait "${newTrait.label}".`,

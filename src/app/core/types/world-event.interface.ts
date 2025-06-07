@@ -1,4 +1,5 @@
 export interface WorldEvent {
+  title: string;
   type:
     | 'relationImproved'
     | 'traitGain'

@@ -28,6 +28,7 @@ export default class FactionEventService {
       if (!faction.player && Math.random() < 0.1) {
         faction.gold += 100;
         events.push({
+          title: `Prosperity of ${faction.name}`,
           type: 'factionBonus',
           factionId: faction.name,
           message: `${faction.name} has increased its revenues.`,
