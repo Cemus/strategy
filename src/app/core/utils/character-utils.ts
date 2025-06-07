@@ -176,8 +176,8 @@ export class CharacterFactory {
 
   private static getRandomName(): string {
     return (
-      this.prefixes[Math.floor(Math.random() * this.prefixes.length)] +
-      this.suffixes[Math.floor(Math.random() * this.suffixes.length)]
+      this.prefixes[(this.prefixes.length * Math.random()) | 0] +
+      this.suffixes[(this.suffixes.length * Math.random()) | 0]
     );
   }
 
@@ -185,11 +185,9 @@ export class CharacterFactory {
     let randomAvatar;
     gender === 'male'
       ? (randomAvatar =
-          this.maleAvatars[Math.floor(Math.random() * this.maleAvatars.length)])
+          this.maleAvatars[(this.maleAvatars.length * Math.random()) | 0])
       : (randomAvatar =
-          this.femaleAvatars[
-            Math.floor(Math.random() * this.femaleAvatars.length)
-          ]);
+          this.femaleAvatars[(this.femaleAvatars.length * Math.random()) | 0]);
     return this.avatarBasePath + randomAvatar;
   }
 }
