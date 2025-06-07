@@ -7,7 +7,7 @@ export class CharacterFactory {
   public static readonly traits: Trait[] = [
     {
       label: 'sage',
-      description: 'Bonus de connaissance et d’administration.',
+      description: 'A keen mind for both scholarship and statecraft.',
       statModifiers: {
         knowledge: 2,
         administration: 1,
