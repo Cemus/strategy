@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MapMenuComponent } from './features/map/map-menu/map-menu.component';
 import { City } from './core/models/city.model';
 import { Faction } from './core/models/faction.model';
 import { GameStoreService } from './core/services/game-store.service';
@@ -9,12 +8,13 @@ import { FooterComponent } from './shared/components/footer/footer.component';
 import { CommonModule } from '@angular/common';
 import { FiefMenuComponent } from './features/fief-menu/fief-menu.component';
 import { TurnReportComponent } from './features/turn-report/turn-report.component';
+import { MapComponent } from './features/map/map.component';
 
 @Component({
   selector: 'app-root',
   imports: [
     CommonModule,
-    MapMenuComponent,
+    MapComponent,
     HeaderComponent,
     FooterComponent,
     FiefMenuComponent,
