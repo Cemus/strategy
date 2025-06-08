@@ -22,13 +22,13 @@ export const citiesSetup = (
         );
 
         if (currentCity) {
-          const currentOwner = currentCity.owner;
-          const isPlayerCity = currentOwner?.name === playerFaction?.name;
+          const currentfaction = currentCity.faction;
+          const isPlayerCity = currentfaction?.name === playerFaction?.name;
           if (isPlayerCity) {
             currentCity.mapColor = 'green';
           } else {
             const hasPlayerNeighbor = currentCity.neighbors.some((neighbor) => {
-              return neighbor.owner?.name === playerFaction?.name;
+              return neighbor.faction?.name === playerFaction?.name;
             });
 
             if (hasPlayerNeighbor) {
@@ -38,14 +38,14 @@ export const citiesSetup = (
             }
           }
 
-          currentOwner?.atWar.forEach((enemy) => {
+          currentfaction?.atWar.forEach((enemy) => {
             if (enemy.name === playerFaction?.name) {
               currentCity.mapColor = 'red';
             }
           });
 
-          if (svg && currentOwner) {
-            getBlason(svg, path, currentOwner, currentCity);
+          if (svg && currentfaction) {
+            getBlason(svg, path, currentfaction, currentCity);
           }
         }
       }
@@ -58,7 +58,7 @@ export const citiesSetup = (
 function getBlason(
   svg: SVGSVGElement,
   path: SVGPathElement,
-  currentOwner: Faction,
+  currentfaction: Faction,
   currentCity: City
 ) {
   let blasonLayer = svg.querySelector('#blason-layer') as SVGGElement;
@@ -82,7 +82,7 @@ function getBlason(
   blason.setAttribute('stroke', 'black');
   blason.setAttribute('stroke-width', '1');
   blason.setAttribute('pointer-events', 'none');
-  blason.setAttribute('fill', currentOwner?.color);
+  blason.setAttribute('fill', currentfaction?.color);
   blason.setAttribute('data-city', currentCity.name.toString());
 
   blasonLayer.appendChild(blason);

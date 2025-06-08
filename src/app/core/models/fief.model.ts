@@ -13,21 +13,69 @@ export type FiefUpgrade = {
 };
 
 export class Fief {
-  id: string;
-  type: FiefType;
-  currentAction: string | null;
-  assigned: Character | null;
-  upgrades: FiefUpgrade[];
-  owner: Faction;
+  private _id: string;
+  private _type: FiefType;
+  private _currentAction: string | null;
+  private _assigned: Character | null;
+  private _upgrades: FiefUpgrade[];
+  private _faction: Faction;
 
-  constructor(type: FiefType, owner: Faction) {
-    this.type = type;
-    this.owner = owner;
+  constructor(type: FiefType, faction: Faction) {
+    this._type = type;
+    this._faction = faction;
 
-    this.id = uuidv4();
-    this.currentAction = null;
-    this.assigned = null;
-    this.upgrades = this.initUpgrades();
+    this._id = uuidv4();
+    this._currentAction = null;
+    this._assigned = null;
+    this._upgrades = this.initUpgrades();
+  }
+
+  get id() {
+    return this._id;
+  }
+
+  set id(val: string) {
+    this._id = val;
+  }
+
+  get type() {
+    return this._type;
+  }
+
+  set type(val: FiefType) {
+    this._type = val;
+  }
+
+  get currentAction() {
+    return this._currentAction;
+  }
+
+  set currentAction(val: string | null) {
+    this._currentAction = val;
+  }
+
+  get assigned() {
+    return this._assigned;
+  }
+
+  set assigned(val: Character | null) {
+    this._assigned = val;
+  }
+
+  get upgrades() {
+    return this._upgrades;
+  }
+
+  set upgrades(val: FiefUpgrade[]) {
+    this._upgrades = val;
+  }
+
+  get faction() {
+    return this._faction;
+  }
+
+  set faction(val: Faction) {
+    this._faction = val;
   }
 
   private getInitialSlotCount(type: FiefType): number {
@@ -113,11 +161,11 @@ export class Fief {
   }
 
   public upgrade(upgrade: FiefUpgrade) {
-    if (this.owner.gold < upgrade.cost || upgrade.bought) {
+    if (this.faction.gold < upgrade.cost || upgrade.bought) {
       return;
     }
 
-    this.owner.gold -= upgrade.cost;
+    this.faction.gold -= upgrade.cost;
 
     if (this.type === FiefType.Empty) {
       this.build(upgrade);

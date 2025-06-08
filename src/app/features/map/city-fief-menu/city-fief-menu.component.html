@@ -14,7 +14,7 @@
       <button
         class="flex flex-col items-center bg-slate-700 m-2 p-1 rounded-md border-slate-200 border-2 disabled:border-slate-700 hover:border-yellow-500 hover:cursor-pointer"
         (click)="onFiefClick(fief)"
-        [disabled]="!fief.owner.player"
+        [disabled]="!fief.faction.player"
       >
         <p class="lg:text-lg text-sm">{{ fief?.type }}</p>
         <svg [attr.width]="80" [attr.height]="80">
@@ -22,12 +22,12 @@
             [attr.cx]="40"
             [attr.cy]="40"
             [attr.r]="20"
-            [attr.fill]="selectedCity?.owner?.color"
+            [attr.fill]="selectedCity?.faction?.color"
             stroke="black"
             stroke-width="1"
             class="cursor-help"
           >
-            <title>{{ selectedCity?.owner?.name }}</title>
+            <title>{{ selectedCity?.faction?.name }}</title>
           </circle>
         </svg>
       </button>

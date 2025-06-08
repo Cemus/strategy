@@ -26,7 +26,7 @@
       <ng-container *ngFor="let city of cities">
         <ng-container *ngIf="city.name !== selectedCity?.name">
           <g>
-            <title>{{ city.name }} - {{ city.owner.name }}</title>
+            <title>{{ city.name }} - {{ city.faction.name }}</title>
             <path
               [attr.d]="city.pathData"
               [attr.fill]="city.mapColor"
@@ -42,7 +42,9 @@
 
       <ng-container *ngIf="selectedCity as city">
         <g>
-          <title>{{ selectedCity.name }} - {{ selectedCity.owner.name }}</title>
+          <title>
+            {{ selectedCity.name }} - {{ selectedCity.faction.name }}
+          </title>
           <path
             [attr.d]="selectedCity.pathData"
             [attr.fill]="city.mapColor"

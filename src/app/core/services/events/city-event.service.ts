@@ -37,13 +37,14 @@ export default class CityEventService {
 
     if (totalSecurity < 5 && Math.random() < 0.2) {
       city.defenseLvl = Math.max(0, city.defenseLvl - 1);
-
-      return {
-        title: `Disorder in ${city.name}`,
-        type: 'disorder',
-        cityId: city.id,
-        message: `Acts of vandalism occured in ${city.name} due to a lack of security.`,
-      };
+      if (city.faction.player || city.faction.spied) {
+        return {
+          title: `Disorder in ${city.name}`,
+          type: 'disorder',
+          cityId: city.id,
+          message: `Acts of vandalism occured in ${city.name} due to a lack of security.`,
+        };
+      }
     }
 
     return null;

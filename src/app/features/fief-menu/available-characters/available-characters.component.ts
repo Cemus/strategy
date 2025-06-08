@@ -23,4 +23,12 @@ export class AvailableCharactersComponent {
       ? this.gameStore.assignCharacterToFief(this.fief.id, null)
       : this.gameStore.assignCharacterToFief(this.fief.id, character);
   }
+
+  getTraitLabels(character: Character): string {
+    return (
+      character.traits
+        ?.map((t) => t.label.charAt(0).toUpperCase() + t.label.slice(1))
+        .join(', ') ?? ''
+    );
+  }
 }

@@ -27,12 +27,14 @@ export default class FactionEventService {
     factions.forEach((faction) => {
       if (!faction.player && Math.random() < 0.1) {
         faction.gold += 100;
-        events.push({
-          title: `Prosperity of ${faction.name}`,
-          type: 'factionBonus',
-          factionId: faction.name,
-          message: `${faction.name} has increased its revenues.`,
-        });
+        if (faction.player || faction.spied) {
+          events.push({
+            title: `Prosperity of ${faction.name}`,
+            type: 'factionBonus',
+            factionId: faction.name,
+            message: `${faction.name} has increased its revenues.`,
+          });
+        }
       }
     });
 

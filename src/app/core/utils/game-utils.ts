@@ -5,53 +5,41 @@ import { Fief } from '../models/fief.model';
 import { CharacterFactory } from './character-utils';
 
 export function buildDefaultData() {
-  const valdor = new Faction(
-    'Valdor',
-    'red',
-    [
-      CharacterFactory.generateCharacter(),
-      CharacterFactory.generateCharacter(),
-      CharacterFactory.generateCharacter(),
-      CharacterFactory.generateCharacter(),
-    ],
-    true
-  );
+  const valdor = new Faction('Valdor', 'red', [], true);
+  const valdorCharacters = [
+    CharacterFactory.generateCharacter(valdor),
+    CharacterFactory.generateCharacter(valdor),
+    CharacterFactory.generateCharacter(valdor),
+    CharacterFactory.generateCharacter(valdor),
+  ];
+  valdor.characters = valdorCharacters;
 
-  const sylveria = new Faction(
-    'Sylveria',
-    'green',
-    [
-      CharacterFactory.generateCharacter(),
-      CharacterFactory.generateCharacter(),
-      CharacterFactory.generateCharacter(),
-      CharacterFactory.generateCharacter(),
-    ],
-    false
-  );
+  const sylveria = new Faction('Sylveria', 'green', [], false);
+  const sylveriaCharacters = [
+    CharacterFactory.generateCharacter(sylveria),
+    CharacterFactory.generateCharacter(sylveria),
+    CharacterFactory.generateCharacter(sylveria),
+    CharacterFactory.generateCharacter(sylveria),
+  ];
+  sylveria.characters = sylveriaCharacters;
 
-  const vabranth = new Faction(
-    'Vabranth',
-    'purple',
-    [
-      CharacterFactory.generateCharacter(),
-      CharacterFactory.generateCharacter(),
-      CharacterFactory.generateCharacter(),
-      CharacterFactory.generateCharacter(),
-    ],
-    false
-  );
+  const vabranth = new Faction('Vabranth', 'purple', [], false);
+  const vabranthCharacters = [
+    CharacterFactory.generateCharacter(vabranth),
+    CharacterFactory.generateCharacter(vabranth),
+    CharacterFactory.generateCharacter(vabranth),
+    CharacterFactory.generateCharacter(vabranth),
+  ];
+  vabranth.characters = vabranthCharacters;
 
-  const isdeilis = new Faction(
-    'Isdeilis',
-    'yellow',
-    [
-      CharacterFactory.generateCharacter(),
-      CharacterFactory.generateCharacter(),
-      CharacterFactory.generateCharacter(),
-      CharacterFactory.generateCharacter(),
-    ],
-    false
-  );
+  const isdeilis = new Faction('Isdeilis', 'yellow', [], false);
+  const isdeilisCharacters = [
+    CharacterFactory.generateCharacter(isdeilis),
+    CharacterFactory.generateCharacter(isdeilis),
+    CharacterFactory.generateCharacter(isdeilis),
+    CharacterFactory.generateCharacter(isdeilis),
+  ];
+  isdeilis.characters = isdeilisCharacters;
 
   const podansk = new City(
     'Podansk',

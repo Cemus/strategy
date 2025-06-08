@@ -1,5 +1,6 @@
 import { CharacterStats } from '../models/character/character-stats.model';
 import { Character } from '../models/character/character.model';
+import { Faction } from '../models/faction.model';
 import { Trait } from '../types/trait.interface';
 import { Formulae } from './formulae';
 
@@ -154,24 +155,46 @@ export class CharacterFactory {
   ];
   public static readonly suffixes = ['n', 'rne', 'me', 'z', 'eis', 'branth'];
 
-  public static generateCharacter(): Character {
+  public static generateCharacter(faction: Faction): Character {
     const name = this.getRandomName();
     const gender: 'Male' | 'Female' = Math.random() > 0.5 ? 'Male' : 'Female';
-    const stats: CharacterStats = {
-      knowledge: Formulae.getRandomNumber(1, 10),
-      charisma: Formulae.getRandomNumber(1, 10),
-      dexterity: Formulae.getRandomNumber(1, 10),
-      martial: Formulae.getRandomNumber(1, 10),
-      administration: Formulae.getRandomNumber(1, 10),
-    };
-
+    const stats = new CharacterStats(
+      Formulae.getRandomNumber(1, 10),
+      Formulae.getRandomNumber(1, 10),
+      Formulae.getRandomNumber(1, 10),
+      Formulae.getRandomNumber(1, 10),
+      Formulae.getRandomNumber(1, 10)
+    );
     const avatar = this.getRandomAvatar(gender.toLowerCase());
+    const traits = this.generateRandomTraits();
 
-    return new Character(name, gender, stats, avatar);
+    return new Character(name, gender, stats, avatar, traits, faction);
   }
 
-  public static getRandomTrait(): Trait {
-    return this.traits[(this.traits.length * Math.random()) | 0];
+  public static generateRandomTraits() {
+    const traits: Trait[] = [];
+    for (let i = 0; i < 3; i++) {
+      if (Math.random() < 0.5) {
+        const trait = this.getRandomTrait(traits);
+        if (trait) {
+          traits.push(trait);
+        }
+      }
+    }
+    return traits;
+  }
+
+  public static getRandomTrait(existingTraits: Trait[]): Trait | null {
+    const availableTraits = this.traits.filter(
+      (t) => !existingTraits.includes(t)
+    );
+
+    if (availableTraits.length === 0) {
+      return null;
+    }
+
+    const randomIndex = Math.floor(Math.random() * availableTraits.length);
+    return availableTraits[randomIndex];
   }
 
   private static getRandomName(): string {

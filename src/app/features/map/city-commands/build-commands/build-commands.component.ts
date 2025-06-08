@@ -54,7 +54,7 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
     this.commands = [
       {
         id: 'declareWar',
-        label: `Declare war with ${this.selectedCity?.owner?.name}`,
+        label: `Declare war with ${this.selectedCity?.faction?.name}`,
         show: this.isCityNeighbor() && !this.isCityAtWar(),
         stat: 'ATK',
         requirement: this.getCommandRequirement('declareWar'),
@@ -74,8 +74,8 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
         id: 'spyNetwork',
         label: `Establish a spy network in ${this.selectedCity?.name}`,
         show:
-          this.selectedCity?.owner?.name !== this.playerFaction?.name &&
-          this.selectedCity?.owner?.spied === false,
+          this.selectedCity?.faction?.name !== this.playerFaction?.name &&
+          this.selectedCity?.faction?.spied === false,
         stat: 'SPD',
         requirement: this.getCommandRequirement('spyNetwork'),
         bgColor: 'bg-yellow-700',
@@ -85,7 +85,7 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
         id: 'fortify',
         label: `Fortify city ${this.selectedCity?.name}`,
         show:
-          this.selectedCity?.owner?.name === this.playerFaction?.name &&
+          this.selectedCity?.faction?.name === this.playerFaction?.name &&
           this.selectedCity?.defenseLvl < 3,
         stat: 'DEF',
         requirement: this.getCommandRequirement('fortify'),
@@ -94,7 +94,7 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
       },
       {
         id: 'askTruce',
-        label: `Negotiate truce with ${this.selectedCity?.owner?.name}`,
+        label: `Negotiate truce with ${this.selectedCity?.faction?.name}`,
         show: this.isCityAtWar(),
         stat: 'INT',
         requirement: this.getCommandRequirement('askTruce'),
@@ -104,7 +104,7 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
       {
         id: 'random',
         label: 'Random event',
-        show: this.selectedCity?.owner?.name === this.playerFaction?.name,
+        show: this.selectedCity?.faction?.name === this.playerFaction?.name,
         stat: '???',
         requirement: null,
         bgColor: 'bg-slate-100',
@@ -127,7 +127,7 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
 
   isCityAtWar(): boolean {
     return (
-      this.selectedCity?.owner?.atWar.some(
+      this.selectedCity?.faction?.atWar.some(
         (f) => f.name === this.playerFaction?.name
       ) ?? false
     );
@@ -149,14 +149,14 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
       case 'askTruce': {
         let totalEnemy = 0;
         let totalPlayer = 0;
-        this.selectedCity.owner?.cities.forEach((city) =>
+        this.selectedCity.faction?.cities.forEach((city) =>
           city.fiefs.forEach((f) => {
-            if (f.owner === this.selectedCity?.owner) totalEnemy++;
+            if (f.faction === this.selectedCity?.faction) totalEnemy++;
           })
         );
         this.playerFaction.cities.forEach((city) =>
           city.fiefs.forEach((f) => {
-            if (f.owner === this.selectedCity?.owner) totalPlayer++;
+            if (f.faction === this.selectedCity?.faction) totalPlayer++;
           })
         );
         req = (totalEnemy - totalPlayer) * 5;
