@@ -40,6 +40,14 @@ export class GameStoreService {
   });
   turnReport$ = this.turnReport.asObservable();
 
+  private previousTurnReport = new BehaviorSubject<TurnReport>({
+    goldGained: 0,
+    foodProduced: 0,
+    charactersStatus: [],
+    fiefChanges: [],
+  });
+  previousTurnReport$ = this.previousTurnReport.asObservable();
+
   constructor(private readonly worldEventService: WorldEventService) {}
 
   endTurn() {
@@ -49,6 +57,7 @@ export class GameStoreService {
     const turnReport = generateTurnReport();
 
     this.selectedMenuSubject.next('report');
+    this.previousTurnReport.next(this.turnReport.value);
     this.turnReport.next({ ...turnReport, worldEvents });
   }
 

@@ -18,7 +18,10 @@ export default class CityEventService {
 
   public generateEvents(): WorldEvent[] {
     const events: WorldEvent[] = [];
-    const eventGenerators = [this.citySecurityEvent.bind(this)];
+    const eventGenerators = [
+      this.disorderEvent.bind(this),
+      this.goldEvent.bind(this),
+    ];
 
     this.gameStore.getAllCities().forEach((city) => {
       eventGenerators.forEach((genFn) => {
@@ -30,7 +33,7 @@ export default class CityEventService {
     return events;
   }
 
-  private citySecurityEvent(city: City): WorldEvent | null {
+  private disorderEvent(city: City): WorldEvent | null {
     const totalSecurity = city.fiefs.reduce((sum, f) => {
       return sum + (f.getUpgradeEffectsForAction('Patrol')?.Security ?? 0);
     }, city.defenseLvl);
@@ -43,6 +46,22 @@ export default class CityEventService {
           type: 'disorder',
           cityId: city.id,
           message: `Acts of vandalism occured in ${city.name} due to a lack of security.`,
+        };
+      }
+    }
+
+    return null;
+  }
+
+  private goldEvent(city: City): WorldEvent | null {
+    if (Math.random() < 0.2) {
+      city.faction.gold += 1000;
+      if (city.faction.player || city.faction.spied) {
+        return {
+          title: `Good news in ${city.name}`,
+          type: 'gold',
+          cityId: city.id,
+          message: `${city.name} produced gold!`,
         };
       }
     }

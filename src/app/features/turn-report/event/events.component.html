@@ -1,0 +1,35 @@
+<div class="flex flex-col items-center">
+  <h3>Events</h3>
+  <article
+    *ngIf="currentEvent; else NoMoreEvents"
+    class="flex flex-col bg-slate-500 text-slate-100 w-2xl h-84 rounded-2xl shadow-2xl"
+  >
+    <header class="bg-slate-900 p-3 rounded-t-2xl">
+      <h3>{{ currentEvent.title }}</h3>
+    </header>
+    <main class="flex flex-1 flex-col justify-between p-2">
+      <p>{{ currentEvent.message }}</p>
+      <footer class="flex justify-center">
+        <small>
+          <button
+            type="button"
+            class="menu-button bg-slate-900 border-y-slate-900 border self-center"
+            (click)="nextEvent()"
+          >
+            {{`${internalEvents.length - eventIndex -1 > 0 ? 'Next' + '(' + (internalEvents.length - eventIndex - 1) + ')' : 'Close'}` }}
+          </button>
+        </small>
+      </footer>
+    </main>
+  </article>
+
+  <ng-template #NoMoreEvents>
+    <article
+      class="flex flex-col bg-slate-500 text-slate-100 rounded shadow-2xl"
+    >
+      <main class="flex flex-1 flex-col justify-between p-2">
+        <p>No events!</p>
+      </main>
+    </article>
+  </ng-template>
+</div>

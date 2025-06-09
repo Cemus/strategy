@@ -1,4 +1,4 @@
-<div class="flex flex-col gap-2">
+<div class="flex flex-1 flex-col gap-2">
   <h2>Month report</h2>
 
   <div>
@@ -52,11 +52,9 @@
     </div>
   </div>
 
-  <div>
-    <h3>Events</h3>
-    <ng-container *ngFor="let event of currentTurnReport.worldEvents">
-      <p>{{ event.title }}</p>
-      <p>{{ event.message }}</p>
-    </ng-container>
-  </div>
+  <app-events
+    *ngIf="currentTurnReport.worldEvents"
+    [events]="currentTurnReport.worldEvents"
+    class="self-center"
+  />
 </div>

@@ -59,7 +59,6 @@ function getBlason(
   currentfaction: Faction,
   currentCity: City
 ) {
-  console.log(currentCity);
   let blasonLayer = svg.querySelector('#blason-layer') as SVGGElement;
   if (!blasonLayer) {
     blasonLayer = document.createElementNS('http://www.w3.org/2000/svg', 'g');

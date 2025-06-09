@@ -5,7 +5,8 @@ export interface WorldEvent {
     | 'traitGain'
     | 'statGain'
     | 'disorder'
-    | 'factionBonus';
+    | 'factionBonus'
+    | 'gold';
   message: string;
   characterId?: string;
   characters?: [string, string];

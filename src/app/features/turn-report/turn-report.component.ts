@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { TurnReport } from '../../core/types/turn-report.interface';
 import { GameStoreService } from '../../core/services/game-store.service';
 import { CommonModule } from '@angular/common';
+import { EventsComponent } from './event/events.component';
 
 @Component({
   selector: 'app-turn-report',
-  imports: [CommonModule],
+  imports: [CommonModule, EventsComponent],
   templateUrl: './turn-report.component.html',
   styleUrl: './turn-report.component.css',
 })
@@ -17,10 +18,10 @@ export class TurnReportComponent implements OnInit {
 
   ngOnInit(): void {
     this.gameStore.turnReport$.subscribe((report) => {
-      if (this.currentTurnReport) {
-        this.previousTurnReport = this.currentTurnReport;
-      }
       this.currentTurnReport = report;
+    });
+    this.gameStore.previousTurnReport$.subscribe((report) => {
+      this.previousTurnReport = report;
     });
   }
 
@@ -32,6 +33,5 @@ export class TurnReportComponent implements OnInit {
     } else {
       return '—';
     }
-    return diff > 0 ? '+' + diff : diff.toString();
   }
 }
