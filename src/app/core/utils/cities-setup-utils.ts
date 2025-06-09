@@ -24,6 +24,7 @@ export const citiesSetup = (
         if (currentCity) {
           const currentfaction = currentCity.faction;
           const isPlayerCity = currentfaction?.name === playerFaction?.name;
+
           if (isPlayerCity) {
             currentCity.mapColor = 'green';
           } else {
@@ -43,10 +44,7 @@ export const citiesSetup = (
               currentCity.mapColor = 'red';
             }
           });
-
-          if (svg && currentfaction) {
-            getBlason(svg, path, currentfaction, currentCity);
-          }
+          getBlason(svg, path, currentfaction, currentCity);
         }
       }
 
@@ -61,6 +59,7 @@ function getBlason(
   currentfaction: Faction,
   currentCity: City
 ) {
+  console.log(currentCity);
   let blasonLayer = svg.querySelector('#blason-layer') as SVGGElement;
   if (!blasonLayer) {
     blasonLayer = document.createElementNS('http://www.w3.org/2000/svg', 'g');

@@ -6,13 +6,12 @@
   appMapControls
   #mapContainerRef
 >
-  <ng-container *ngIf="selectedCity">
-    <app-city-commands-menu
-      [playerFaction]="playerFaction"
-      [selectedCity]="selectedCity"
-      [cities]="cities"
-    ></app-city-commands-menu
-  ></ng-container>
+  <app-city-commands-menu
+    *ngIf="selectedCity"
+    [playerFaction]="playerFaction"
+    [selectedCity]="selectedCity"
+    [cities]="cities"
+  ></app-city-commands-menu>
 
   <div class="flex">
     <svg
@@ -24,44 +23,38 @@
       height="100%"
     >
       <ng-container *ngFor="let city of cities">
-        <ng-container *ngIf="city.name !== selectedCity?.name">
-          <g>
-            <title>{{ city.name }} - {{ city.faction.name }}</title>
-            <path
-              [attr.d]="city.pathData"
-              [attr.fill]="city.mapColor"
-              stroke="black"
-              stroke-width="0.5"
-              (click)="handleCitySelection(city)"
-              stroke-dashoffset="2"
-              class="cursor-pointer"
-            />
-          </g>
-        </ng-container>
-      </ng-container>
-
-      <ng-container *ngIf="selectedCity as city">
-        <g>
-          <title>
-            {{ selectedCity.name }} - {{ selectedCity.faction.name }}
-          </title>
+        <g *ngIf="city.name !== selectedCity?.name">
+          <title>{{ city.name }} - {{ city.faction.name }}</title>
           <path
-            [attr.d]="selectedCity.pathData"
+            [attr.d]="city.pathData"
             [attr.fill]="city.mapColor"
-            stroke="yellow"
-            stroke-width="2"
-            (click)="handleCitySelection(selectedCity)"
+            stroke="black"
+            stroke-width="0.5"
+            (click)="handleCitySelection(city)"
             stroke-dashoffset="2"
             class="cursor-pointer"
           />
         </g>
       </ng-container>
 
+      <g *ngIf="selectedCity as city">
+        <title>{{ selectedCity.name }} - {{ selectedCity.faction.name }}</title>
+        <path
+          [attr.d]="selectedCity.pathData"
+          [attr.fill]="city.mapColor"
+          stroke="yellow"
+          stroke-width="2"
+          (click)="handleCitySelection(selectedCity)"
+          stroke-dashoffset="2"
+          class="cursor-pointer"
+        />
+      </g>
       <g id="blason-layer"></g>
     </svg>
   </div>
 
-  <ng-container *ngIf="selectedCity">
-    <app-city-fief-menu [selectedCity]="selectedCity"></app-city-fief-menu
-  ></ng-container>
+  <app-city-fief-menu
+    *ngIf="selectedCity"
+    [selectedCity]="selectedCity"
+  ></app-city-fief-menu>
 </div>
