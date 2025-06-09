@@ -1,13 +1,11 @@
 <header
-  class="col-span-1 row-span-2 bg-red-600 text-white font-semibold md:text-xl sm:text-xs p-1 select-none"
+  class="flex justify-between item-center col-span-1 row-span-2 bg-red-600 text-white font-semibold md:text-xl sm:text-xs p-1 select-none"
 >
-  <div class="flex justify-between items-center">
-    <h1 class="px-2">Nation</h1>
+  <h1 class="px-2">Nation</h1>
 
-    <div class="flex gap-2">
-      <p>Month</p>
-      <p>{{ turn }}</p>
-    </div>
-    <button class="menu-button" (click)="endTurn()">End Turn</button>
+  <div class="flex gap-2">
+    <p>Month</p>
+    <p>{{ turn }}</p>
   </div>
+  <button class="menu-button" (click)="endTurn()">End Turn</button>
 </header>
