@@ -1,6 +1,6 @@
 import { FiefType } from '../enums/fief-type.enum';
 import { City } from '../models/city.model';
-import { Faction } from '../models/faction.model';
+import { Faction } from '../models/faction/faction.model';
 import { Fief } from '../models/fief.model';
 import { CharacterFactory } from './character-utils';
 

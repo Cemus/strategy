@@ -1,5 +1,5 @@
 import { City } from '../models/city.model';
-import { Faction } from '../models/faction.model';
+import { Faction } from '../models/faction/faction.model';
 
 export class Formulae {
   static getRandomNumber(min: number, max: number): number {

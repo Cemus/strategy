@@ -1,21 +1,19 @@
-import { Character } from './character/character.model';
-import { City } from './city.model';
-import { Fief } from './fief.model';
+import { Character } from '../character/character.model';
+import { City } from '../city.model';
+import { Fief } from '../fief.model';
+import { FactionStats } from './faction-stats.model';
 
 export class Faction {
   private _name: string;
   private _color: string;
-  private _cities: City[];
-  private _fiefs: Fief[];
-  private _atWar: Faction[];
+  private _cities: City[] = [];
+  private _fiefs: Fief[] = [];
+  private _atWar: Faction[] = [];
   private _characters: Character[];
   private _player: boolean;
-  private _gold: number;
-  private _resource: number;
-  private _unit: number;
-  private _population: number;
-  private _spied: boolean;
-  private _actionCount: number;
+  private _stats: FactionStats = new FactionStats();
+  private _spied: boolean = false;
+  private _actionCount: number = 3;
 
   constructor(
     name: string,
@@ -27,16 +25,6 @@ export class Faction {
     this._color = color;
     this._player = player;
     this._characters = characters;
-
-    this._cities = [];
-    this._fiefs = [];
-    this._gold = 1000;
-    this._resource = 1000;
-    this._unit = 250;
-    this._population = 250;
-    this._atWar = [];
-    this._spied = false;
-    this._actionCount = 3;
   }
 
   get name() {
@@ -95,36 +83,12 @@ export class Faction {
     this._player = val;
   }
 
-  get gold() {
-    return this._gold;
+  get stats(): FactionStats {
+    return this._stats;
   }
 
-  set gold(val: number) {
-    this._gold = val;
-  }
-
-  get resource() {
-    return this._resource;
-  }
-
-  set resource(val: number) {
-    this._resource = val;
-  }
-
-  get unit() {
-    return this._unit;
-  }
-
-  set unit(val: number) {
-    this._unit = val;
-  }
-
-  get population() {
-    return this._population;
-  }
-
-  set population(val: number) {
-    this._population = val;
+  set stats(val: FactionStats) {
+    this._stats = val;
   }
 
   get spied() {

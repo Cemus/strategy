@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { City } from './core/models/city.model';
-import { Faction } from './core/models/faction.model';
+import { Faction } from './core/models/faction/faction.model';
 import { GameStoreService } from './core/services/game-store.service';
 import { buildDefaultData } from './core/utils/game-utils';
 import { HeaderComponent } from './shared/components/header/header.component';

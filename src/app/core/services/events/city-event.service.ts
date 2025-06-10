@@ -55,7 +55,7 @@ export default class CityEventService {
 
   private goldEvent(city: City): WorldEvent | null {
     if (Math.random() < 0.2) {
-      city.faction.gold += 1000;
+      city.faction.stats.gold += 1000;
       if (city.faction.player || city.faction.spied) {
         return {
           title: `Good news in ${city.name}`,

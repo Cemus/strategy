@@ -7,7 +7,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { City } from '../../../../core/models/city.model';
-import { Faction } from '../../../../core/models/faction.model';
+import { Faction } from '../../../../core/models/faction/faction.model';
 import { getDistanceToClosestCity } from '../../../../core/utils/formulae';
 
 export interface Command {

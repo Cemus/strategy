@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Faction } from '../../../core/models/faction.model';
+import { Faction } from '../../../core/models/faction/faction.model';
 import { GameStoreService } from '../../../core/services/game-store.service';
 
 @Component({

@@ -1,6 +1,6 @@
 import { CharacterStats } from '../models/character/character-stats.model';
 import { Character } from '../models/character/character.model';
-import { Faction } from '../models/faction.model';
+import { Faction } from '../models/faction/faction.model';
 import { Trait } from '../types/trait.interface';
 import { Formulae } from './formulae';
 
@@ -11,7 +11,7 @@ export class CharacterFactory {
       description: 'A keen mind for both scholarship and statecraft.',
       statModifiers: {
         knowledge: 2,
-        administration: 1,
+        governance: 1,
       },
     },
 
@@ -20,7 +20,7 @@ export class CharacterFactory {
       description:
         'Not afraid of danger. Martial bonus but may take unnecessary risks.',
       statModifiers: {
-        martial: 2,
+        might: 2,
         knowledge: -1,
       },
     },
@@ -29,24 +29,23 @@ export class CharacterFactory {
       description:
         'Thinks about money first. Administration bonus but poor reputation.',
       statModifiers: {
-        administration: 2,
-        charisma: -2,
+        governance: 2,
+        diplomacy: -2,
       },
     },
     {
       label: 'eloquent',
       description: 'Master of speech. Charisma bonus.',
       statModifiers: {
-        charisma: 3,
+        diplomacy: 3,
       },
     },
     {
       label: 'lazy',
       description: 'Unmotivated. Reduces overall performance.',
       statModifiers: {
-        martial: -1,
-        administration: -1,
-        dexterity: -1,
+        might: -1,
+        governance: -1,
       },
     },
     {
@@ -58,34 +57,34 @@ export class CharacterFactory {
     },
     {
       label: 'clumsy',
-      description: 'Often makes mistakes. Poor dexterity.',
+      description: 'Often makes mistakes.',
       statModifiers: {
-        dexterity: -3,
+        governance: -1,
+        knowledge: -1,
       },
     },
     {
       label: 'diligent',
       description: 'Works hard. Balanced bonus on multiple skills.',
       statModifiers: {
-        administration: 1,
-        dexterity: 1,
-        martial: 1,
+        governance: 1,
+        might: 1,
       },
     },
     {
       label: 'cruel',
       description: 'Uses fear to control. Less charisma, more martial.',
       statModifiers: {
-        martial: 2,
-        charisma: -2,
+        might: 2,
+        diplomacy: -2,
       },
     },
     {
       label: 'honest',
       description: 'Trustworthy. Liked but sometimes too blunt.',
       statModifiers: {
-        charisma: 1,
-        administration: 1,
+        diplomacy: 1,
+        governance: 1,
       },
     },
     {
@@ -93,8 +92,8 @@ export class CharacterFactory {
       description:
         'Plots behind the scenes. Bonus in knowledge and secret relations.',
       statModifiers: {
-        knowledge: 2,
-        charisma: 1,
+        knowledge: 1,
+        diplomacy: 2,
       },
     },
   ];

@@ -1,6 +1,6 @@
 import { FiefType } from '../enums/fief-type.enum';
 import { Character } from './character/character.model';
-import { Faction } from './faction.model';
+import { Faction } from './faction/faction.model';
 import { CivicStat } from '../../../../../src/enums/CivicStat';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -161,11 +161,11 @@ export class Fief {
   }
 
   public upgrade(upgrade: FiefUpgrade) {
-    if (this.faction.gold < upgrade.cost || upgrade.bought) {
+    if (this.faction.stats.gold < upgrade.cost || upgrade.bought) {
       return;
     }
 
-    this.faction.gold -= upgrade.cost;
+    this.faction.stats.gold -= upgrade.cost;
 
     if (this.type === FiefType.Empty) {
       this.build(upgrade);

@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { CharacterStats } from './character-stats.model';
 import { Trait } from '../../types/trait.interface';
 import { Fief } from '../fief.model';
-import { Faction } from '../faction.model';
+import { Faction } from '../faction/faction.model';
 
 export class Character {
   private _id: string;
@@ -115,11 +115,10 @@ export class Character {
     this._faction = value;
   }
 
-  public getCost(): number {
-    const { knowledge, martial, administration, charisma, dexterity } =
-      this._stats;
+  public getCost() {
+    const { governance, knowledge, diplomacy, might, loyalty } = this._stats;
 
-    const total = administration + knowledge + charisma + martial + dexterity;
+    const total = governance + knowledge + diplomacy + might + loyalty;
 
     return Math.floor(total / 5);
   }

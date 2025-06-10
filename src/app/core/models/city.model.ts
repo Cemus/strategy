@@ -1,4 +1,4 @@
-import { Faction } from './faction.model';
+import { Faction } from './faction/faction.model';
 import { Fief } from './fief.model';
 import { v4 as uuidv4 } from 'uuid';
 

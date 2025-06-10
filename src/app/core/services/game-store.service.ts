@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Faction } from '../models/faction.model';
+import { Faction } from '../models/faction/faction.model';
 import { Fief, FiefUpgrade } from '../models/fief.model';
 import { City } from '../models/city.model';
 import { Character } from '../models/character/character.model';
@@ -33,28 +33,23 @@ export class GameStoreService {
   turn$ = this.turnSubject.asObservable();
 
   private turnReport = new BehaviorSubject<TurnReport>({
-    goldGained: 0,
-    foodProduced: 0,
-    charactersStatus: [],
-    fiefChanges: [],
+    factions: [],
   });
   turnReport$ = this.turnReport.asObservable();
 
   private previousTurnReport = new BehaviorSubject<TurnReport>({
-    goldGained: 0,
-    foodProduced: 0,
-    charactersStatus: [],
-    fiefChanges: [],
+    factions: [],
   });
   previousTurnReport$ = this.previousTurnReport.asObservable();
 
   constructor(private readonly worldEventService: WorldEventService) {}
 
   endTurn() {
+    const factions = this.getAllFactions();
     this.turnSubject.next(this.turnSubject.value + 1);
 
     const worldEvents = this.worldEventService.generateEvents();
-    const turnReport = generateTurnReport();
+    const turnReport = generateTurnReport(factions);
 
     this.selectedMenuSubject.next('report');
     this.previousTurnReport.next(this.turnReport.value);

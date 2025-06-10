@@ -1,22 +1,29 @@
 export class CharacterStats {
+  private _governance: number;
   private _knowledge: number;
-  private _charisma: number;
-  private _dexterity: number;
-  private _administration: number;
-  private _martial: number;
+  private _diplomacy: number;
+  private _might: number;
+  private _loyalty: number;
 
   constructor(
+    governance: number,
     knowledge: number,
-    charisma: number,
-    dexterity: number,
-    administration: number,
-    martial: number
+    diplomacy: number,
+    might: number,
+    loyalty: number
   ) {
+    this._governance = governance;
     this._knowledge = knowledge;
-    this._charisma = charisma;
-    this._dexterity = dexterity;
-    this._administration = administration;
-    this._martial = martial;
+    this._diplomacy = diplomacy;
+    this._might = might;
+    this._loyalty = loyalty;
+  }
+
+  public get governance(): number {
+    return this._governance;
+  }
+  public set governance(value: number) {
+    this._governance = value;
   }
 
   public get knowledge(): number {
@@ -26,31 +33,24 @@ export class CharacterStats {
     this._knowledge = value;
   }
 
-  public get charisma(): number {
-    return this._charisma;
+  public get diplomacy(): number {
+    return this._diplomacy;
   }
-  public set charisma(value: number) {
-    this._charisma = value;
-  }
-
-  public get dexterity(): number {
-    return this._dexterity;
-  }
-  public set dexterity(value: number) {
-    this._dexterity = value;
+  public set diplomacy(value: number) {
+    this._diplomacy = value;
   }
 
-  public get administration(): number {
-    return this._administration;
+  public get might(): number {
+    return this._might;
   }
-  public set administration(value: number) {
-    this._administration = value;
+  public set might(value: number) {
+    this._might = value;
   }
 
-  public get martial(): number {
-    return this._martial;
+  public get loyalty(): number {
+    return this._loyalty;
   }
-  public set martial(value: number) {
-    this._martial = value;
+  public set loyalty(value: number) {
+    this._loyalty = value;
   }
 }

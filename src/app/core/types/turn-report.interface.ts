@@ -1,19 +1,7 @@
 import { WorldEvent } from './world-event.interface';
+import { Faction } from '../models/faction/faction.model';
 
 export interface TurnReport {
-  goldGained: number;
-  foodProduced: number;
-  charactersStatus: {
-    id: string;
-    name: string;
-    exhausted: boolean;
-    newTraits?: string[];
-  }[];
-  fiefChanges: {
-    id: string;
-    name: string;
-    newLevel?: number;
-    destroyed?: boolean;
-  }[];
+  factions: Faction[];
   worldEvents?: WorldEvent[];
 }

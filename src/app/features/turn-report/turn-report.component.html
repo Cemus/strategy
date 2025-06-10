@@ -6,47 +6,37 @@
     <div class="flex gap-1">
       <p>Gold :</p>
       <p>
-        {{ currentTurnReport.goldGained }}
+        {{ playerFaction.stats.gold }}
         <span
           [ngClass]="{
         'text-yellow-500':
-          currentTurnReport.foodProduced === (previousTurnReport?.foodProduced ?? 0),
+          statComparison('gold') === 'equal',
         'text-green-500':
-          currentTurnReport.goldGained > (previousTurnReport?.goldGained ?? 0),
+          statComparison('gold') === 'superior',
         'text-red-500':
-          currentTurnReport.goldGained < (previousTurnReport?.goldGained ?? 0),
+          statComparison('gold') === 'inferior',
       }"
         >
-          {{
-            formatDiff(
-              currentTurnReport.goldGained -
-                (previousTurnReport?.goldGained ?? 0)
-            )
-          }}
+          {{ formatDiff("gold") }}
         </span>
       </p>
     </div>
 
     <div class="flex gap-1">
-      <p>Food :</p>
+      <p>Resource :</p>
       <p>
-        {{ currentTurnReport.foodProduced }}
+        {{ playerFaction.stats.resource }}
         <span
           [ngClass]="{
         'text-yellow-500':
-          currentTurnReport.foodProduced === (previousTurnReport?.foodProduced ?? 0),
+          statComparison('resource') === 'equal',
         'text-green-500':
-          currentTurnReport.foodProduced > (previousTurnReport?.foodProduced ?? 0),
+          statComparison('resource') === 'superior',
         'text-red-500':
-          currentTurnReport.foodProduced < (previousTurnReport?.foodProduced ?? 0),
+          statComparison('resource') === 'inferior',
       }"
         >
-          {{
-            formatDiff(
-              currentTurnReport.foodProduced -
-                (previousTurnReport?.foodProduced ?? 0)
-            )
-          }}
+          {{ formatDiff("resource") }}
         </span>
       </p>
     </div>
