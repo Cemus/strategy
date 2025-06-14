@@ -1,46 +1,11 @@
 <div class="flex flex-1 flex-col gap-2">
   <h2>Month report</h2>
 
-  <div>
-    <h3>Faction</h3>
-    <div class="flex gap-1">
-      <p>Gold :</p>
-      <p>
-        {{ playerFaction.stats.gold }}
-        <span
-          [ngClass]="{
-        'text-yellow-500':
-          statComparison('gold') === 'equal',
-        'text-green-500':
-          statComparison('gold') === 'superior',
-        'text-red-500':
-          statComparison('gold') === 'inferior',
-      }"
-        >
-          {{ formatDiff("gold") }}
-        </span>
-      </p>
-    </div>
-
-    <div class="flex gap-1">
-      <p>Resource :</p>
-      <p>
-        {{ playerFaction.stats.resource }}
-        <span
-          [ngClass]="{
-        'text-yellow-500':
-          statComparison('resource') === 'equal',
-        'text-green-500':
-          statComparison('resource') === 'superior',
-        'text-red-500':
-          statComparison('resource') === 'inferior',
-      }"
-        >
-          {{ formatDiff("resource") }}
-        </span>
-      </p>
-    </div>
-  </div>
+  <app-stats-panel
+    [playerFaction]="playerFaction"
+    [currentTurnReport]="currentTurnReport"
+    [previousTurnReport]="previousTurnReport"
+  />
 
   <app-events
     *ngIf="currentTurnReport.worldEvents"

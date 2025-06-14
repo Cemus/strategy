@@ -106,4 +106,20 @@ export class Faction {
   set actionCount(val: number) {
     this._actionCount = val;
   }
+
+  public clone() {
+    const clone = new Faction(
+      this.name,
+      this.color,
+      this.characters,
+      this.player
+    );
+
+    clone.characters = structuredClone(this.characters);
+    clone.cities = structuredClone(this.cities);
+    clone.fiefs = structuredClone(this.fiefs);
+    clone.stats = structuredClone(this.stats);
+
+    return clone;
+  }
 }

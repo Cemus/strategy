@@ -1,0 +1,20 @@
+<ng-container *ngFor="let stat of playerFaction.stats | keyvalue">
+  <div class="flex gap-1">
+    <p>{{ stat.key.charAt(1).toUpperCase() + stat.key.slice(2) }}</p>
+    <p>
+      {{ playerFaction.stats[stat.key] }}
+      <span
+        [ngClass]="{
+        'text-yellow-500':
+          statComparison(stat.key) === 'equal',
+        'text-green-500':
+          statComparison(stat.key) === 'superior',
+        'text-red-500':
+          statComparison(stat.key) === 'inferior',
+      }"
+      >
+        {{ formatDiff(stat.key) }}
+      </span>
+    </p>
+  </div>
+</ng-container>

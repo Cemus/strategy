@@ -9,11 +9,15 @@ import { generateTurnReport } from '../utils/turn-report';
 import { CharacterStats } from '../models/character/character-stats.model';
 import { Trait } from '../types/trait.interface';
 import { WorldEventService } from './world-event.service';
+import { buildDefaultData } from '../utils/game-utils';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GameStoreService {
+  private initializationSubject = new BehaviorSubject<boolean>(false);
+  initialization$ = this.initializationSubject.asObservable();
+
   private factionsSubject = new BehaviorSubject<Faction[]>([]);
   factions$ = this.factionsSubject.asObservable();
 
@@ -32,28 +36,51 @@ export class GameStoreService {
   private turnSubject = new BehaviorSubject<number>(1);
   turn$ = this.turnSubject.asObservable();
 
-  private turnReport = new BehaviorSubject<TurnReport>({
+  private turnReportSubject = new BehaviorSubject<TurnReport>({
     factions: [],
   });
-  turnReport$ = this.turnReport.asObservable();
+  turnReport$ = this.turnReportSubject.asObservable();
 
-  private previousTurnReport = new BehaviorSubject<TurnReport>({
+  private previousTurnReportSubject = new BehaviorSubject<TurnReport>({
     factions: [],
   });
-  previousTurnReport$ = this.previousTurnReport.asObservable();
+  previousTurnReport$ = this.previousTurnReportSubject.asObservable();
 
   constructor(private readonly worldEventService: WorldEventService) {}
 
+  isInitialized() {
+    return this.initializationSubject.value;
+  }
+
+  init() {
+    if (this.initializationSubject.value === false) {
+      const { factions } = buildDefaultData();
+      this.factionsSubject.next(factions);
+      const turnReport = generateTurnReport(factions);
+      console.log(turnReport);
+
+      this.turnReportSubject.next(turnReport);
+      this.previousTurnReportSubject.next(turnReport);
+
+      this.initializationSubject.next(true);
+    }
+  }
+
   endTurn() {
-    const factions = this.getAllFactions();
-    this.turnSubject.next(this.turnSubject.value + 1);
+    const prevTurnReport = generateTurnReport(
+      this.turnReportSubject.value.factions.map((f) => f.clone())
+    );
+
+    const currentFactions = this.getAllFactions();
 
     const worldEvents = this.worldEventService.generateEvents();
-    const turnReport = generateTurnReport(factions);
+    const turnReport = generateTurnReport(currentFactions);
 
+    this.turnSubject.next(this.turnSubject.value + 1);
     this.selectedMenuSubject.next('report');
-    this.previousTurnReport.next(this.turnReport.value);
-    this.turnReport.next({ ...turnReport, worldEvents });
+
+    this.previousTurnReportSubject.next(prevTurnReport);
+    this.turnReportSubject.next({ ...turnReport, worldEvents });
   }
 
   updateFactions(factions: Faction[]) {

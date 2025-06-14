@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { City } from './core/models/city.model';
 import { Faction } from './core/models/faction/faction.model';
 import { GameStoreService } from './core/services/game-store.service';
-import { buildDefaultData } from './core/utils/game-utils';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { CommonModule } from '@angular/common';
@@ -34,13 +33,12 @@ export class AppComponent implements OnInit {
   constructor(private gameStore: GameStoreService) {}
 
   ngOnInit(): void {
-    const { factions, cities } = buildDefaultData();
-
-    this.factions = factions;
-    this.cities = cities;
-    this.playerFaction = factions.find((f) => f.player)!;
-
-    this.gameStore.updateFactions(factions);
+    if (!this.gameStore.isInitialized()) {
+      this.gameStore.init();
+    }
+    this.factions = this.gameStore.getAllFactions();
+    this.cities = this.gameStore.getAllCities();
+    this.playerFaction = this.factions.find((f) => f.player)!;
 
     this.gameStore.selectedMenu$.subscribe((menu) => {
       this.menu = menu;
