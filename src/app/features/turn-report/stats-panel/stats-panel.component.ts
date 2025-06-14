@@ -3,10 +3,11 @@ import { Faction } from '../../../core/models/faction/faction.model';
 import { TurnReport } from '../../../core/types/turn-report.interface';
 import { CommonModule } from '@angular/common';
 import { FactionStats } from '../../../core/models/faction/faction-stats.model';
+import { SharedModule } from '../../../shared/shared.module';
 
 @Component({
   selector: 'app-stats-panel',
-  imports: [CommonModule],
+  imports: [CommonModule, SharedModule],
   templateUrl: './stats-panel.component.html',
   styleUrl: './stats-panel.component.css',
 })
@@ -15,28 +16,20 @@ export class StatsPanelComponent {
   @Input() previousTurnReport!: TurnReport;
   @Input() playerFaction!: Faction;
 
-  formatDiff(stat: keyof FactionStats): string {
-    const currentStat = this.playerFaction.stats[stat];
-    const prevStat =
+  prevStatValue(stat: keyof FactionStats): number {
+    return (
       this.previousTurnReport?.factions.filter((f) => f.player === true)[0]
-        .stats[stat] ?? 0;
-    const diff = currentStat - prevStat;
+        .stats[stat] ?? 0
+    );
+  }
 
-    if (diff > 0) {
-      return '+' + diff;
-    } else if (diff < 0) {
-      return diff.toString();
-    } else {
-      return '—';
-    }
+  currentStatValue(stat: keyof FactionStats): number {
+    return this.playerFaction.stats[stat];
   }
 
   statComparison(stat: keyof FactionStats): string {
-    const currentStat = this.playerFaction.stats[stat];
-
-    const prevStat =
-      this.previousTurnReport?.factions.filter((f) => f.player === true)[0]
-        .stats[stat] ?? 0;
+    const currentStat = this.currentStatValue(stat);
+    const prevStat = this.prevStatValue(stat);
 
     if (currentStat === prevStat) {
       return 'equal';

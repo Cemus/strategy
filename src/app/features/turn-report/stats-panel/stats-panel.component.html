@@ -13,7 +13,7 @@
           statComparison(stat.key) === 'inferior',
       }"
       >
-        {{ formatDiff(stat.key) }}
+        {{ currentStatValue(stat.key) | statSign : prevStatValue(stat.key) }}
       </span>
     </p>
   </div>
