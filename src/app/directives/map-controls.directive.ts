@@ -103,9 +103,9 @@ export class MapControlsDirective implements OnInit, OnDestroy {
   private onWheel = (event: WheelEvent) => {
     event.preventDefault();
 
-    const zoomSpeed = 0.0015;
+    const zoomSpeed = 0.005;
     this.scale += -event.deltaY * zoomSpeed;
-    this.scale = Math.max(0.5, Math.min(3, this.scale));
+    this.scale = Math.max(3, Math.min(7, this.scale));
     this.gameStore.updateZoomScale(this.scale);
 
     this.applyTransform();
