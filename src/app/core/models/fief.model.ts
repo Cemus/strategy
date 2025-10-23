@@ -3,6 +3,7 @@ import { Character } from './character/character.model';
 import { Faction } from './faction/faction.model';
 import { CivicStat } from '../../../../../src/enums/CivicStat';
 import { v4 as uuidv4 } from 'uuid';
+import { FiefAction } from '../enums/fief-action.enum';
 
 export type FiefUpgrade = {
   name: string;
@@ -15,7 +16,7 @@ export type FiefUpgrade = {
 export class Fief {
   private _id: string;
   private _type: FiefType;
-  private _currentAction: string | null;
+  private _currentAction: FiefAction;
   private _assigned: Character | null;
   private _upgrades: FiefUpgrade[];
   private _faction: Faction;
@@ -25,7 +26,7 @@ export class Fief {
     this._faction = faction;
 
     this._id = uuidv4();
-    this._currentAction = null;
+    this._currentAction = this.getAvailableActions()[0];
     this._assigned = null;
     this._upgrades = this.initUpgrades();
   }
@@ -50,7 +51,7 @@ export class Fief {
     return this._currentAction;
   }
 
-  set currentAction(val: string | null) {
+  set currentAction(val: FiefAction) {
     this._currentAction = val;
   }
 
@@ -87,14 +88,14 @@ export class Fief {
     }
   }
 
-  public getAvailableActions(): string[] {
+  public getAvailableActions(): FiefAction[] {
     switch (this.type) {
       case FiefType.Farm:
-        return ['Cultivate', 'Irrigate'];
+        return [FiefAction.Cultivate, FiefAction.Irrigate];
       case FiefType.Castle:
-        return ['Train Troops', 'Recruit'];
+        return [FiefAction.Recruit, FiefAction.Train];
       case FiefType.Market:
-        return ['Trade', 'Tax'];
+        return [FiefAction.Trade, FiefAction.Tax];
       default:
         return [];
     }
@@ -208,7 +209,7 @@ export class Fief {
   public resetFief(): void {
     this.type = FiefType.Empty;
     this.upgrades = this.initUpgrades();
-    this.currentAction = null;
+    this.currentAction = this.getAvailableActions()[0];
     this.assigned = null;
   }
 }

@@ -9,18 +9,13 @@
     id="fiefAction-select"
     [disabled]="!fief.assigned"
     class="bg-slate-800 text-slate-200 border border-slate-200 rounded px-2 py-1 disabled:text-red-300 disabled:border-slate-800"
+    (change)="onActionSelected($event)"
   >
     <option value="">
-      {{
-        !fief.assigned
-          ? "-- No character assigned --"
-          : "-- Please choose an option --"
-      }}
+      {{ !fief.assigned ? "-- No character assigned --" : fief.currentAction }}
     </option>
-    <ng-container *ngFor="let action of fief.getAvailableActions()">
-      <option [value]="action">
-        {{ action }}
-      </option></ng-container
-    >
+    <ng-container *ngFor="let action of getAvailableFiefActions()">
+      <option [value]="action">{{ action }}</option>
+    </ng-container>
   </select>
 </ng-container>

@@ -1,20 +1,41 @@
-<ng-container *ngFor="let stat of playerFaction.stats | keyvalue">
-  <div class="flex gap-1">
-    <p>{{ stat.key.charAt(1).toUpperCase() + stat.key.slice(2) }}</p>
-    <p>
-      {{ playerFaction.stats[stat.key] }}
-      <span
-        [ngClass]="{
-        'text-yellow-500':
-          statComparison(stat.key) === 'equal',
-        'text-green-500':
-          statComparison(stat.key) === 'superior',
-        'text-red-500':
-          statComparison(stat.key) === 'inferior',
-      }"
-      >
-        {{ currentStatValue(stat.key) | statSign : prevStatValue(stat.key) }}
-      </span>
-    </p>
-  </div>
-</ng-container>
+<app-stat-display
+  [statName]="'gold'"
+  [currentStatValue]="currentStatValue('gold')"
+  [previousStatValue]="previousStatValue('gold')"
+/>
+
+<app-stat-display
+  [statName]="'resource'"
+  [currentStatValue]="currentStatValue('resource')"
+  [previousStatValue]="previousStatValue('resource')"
+/>
+
+<app-stat-display
+  [statName]="'population'"
+  [currentStatValue]="currentStatValue('population')"
+  [previousStatValue]="previousStatValue('population')"
+/>
+
+<app-stat-display
+  [statName]="'conscript'"
+  [currentStatValue]="currentStatValue('conscript')"
+  [previousStatValue]="previousStatValue('conscript')"
+/>
+
+<app-stat-display
+  [statName]="'order'"
+  [currentStatValue]="currentStatValue('order')"
+  [previousStatValue]="previousStatValue('order')"
+/>
+
+<app-stat-display
+  [statName]="'satisfaction'"
+  [currentStatValue]="currentStatValue('satisfaction')"
+  [previousStatValue]="previousStatValue('satisfaction')"
+/>
+
+<app-stat-display
+  [statName]="'influence'"
+  [currentStatValue]="currentStatValue('influence')"
+  [previousStatValue]="previousStatValue('influence')"
+/>

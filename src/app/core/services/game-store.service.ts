@@ -142,8 +142,6 @@ export class GameStoreService {
 
         if (fief) {
           if (character === null && fief.assigned) {
-            fief.currentAction = null;
-
             const previous = faction.characters.find(
               (c) => c.id === fief.assigned?.id
             );
