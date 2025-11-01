@@ -66,7 +66,6 @@ export class GameStoreService {
 
       this.factionsSubject.next(factions);
       const turnReport = generateTurnReport(factions);
-      console.log(turnReport);
 
       this.turnReportSubject.next(turnReport);
       this.previousTurnReportSubject.next(turnReport);
@@ -77,7 +76,7 @@ export class GameStoreService {
 
   endTurn() {
     const prevTurnReport = generateTurnReport(
-      this.turnReportSubject.value.factions.map((f) => f.clone())
+      this.turnReportSubject.value.factions.map((f) => f.clone()),
     );
 
     const currentFactions = this.getAllFactions();
@@ -156,19 +155,19 @@ export class GameStoreService {
         if (fief) {
           if (character === null && fief.assigned) {
             const previous = faction.characters.find(
-              (c) => c.id === fief.assigned?.id
+              (c) => c.id === fief.assigned?.id,
             );
             if (previous) previous.job = null;
           }
 
           if (character !== null) {
             const previous = faction.characters.find(
-              (c) => c.id === fief.assigned?.id
+              (c) => c.id === fief.assigned?.id,
             );
             if (previous) previous.job = null;
 
             const newChar = faction.characters.find(
-              (c) => c.id === character.id
+              (c) => c.id === character.id,
             );
             if (newChar) {
               newChar.job = fief;
@@ -197,7 +196,7 @@ export class GameStoreService {
         if (fief) {
           if (fief.assigned !== null) {
             const assignedCharacter = faction.characters.find(
-              (c) => c.id === fief.assigned?.id
+              (c) => c.id === fief.assigned?.id,
             );
             if (assignedCharacter) assignedCharacter.job = null;
           }
@@ -241,7 +240,7 @@ export class GameStoreService {
   characterGainStat(
     characterId: string,
     stat: keyof CharacterStats,
-    value: number
+    value: number,
   ) {
     const character = this.getAllCharacters().find((c) => c.id == characterId);
 

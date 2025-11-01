@@ -132,7 +132,6 @@ export class MapControlsDirective implements OnInit, OnDestroy {
     if (!this.svgRef) return;
 
     if (smooth) {
-      console.log('smooth');
       this.svgRef.style.transition = 'transform 0.2s ease-out';
     }
     smooth

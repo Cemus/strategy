@@ -4,13 +4,12 @@ import { Faction } from '../models/faction/faction.model';
 export const citiesSetup = (
   svg: SVGSVGElement,
   cities: City[],
-  factions: Faction[]
+  factions: Faction[],
 ) => {
   const paths = svg?.querySelectorAll<SVGPathElement>('path');
   const playerFaction = Object.values(factions).find(
-    (faction) => faction.player
+    (faction) => faction.player,
   );
-  console.log(svg);
   if (paths && paths.length > 0) {
     paths.forEach((path) => {
       const group = path.parentElement;
@@ -18,7 +17,7 @@ export const citiesSetup = (
       if (titleElement) {
         const cityName = titleElement.textContent?.split(' ')[0] || '';
         const currentCity = Object.values(cities).find(
-          (city) => city.name.toString() === cityName
+          (city) => city.name.toString() === cityName,
         );
 
         if (currentCity) {
@@ -57,7 +56,7 @@ function getBlason(
   svg: SVGSVGElement,
   path: SVGPathElement,
   currentfaction: Faction,
-  currentCity: City
+  currentCity: City,
 ) {
   let blasonLayer = svg.querySelector('#blason-layer') as SVGGElement;
   if (!blasonLayer) {
@@ -81,7 +80,7 @@ function getBlason(
 
   const blason = document.createElementNS(
     'http://www.w3.org/2000/svg',
-    'circle'
+    'circle',
   );
   blason.setAttribute('cx', `${centerX}`);
   blason.setAttribute('cy', `${centerY}`);
