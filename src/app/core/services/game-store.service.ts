@@ -10,6 +10,7 @@ import { CharacterStats } from '../models/character/character-stats.model';
 import { Trait } from '../types/trait.interface';
 import { WorldEventService } from './world-event.service';
 import { buildDefaultData } from '../utils/game-utils';
+import { MapSubject } from '../types/game-store.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +31,14 @@ export class GameStoreService {
   private selectedMenuSubject = new BehaviorSubject<string>('map');
   selectedMenu$ = this.selectedMenuSubject.asObservable();
 
-  private zoomScaleSubject = new BehaviorSubject<number>(5);
+  private mapSubject = new BehaviorSubject<MapSubject>({
+    scale: 0.5,
+    translationX: 0,
+    translationY: 0,
+  });
+  map$ = this.mapSubject.asObservable();
+
+  private zoomScaleSubject = new BehaviorSubject<number>(0.5);
   zoomScale$ = this.zoomScaleSubject.asObservable();
 
   private turnSubject = new BehaviorSubject<number>(1);
@@ -52,9 +60,10 @@ export class GameStoreService {
     return this.initializationSubject.value;
   }
 
-  init() {
+  async init() {
     if (this.initializationSubject.value === false) {
-      const { factions } = buildDefaultData();
+      const { factions } = await buildDefaultData();
+
       this.factionsSubject.next(factions);
       const turnReport = generateTurnReport(factions);
       console.log(turnReport);
@@ -99,6 +108,10 @@ export class GameStoreService {
 
   updateSelectedMenu(menu: string) {
     this.selectedMenuSubject.next(menu);
+  }
+
+  updateMap(mapInfos: MapSubject) {
+    this.mapSubject.next(mapInfos);
   }
 
   updateZoomScale(value: number) {

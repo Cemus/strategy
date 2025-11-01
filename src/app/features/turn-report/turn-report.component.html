@@ -7,9 +7,7 @@
     [previousTurnReport]="previousTurnReport"
   />
 
-  <app-events
-    *ngIf="currentTurnReport.worldEvents"
-    [events]="currentTurnReport.worldEvents"
-    class="self-center"
-  />
+  @if (currentTurnReport.worldEvents) {
+    <app-events [events]="currentTurnReport.worldEvents" class="self-center" />
+  }
 </div>

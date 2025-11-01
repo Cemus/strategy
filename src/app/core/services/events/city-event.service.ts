@@ -35,7 +35,7 @@ export default class CityEventService {
 
   private disorderEvent(city: City): WorldEvent | null {
     const totalSecurity = city.fiefs.reduce((sum, f) => {
-      return sum + (f.getUpgradeEffectsForAction('Patrol')?.Security ?? 0);
+      return sum + (f.getUpgradeEffectsForAction('Patrol').Security ?? 0);
     }, city.defenseLvl);
 
     if (totalSecurity < 5 && Math.random() < 0.2) {

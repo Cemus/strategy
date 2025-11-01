@@ -1,31 +1,30 @@
-<div
-  *ngIf="selectedFief as fief"
-  class="flex flex-1 gap-2 flex-col bg-slate-900 text-slate-200 p-2"
->
-  <h3 class="text-xl font-semibold mb-2">
-    {{ selectedFief.type }} ({{ selectedFief.faction.name }})
-  </h3>
+@if (selectedFief) {
+  <div class="flex flex-1 gap-2 flex-col bg-slate-900 text-slate-200 p-2">
+    <h3 class="text-xl font-semibold mb-2">
+      {{ selectedFief.type }} ({{ selectedFief.faction.name }})
+    </h3>
 
-  <div class="flex flex-1 flex-col justify-between">
-    <div>
-      <app-assigned-character [fief]="selectedFief" />
+    <div class="flex flex-1 flex-col justify-between">
+      <div>
+        <app-assigned-character [fief]="selectedFief" />
 
-      <app-fief-actions [fief]="selectedFief" />
+        <app-fief-actions [fief]="selectedFief" />
 
-      <app-fief-upgrades [fief]="selectedFief" />
+        <app-fief-upgrades [fief]="selectedFief" />
 
-      <div class="mt-4">
-        <ng-container *ngIf="selectedFief?.type !== fiefTypeEnum.Empty">
-          <button
-            class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded cursor-pointer"
-            (click)="destroyFief()"
-            [disabled]="!selectedFief"
-          >
-            Destroy Fief
-          </button>
-        </ng-container>
+        <div class="mt-4">
+          @if (selectedFief.type !== fiefTypeEnum.Empty) {
+            <button
+              class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded cursor-pointer"
+              (click)="destroyFief()"
+              [disabled]="!selectedFief"
+            >
+              Destroy Fief
+            </button>
+          }
+        </div>
       </div>
+      <app-available-characters [fief]="selectedFief" />
     </div>
-    <app-available-characters [fief]="selectedFief" />
   </div>
-</div>
+}

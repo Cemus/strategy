@@ -23,8 +23,9 @@ import { MapComponent } from './features/map/map.component';
   styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit {
-  protected title = 'dynasty-warlords';
+  public title = 'dynasty-warlords';
 
+  protected loading: boolean = true;
   protected factions: Faction[] = [];
   protected cities: City[] = [];
   protected menu = '';
@@ -32,16 +33,19 @@ export class AppComponent implements OnInit {
 
   constructor(private gameStore: GameStoreService) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     if (!this.gameStore.isInitialized()) {
-      this.gameStore.init();
+      await this.gameStore.init();
     }
     this.factions = this.gameStore.getAllFactions();
     this.cities = this.gameStore.getAllCities();
+
     this.playerFaction = this.factions.find((f) => f.player)!;
 
     this.gameStore.selectedMenu$.subscribe((menu) => {
       this.menu = menu;
     });
+
+    this.loading = false;
   }
 }

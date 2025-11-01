@@ -62,7 +62,6 @@ export class MapComponent implements OnChanges, AfterViewInit {
 
   setupCities() {
     const svg = this.svgRef?.nativeElement;
-
     if (svg && this.cities && this.factions) {
       citiesSetup(svg, this.cities, this.factions);
     }

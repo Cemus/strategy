@@ -1,19 +1,24 @@
-<main class="flex flex-col h-screen">
+<main class="flex flex-col h-screen w-screen">
   <app-header></app-header>
 
-  <ng-container [ngSwitch]="menu">
-    <app-map
-      class="flex flex-1"
-      *ngSwitchCase="'map'"
-      [playerFaction]="playerFaction"
-      [factions]="factions"
-      [cities]="cities"
-    />
+  @switch (menu) {
+    @case ("map") {
+      <app-map
+        class="flex flex-1 overflow-hidden"
+        [playerFaction]="playerFaction"
+        [factions]="factions"
+        [cities]="cities"
+      />
+    }
+    @case ("fief") {
+      <app-fief-menu class="flex flex-1" />
+    }
+    @case ("report") {
+      <app-turn-report class="flex flex-1" />
+    }
+  }
 
-    <app-fief-menu *ngSwitchCase="'fief'" class="flex flex-1" />
-
-    <app-turn-report *ngSwitchCase="'report'" class="flex flex-1" />
-  </ng-container>
-
-  <app-footer [playerFaction]="playerFaction"></app-footer>
+  @if (!loading) {
+    <app-footer [playerFaction]="playerFaction"></app-footer>
+  }
 </main>

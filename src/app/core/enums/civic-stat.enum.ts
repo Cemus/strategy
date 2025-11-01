@@ -6,4 +6,5 @@ export enum CivicStat {
   Order = 'Order',
   Satisfaction = 'Satisfaction',
   Influence = 'Influence',
+  Security = 'Security',
 }

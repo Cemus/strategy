@@ -1,4 +1,4 @@
-<ng-container *ngIf="fief.type !== fiefTypeEnum.Empty">
+@if (fief.type !== fiefTypeEnum.Empty) {
   <label
     class="block text-slate-200 text-md font-bold mb-2"
     for="fiefAction-select"
@@ -14,8 +14,9 @@
     <option value="">
       {{ !fief.assigned ? "-- No character assigned --" : fief.currentAction }}
     </option>
-    <ng-container *ngFor="let action of getAvailableFiefActions()">
+
+    @for (action of getAvailableFiefActions(); track $index) {
       <option [value]="action">{{ action }}</option>
-    </ng-container>
+    }
   </select>
-</ng-container>
+}

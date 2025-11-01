@@ -11,19 +11,21 @@ export class MapControlsDirective implements OnInit, OnDestroy {
 
   private dragStart = { x: 0, y: 0 };
   private translate = { x: 0, y: 0 };
-  private scale = 1;
+  private scale = 0.5;
   private zoomSubscription: Subscription | undefined;
 
   constructor(
     private elRef: ElementRef<HTMLElement>,
-    private gameStore: GameStoreService
+    private gameStore: GameStoreService,
   ) {}
 
   ngOnInit(): void {
     this.svgRef = this.elRef.nativeElement.querySelector('svg')!;
     this.setupListeners();
-    this.zoomSubscription = this.gameStore.zoomScale$.subscribe((scale) => {
-      this.scale = scale;
+
+    this.zoomSubscription = this.gameStore.map$.subscribe((map) => {
+      this.scale = map.scale;
+      this.translate = { x: map.translationX, y: map.translationY };
       this.applyTransform();
     });
   }
@@ -47,6 +49,11 @@ export class MapControlsDirective implements OnInit, OnDestroy {
     this.translate.y += dy;
     this.dragStart = { x: event.clientX, y: event.clientY };
 
+    this.gameStore.updateMap({
+      scale: this.scale,
+      translationX: this.translate.x,
+      translationY: this.translate.y,
+    });
     this.applyTransform();
   }
 
@@ -69,20 +76,69 @@ export class MapControlsDirective implements OnInit, OnDestroy {
     this.translate.y += dy;
     this.dragStart = { x: touch.clientX, y: touch.clientY };
 
-    this.applyTransform();
+    this.gameStore.updateMap({
+      scale: this.scale,
+      translationX: this.translate.x,
+      translationY: this.translate.y,
+    });
+    this.applyTransform(false);
   }
 
   private onWheel = (event: WheelEvent) => {
-    const zoomSpeed = 0.005;
-    this.scale += -event.deltaY * zoomSpeed;
-    this.scale = Math.max(3, Math.min(7, this.scale));
-    this.gameStore.updateZoomScale(this.scale);
+    const containerBoundingBox =
+      this.svgRef?.parentElement?.getBoundingClientRect();
+    if (!containerBoundingBox || !this.svgRef) return;
 
-    this.applyTransform();
+    const zoomSpeed = 0.0015;
+    const prevScale = this.scale;
+    const delta = -event.deltaY * zoomSpeed;
+
+    this.scale += delta;
+    this.scale = Math.max(0.5, Math.min(2, this.scale));
+    const zoomingIn = this.scale >= prevScale;
+    const zoomFactor = this.scale / prevScale;
+
+    const mouseX = event.clientX - containerBoundingBox.left;
+    const mouseY = event.clientY - containerBoundingBox.top;
+
+    if (zoomingIn) {
+      this.translate.x -=
+        (mouseX - containerBoundingBox.width / 2 - this.translate.x) *
+        (zoomFactor - 1);
+
+      this.translate.y -=
+        (mouseY - containerBoundingBox.height / 2 - this.translate.y) *
+        (zoomFactor - 1);
+    } else {
+      const recenterFactor = 0.2;
+      this.translate.x += (0 - this.translate.x) * recenterFactor;
+      this.translate.y += (0 - this.translate.y) * recenterFactor;
+
+      if (this.scale <= 0.5) {
+        this.translate.x = 0;
+        this.translate.y = 0;
+      }
+    }
+
+    this.gameStore.updateMap({
+      scale: this.scale,
+      translationX: this.translate.x,
+      translationY: this.translate.y,
+    });
+    this.applyTransform(true);
   };
 
-  private applyTransform() {
+  private applyTransform(smooth = false) {
     if (!this.svgRef) return;
+
+    if (smooth) {
+      console.log('smooth');
+      this.svgRef.style.transition = 'transform 0.2s ease-out';
+    }
+    smooth
+      ? (this.svgRef.style.transition = 'transform 0.2s ease-out')
+      : (this.svgRef.style.transition = '');
+
     this.svgRef.style.transform = `translate(${this.translate.x}px, ${this.translate.y}px) scale(${this.scale})`;
   }
 
@@ -95,7 +151,7 @@ export class MapControlsDirective implements OnInit, OnDestroy {
       (e) => this.onTouchMove(e),
       {
         passive: true,
-      }
+      },
     );
 
     this.elRef.nativeElement.addEventListener(
@@ -103,7 +159,7 @@ export class MapControlsDirective implements OnInit, OnDestroy {
       (e) => this.onTouchStart(e),
       {
         passive: true,
-      }
+      },
     );
 
     this.elRef.nativeElement.addEventListener(
@@ -111,32 +167,32 @@ export class MapControlsDirective implements OnInit, OnDestroy {
       (e) => this.onMouseDown(e),
       {
         passive: true,
-      }
+      },
     );
     this.elRef.nativeElement.addEventListener(
       'mousemove',
       (e) => this.onMouseMove(e),
       {
         passive: true,
-      }
+      },
     );
   }
 
   private removeListeners() {
     this.elRef.nativeElement.removeEventListener('wheel', this.onWheel);
     this.elRef.nativeElement.removeEventListener('touchmove', (e) =>
-      this.onTouchMove(e)
+      this.onTouchMove(e),
     );
 
     this.elRef.nativeElement.removeEventListener('touchstart', (e) =>
-      this.onTouchStart(e)
+      this.onTouchStart(e),
     );
 
     this.elRef.nativeElement.removeEventListener('mousedown', (e) =>
-      this.onMouseDown(e)
+      this.onMouseDown(e),
     );
     this.elRef.nativeElement.removeEventListener('mousemove', (e) =>
-      this.onMouseMove(e)
+      this.onMouseMove(e),
     );
   }
 }
