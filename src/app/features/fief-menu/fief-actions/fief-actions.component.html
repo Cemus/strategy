@@ -5,18 +5,20 @@
     >Choose an action:</label
   >
   <select
+    [(ngModel)]="fief.currentAction"
     name="fiefActions"
     id="fiefAction-select"
     [disabled]="!fief.assigned"
     class="bg-slate-800 text-slate-200 border border-slate-200 rounded px-2 py-1 disabled:text-red-300 disabled:border-slate-800"
     (change)="onActionSelected($event)"
   >
-    <option value="">
-      {{ !fief.assigned ? "-- No character assigned --" : fief.currentAction }}
-    </option>
+    @if (!fief.assigned) {
+      <option value="">"-- No character assigned --"</option>
+    } @else {
+      <option [value]="fief.currentAction">{{ fief.currentAction }}</option>
+    }
 
     @for (action of getAvailableFiefActions(); track $index) {
-      console.log(action);
       <option [value]="action">{{ action }}</option>
     }
   </select>
