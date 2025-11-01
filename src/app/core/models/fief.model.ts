@@ -118,7 +118,7 @@ export class Fief {
             cost: 500,
             effect: { [CivicStat.Population]: 5 },
             bought: false,
-          }
+          },
         );
         break;
       case FiefType.Farm:
@@ -179,7 +179,7 @@ export class Fief {
   }
 
   public getUpgradeEffectsForAction(
-    action: string
+    action: string,
   ): Partial<Record<CivicStat, number>> {
     const total: Partial<Record<CivicStat, number>> = {};
 
