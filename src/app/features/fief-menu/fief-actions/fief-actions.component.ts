@@ -1,11 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Fief } from '../../../core/models/fief.model';
 import { FiefType } from '../../../core/enums/fief-type.enum';
 import { FiefAction } from '../../../core/enums/fief-action.enum';
