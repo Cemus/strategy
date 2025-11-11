@@ -1,29 +1,18 @@
 import { Injectable, Injector } from '@angular/core';
-import { City } from '../../models/city.model';
+import { City } from '../../models/city/city.model';
 import { WorldEvent } from '../../types/world-event.interface';
 import { GameStoreService } from '../game-store.service';
 
 @Injectable({ providedIn: 'root' })
 export default class CityEventService {
-  private _gameStore?: GameStoreService;
-
-  constructor(private injector: Injector) {}
-
-  private get gameStore(): GameStoreService {
-    if (!this._gameStore) {
-      this._gameStore = this.injector.get(GameStoreService);
-    }
-    return this._gameStore;
-  }
-
-  public generateEvents(): WorldEvent[] {
+  public generateEvents(cities: City[]): WorldEvent[] {
     const events: WorldEvent[] = [];
     const eventGenerators = [
       this.disorderEvent.bind(this),
       this.goldEvent.bind(this),
     ];
 
-    this.gameStore.getAllCities().forEach((city) => {
+    cities.forEach((city) => {
       eventGenerators.forEach((genFn) => {
         const event = genFn(city);
         if (event) events.push(event);

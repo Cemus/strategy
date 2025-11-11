@@ -5,19 +5,7 @@ import { Faction } from '../../models/faction/faction.model';
 
 @Injectable({ providedIn: 'root' })
 export default class FactionEventService {
-  private _gameStore?: GameStoreService;
-
-  constructor(private injector: Injector) {}
-
-  private get gameStore(): GameStoreService {
-    if (!this._gameStore) {
-      this._gameStore = this.injector.get(GameStoreService);
-    }
-    return this._gameStore;
-  }
-
-  public generateEvents(): WorldEvent[] {
-    const factions = this.gameStore.getAllFactions();
+  public generateEvents(factions: Faction[]): WorldEvent[] {
     return [...this.randomFactionEvents(factions)];
   }
 
