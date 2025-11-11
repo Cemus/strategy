@@ -40,7 +40,11 @@ async function buildCitiesFromSvg(
     const city = new City(
       name,
       faction,
-      [new Fief(FiefType.Castle, faction)],
+      [
+        new Fief(FiefType.Castle, faction),
+        new Fief(FiefType.Empty, faction),
+        new Fief(FiefType.Empty, faction),
+      ],
       pathData,
     );
 
