@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { Fief } from '../../../core/models/fief.model';
-import { GameStoreService } from '../../../core/services/game-store.service';
 import { Character } from '../../../core/models/character/character.model';
 import { FiefType } from '../../../core/enums/fief-type.enum';
+import GameManager from '../../../core/manager/game-manager';
+import { Fief } from '../../../core/models/fief/fief.model';
 
 @Component({
   selector: 'app-available-characters',
@@ -16,12 +16,12 @@ export class AvailableCharactersComponent {
 
   protected fiefTypeEnum = FiefType;
 
-  constructor(private gameStore: GameStoreService) {}
+  constructor(private readonly manager: GameManager) {}
 
   assignCharacterToFief(character: Character) {
     this.fief.assigned == character
-      ? this.gameStore.assignCharacterToFief(this.fief.id, null)
-      : this.gameStore.assignCharacterToFief(this.fief.id, character);
+      ? this.manager.assignCharacterToFief(this.fief.id, null)
+      : this.manager.assignCharacterToFief(this.fief.id, character);
   }
 
   getTraitLabels(character: Character): string {

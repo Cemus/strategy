@@ -1,18 +1,15 @@
 <div class="flex gap-1">
   <p>{{ statName | capitalize }}</p>
   <p>
-    {{ currentStatValue }}
+    {{ currentValue }}
     <span
       [ngClass]="{
-        'text-yellow-500':
-          statComparison() === 'equal',
-        'text-green-500':
-          statComparison() === 'superior',
-        'text-red-500':
-          statComparison() === 'inferior',
+        'text-yellow-500': statComparison() === 'equal',
+        'text-green-500': statComparison() === 'superior',
+        'text-red-500': statComparison() === 'inferior',
       }"
     >
-      {{ currentStatValue | statSign : previousStatValue }}
+      {{ currentValue | statSign: prevValue }}
     </span>
   </p>
 </div>

@@ -6,7 +6,7 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core';
-import { City } from '../../../../core/models/city.model';
+import { City } from '../../../../core/models/city/city.model';
 import { Faction } from '../../../../core/models/faction/faction.model';
 import { getDistanceToClosestCity } from '../../../../core/utils/formulae';
 
@@ -86,7 +86,7 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
         label: `Fortify city ${this.selectedCity?.name}`,
         show:
           this.selectedCity?.faction?.name === this.playerFaction?.name &&
-          this.selectedCity?.defenseLvl < 3,
+          this.selectedCity?.stats.order < 3,
         stat: 'DEF',
         requirement: this.getCommandRequirement('fortify'),
         bgColor: 'bg-blue-700',
@@ -120,7 +120,7 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
     return (
       this.selectedCity &&
       this.playerFaction?.cities.some((ally) =>
-        this.selectedCity?.neighbors.some((n) => n.name === ally.name)
+        this.selectedCity?.neighbors.some((n) => n.name === ally.name),
       )
     );
   }
@@ -128,7 +128,7 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
   isCityAtWar(): boolean {
     return (
       this.selectedCity?.faction?.atWar.some(
-        (f) => f.name === this.playerFaction?.name
+        (f) => f.name === this.playerFaction?.name,
       ) ?? false
     );
   }
@@ -144,7 +144,7 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
         return base;
 
       case 'fortify':
-        return base * (this.selectedCity.defenseLvl + 1);
+        return base * (this.selectedCity.stats.order + 1);
 
       case 'askTruce': {
         let totalEnemy = 0;
@@ -152,12 +152,12 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
         this.selectedCity.faction?.cities.forEach((city) =>
           city.fiefs.forEach((f) => {
             if (f.faction === this.selectedCity?.faction) totalEnemy++;
-          })
+          }),
         );
         this.playerFaction.cities.forEach((city) =>
           city.fiefs.forEach((f) => {
             if (f.faction === this.selectedCity?.faction) totalPlayer++;
-          })
+          }),
         );
         req = (totalEnemy - totalPlayer) * 5;
         return req < 1 ? 5 : req;
@@ -179,8 +179,8 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
       textColor === 'black'
         ? 'text-black'
         : textColor === 'slate-100'
-        ? 'text-slate-100'
-        : '';
+          ? 'text-slate-100'
+          : '';
 
     return `px-2 ${bgColor} ${textClass} border-solid w-2/6 text-center border-black border-2 font-semibold lg:text-base text-xs`;
   }

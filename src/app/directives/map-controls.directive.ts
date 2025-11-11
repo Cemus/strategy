@@ -16,14 +16,14 @@ export class MapControlsDirective implements OnInit, OnDestroy {
 
   constructor(
     private elRef: ElementRef<HTMLElement>,
-    private gameStore: GameStoreService,
+    private store: GameStoreService,
   ) {}
 
   ngOnInit(): void {
     this.svgRef = this.elRef.nativeElement.querySelector('svg')!;
     this.setupListeners();
 
-    this.zoomSubscription = this.gameStore.map$.subscribe((map) => {
+    this.zoomSubscription = this.store.map.map$.subscribe((map) => {
       this.scale = map.scale;
       this.translate = { x: map.translationX, y: map.translationY };
       this.applyTransform();
@@ -49,7 +49,7 @@ export class MapControlsDirective implements OnInit, OnDestroy {
     this.translate.y += dy;
     this.dragStart = { x: event.clientX, y: event.clientY };
 
-    this.gameStore.updateMap({
+    this.store.map.update({
       scale: this.scale,
       translationX: this.translate.x,
       translationY: this.translate.y,
@@ -76,7 +76,7 @@ export class MapControlsDirective implements OnInit, OnDestroy {
     this.translate.y += dy;
     this.dragStart = { x: touch.clientX, y: touch.clientY };
 
-    this.gameStore.updateMap({
+    this.store.map.update({
       scale: this.scale,
       translationX: this.translate.x,
       translationY: this.translate.y,
@@ -120,7 +120,7 @@ export class MapControlsDirective implements OnInit, OnDestroy {
       }
     }
 
-    this.gameStore.updateMap({
+    this.store.map.update({
       scale: this.scale,
       translationX: this.translate.x,
       translationY: this.translate.y,

@@ -1,4 +1,4 @@
-import { City } from '../models/city.model';
+import { City } from '../models/city/city.model';
 import { Faction } from '../models/faction/faction.model';
 
 export class Formulae {
@@ -14,14 +14,14 @@ export function calculateRequiredXP(currentLevel: number) {
 
 export function getCityById(id: string, cities: City[]) {
   const cityByName = Object.fromEntries(
-    cities.map((city) => [city.name, city])
+    cities.map((city) => [city.name, city]),
   );
   return cityByName[id];
 }
 
 export function getDistanceToClosestCity(
   selectedCity: City,
-  playerFaction: Faction
+  playerFaction: Faction,
 ) {
   const selectedCityName = selectedCity.name;
   if (!selectedCityName || !playerFaction) {
@@ -34,7 +34,7 @@ export function getDistanceToClosestCity(
     if (playerControlledCity) {
       const distance = calculateDistanceBetweenCities(
         selectedCity,
-        playerControlledCity
+        playerControlledCity,
       );
       if (distance < minDistance) {
         minDistance = distance;
@@ -47,7 +47,7 @@ export function getDistanceToClosestCity(
 
 export function calculateDistanceBetweenCities(
   provinceA: City,
-  provinceB: City
+  provinceB: City,
 ) {
   const queue: [City, number][] = [];
   const visited: Set<string> = new Set();

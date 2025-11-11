@@ -12,9 +12,9 @@ export class FooterComponent {
   @Input() playerFaction!: Faction;
   @Input() currentMenu!: string;
 
-  constructor(private gameStore: GameStoreService) {}
+  constructor(private store: GameStoreService) {}
 
   onMenuClick(menu: string) {
-    this.gameStore.updateSelectedMenu(menu);
+    this.store.vue.update(menu);
   }
 }

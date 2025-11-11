@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BuildCommandsComponent } from '../build-commands/build-commands.component';
 import { Faction } from '../../../../core/models/faction/faction.model';
-import { City } from '../../../../core/models/city.model';
+import { City } from '../../../../core/models/city/city.model';
 
 @Component({
   selector: 'app-city-commands-menu',

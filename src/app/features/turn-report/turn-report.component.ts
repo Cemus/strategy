@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { TurnReport } from '../../core/types/turn-report.interface';
 import { GameStoreService } from '../../core/services/game-store.service';
 import { CommonModule } from '@angular/common';
@@ -17,17 +23,18 @@ export class TurnReportComponent implements OnInit {
   protected previousTurnReport!: TurnReport;
   protected playerFaction!: Faction;
 
-  constructor(private readonly gameStore: GameStoreService) {}
+  constructor(private readonly store: GameStoreService) {}
 
   ngOnInit(): void {
-    this.gameStore.turnReport$.subscribe((report) => {
-      this.currentTurnReport = report;
+    this.store.report.turnReports$.subscribe((reports) => {
+      const current = reports[reports.length - 1];
+      const prev = reports[reports.length - 2];
+      this.currentTurnReport = current;
+      this.previousTurnReport = prev;
     });
-    this.gameStore.previousTurnReport$.subscribe((report) => {
-      this.previousTurnReport = report;
-    });
-    this.playerFaction = this.gameStore
-      .getAllFactions()
+
+    this.playerFaction = this.store.faction
+      .getAll()
       .filter((f) => f.player === true)[0];
   }
 }

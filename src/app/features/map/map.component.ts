@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { GameStoreService } from '../../core/services/game-store.service';
 import { CommonModule } from '@angular/common';
-import { City } from '../../core/models/city.model';
+import { City } from '../../core/models/city/city.model';
 import { Faction } from '../../core/models/faction/faction.model';
 import { citiesSetup } from '../../core/utils/cities-setup-utils';
 import { MapControlsDirective } from '../../directives/map-controls.directive';
@@ -41,10 +41,10 @@ export class MapComponent implements OnChanges, AfterViewInit {
   isDragging = false;
   private initialized = false;
 
-  constructor(private gameStore: GameStoreService) {}
+  constructor(private store: GameStoreService) {}
 
   ngOnInit() {
-    this.selectedCity = this.gameStore.getSelectedCity();
+    this.selectedCity = this.store.city.getSelected();
   }
 
   ngAfterViewInit() {
@@ -68,7 +68,7 @@ export class MapComponent implements OnChanges, AfterViewInit {
   }
 
   handleCitySelection(city: City) {
-    this.gameStore.updateSelectedCity(city);
-    this.selectedCity = this.gameStore.getSelectedCity();
+    this.store.city.updateSelected(city);
+    this.selectedCity = this.store.city.getSelected();
   }
 }

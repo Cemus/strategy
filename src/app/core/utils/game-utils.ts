@@ -1,7 +1,8 @@
 import { FiefType } from '../enums/fief-type.enum';
-import { City } from '../models/city.model';
+import { Character } from '../models/character/character.model';
+import { City } from '../models/city/city.model';
 import { Faction } from '../models/faction/faction.model';
-import { Fief } from '../models/fief.model';
+import { Fief } from '../models/fief/fief.model';
 import { CharacterFactory } from './character-utils';
 
 async function loadMapSvg(): Promise<string> {
@@ -12,14 +13,14 @@ async function loadMapSvg(): Promise<string> {
 
 async function buildCitiesFromSvg(
   factions: Faction[],
-  factionCityNames: Record<string, string[]>
+  factionCityNames: Record<string, string[]>,
 ): Promise<City[]> {
   const svgText = await loadMapSvg();
   const parser = new DOMParser();
   const mapSvg = parser.parseFromString(svgText, 'image/svg+xml');
 
   const pathElements = Array.from(
-    mapSvg.querySelectorAll('path[data-name]')
+    mapSvg.querySelectorAll('path[data-name]'),
   ) as SVGPathElement[];
 
   const cities: City[] = [];
@@ -29,7 +30,7 @@ async function buildCitiesFromSvg(
     const pathData = pathEl.getAttribute('d')!;
 
     let faction = factions.find((f) =>
-      (factionCityNames[f.name] || []).includes(name)
+      (factionCityNames[f.name] || []).includes(name),
     );
 
     if (!faction) {
@@ -40,7 +41,7 @@ async function buildCitiesFromSvg(
       name,
       faction,
       [new Fief(FiefType.Castle, faction)],
-      pathData
+      pathData,
     );
 
     faction.cities.push(city);
@@ -69,55 +70,16 @@ async function buildCitiesFromSvg(
 
 function buildFactions(): Faction[] {
   const aureth = new Faction('Aureth', 'red', [], true);
-  const aurethCharacters = [
-    CharacterFactory.generateCharacter(aureth),
-    CharacterFactory.generateCharacter(aureth),
-    CharacterFactory.generateCharacter(aureth),
-    CharacterFactory.generateCharacter(aureth),
-  ];
-  aureth.characters = aurethCharacters;
-
   const dralnor = new Faction('Dalnor', 'aqua', [], false);
-  const dralnorCharacters = [
-    CharacterFactory.generateCharacter(dralnor),
-    CharacterFactory.generateCharacter(dralnor),
-    CharacterFactory.generateCharacter(dralnor),
-    CharacterFactory.generateCharacter(dralnor),
-  ];
-  dralnor.characters = dralnorCharacters;
-
   const sylvaris = new Faction('Sylvaris', 'purple', [], false);
-  const sylvarisCharacters = [
-    CharacterFactory.generateCharacter(sylvaris),
-    CharacterFactory.generateCharacter(sylvaris),
-    CharacterFactory.generateCharacter(sylvaris),
-    CharacterFactory.generateCharacter(sylvaris),
-  ];
-  sylvaris.characters = sylvarisCharacters;
-
   const kethral = new Faction('Kethral', 'Teal', [], false);
-  const kethralCharacters = [
-    CharacterFactory.generateCharacter(kethral),
-    CharacterFactory.generateCharacter(kethral),
-    CharacterFactory.generateCharacter(kethral),
-    CharacterFactory.generateCharacter(kethral),
-  ];
-  kethral.characters = kethralCharacters;
-
   const barbarians = new Faction('Barbarians', 'yellow', [], false);
-  const barbariansCharacters = [
-    CharacterFactory.generateCharacter(barbarians),
-    CharacterFactory.generateCharacter(barbarians),
-    CharacterFactory.generateCharacter(barbarians),
-    CharacterFactory.generateCharacter(barbarians),
-  ];
-  barbarians.characters = barbariansCharacters;
-
   return [aureth, dralnor, sylvaris, kethral, barbarians];
 }
 
 export async function buildDefaultData() {
   const factions: Faction[] = buildFactions();
+  const characters: Character[] = [];
 
   const factionCityNames: Record<string, string[]> = {
     Aureth: ['Forkal'],
@@ -126,7 +88,15 @@ export async function buildDefaultData() {
     Kethral: ['Sahram'],
   };
 
+  factions.forEach((f) => {
+    for (let index = 0; index < 3; index++) {
+      const character = CharacterFactory.generateCharacter(f);
+      f.characters.push(character);
+      characters.push(character);
+    }
+  });
+
   const cities = await buildCitiesFromSvg(factions, factionCityNames);
 
-  return { cities, factions };
+  return { cities, factions, characters };
 }

@@ -42,14 +42,7 @@
               <small class="text-green-400">(Bought)</small>
             }
             @if (!upgrade.bought && fief.faction.stats.gold < upgrade.cost) {
-              <small
-                *ngIf="
-                  !upgrade.bought && fief.faction.stats.gold < upgrade.cost
-                "
-                class="text-red-300"
-              >
-                (Too expensive)
-              </small>
+              <small class="text-red-300"> (Too expensive) </small>
             }
           </button>
         </li>

@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { Fief, FiefUpgrade } from '../../../core/models/fief.model';
 import { FiefType } from '../../../core/enums/fief-type.enum';
 import { GameStoreService } from '../../../core/services/game-store.service';
+import GameManager from '../../../core/manager/game-manager';
+import { Fief, FiefUpgrade } from '../../../core/models/fief/fief.model';
 
 @Component({
   selector: 'app-fief-upgrades',
@@ -15,9 +16,9 @@ export class FiefUpgradesComponent {
 
   protected fiefTypeEnum = FiefType;
 
-  constructor(private gameStore: GameStoreService) {}
+  constructor(private manager: GameManager) {}
 
   buildFief(upgrade: FiefUpgrade) {
-    this.gameStore.upgradeFief(this.fief.id, upgrade);
+    this.manager.upgradeFief(this.fief.id, upgrade);
   }
 }

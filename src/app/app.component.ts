@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { City } from './core/models/city.model';
+import { City } from './core/models/city/city.model';
 import { Faction } from './core/models/faction/faction.model';
 import { GameStoreService } from './core/services/game-store.service';
 import { HeaderComponent } from './shared/components/header/header.component';
@@ -31,18 +31,18 @@ export class AppComponent implements OnInit {
   protected menu = '';
   protected playerFaction!: Faction;
 
-  constructor(private gameStore: GameStoreService) {}
+  constructor(private store: GameStoreService) {}
 
   async ngOnInit(): Promise<void> {
-    if (!this.gameStore.isInitialized()) {
-      await this.gameStore.init();
+    if (!this.store.isInitialized()) {
+      await this.store.init();
     }
-    this.factions = this.gameStore.getAllFactions();
-    this.cities = this.gameStore.getAllCities();
+    this.factions = this.store.faction.getAll();
+    this.cities = this.store.city.getAll();
 
     this.playerFaction = this.factions.find((f) => f.player)!;
 
-    this.gameStore.selectedMenu$.subscribe((menu) => {
+    this.store.vue.selectedMenu$.subscribe((menu) => {
       this.menu = menu;
     });
 

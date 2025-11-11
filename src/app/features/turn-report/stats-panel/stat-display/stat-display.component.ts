@@ -1,6 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { SharedModule } from '../../../../shared/shared.module';
+import GameManagerService from '../../../../core/manager/game-manager';
+import { CivicStat } from '../../../../core/models/faction/civic-stats.model';
+import { TurnReport } from '../../../../core/types/turn-report.interface';
 
 @Component({
   selector: 'app-stat-display',
@@ -8,22 +17,48 @@ import { SharedModule } from '../../../../shared/shared.module';
   templateUrl: './stat-display.component.html',
   styleUrl: './stat-display.component.css',
 })
-export class StatDisplayComponent {
-  @Input() statName: string = '';
-  @Input() currentStatValue: number = 0;
-  @Input() previousStatValue: number = 0;
+export class StatDisplayComponent implements OnInit, OnChanges {
+  @Input() statName!: string;
+  @Input() factionId!: string;
+  @Input() currentTurnReport!: TurnReport;
+  @Input() previousTurnReport!: TurnReport;
+
+  protected currentValue: number = 0;
+  protected prevValue: number = 0;
+
+  constructor(protected readonly manager: GameManagerService) {}
+
+  ngOnInit(): void {
+    this.updateStatValues();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['currentTurnReport'] || changes['previousTurnReport']) {
+      this.updateStatValues();
+    }
+  }
 
   statComparison(): string {
-    if (this.statName == 'gold') {
-      console.log(this.currentStatValue);
-      console.log(this.previousStatValue);
-    }
-    if (this.currentStatValue === this.previousStatValue) {
+    if (this.currentValue === this.prevValue) {
       return 'equal';
-    } else if (this.currentStatValue > this.previousStatValue) {
+    } else if (this.currentValue > this.prevValue) {
       return 'superior';
     } else {
       return 'inferior';
     }
+  }
+
+  updateStatValues() {
+    this.currentValue = this.manager.getReportStat(
+      this.factionId,
+      this.statName as keyof CivicStat,
+      this.currentTurnReport,
+    );
+
+    this.prevValue = this.manager.getReportStat(
+      this.factionId,
+      this.statName as keyof CivicStat,
+      this.previousTurnReport,
+    );
   }
 }

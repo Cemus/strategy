@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GameStoreService } from '../../../core/services/game-store.service';
 import { CommonModule } from '@angular/common';
+import GameManager from '../../../core/manager/game-manager';
 
 @Component({
   selector: 'app-header',
@@ -11,13 +12,16 @@ import { CommonModule } from '@angular/common';
 export class HeaderComponent implements OnInit {
   protected turn: number = 1;
 
-  constructor(private readonly gameStore: GameStoreService) {}
+  constructor(
+    private readonly store: GameStoreService,
+    private readonly manager: GameManager,
+  ) {}
 
   ngOnInit(): void {
-    this.gameStore.turn$.subscribe((arg) => (this.turn = arg));
+    this.store.turn.turn$.subscribe((arg) => (this.turn = arg));
   }
 
   endTurn() {
-    this.gameStore.endTurn();
+    this.manager.endTurn();
   }
 }
