@@ -31,54 +31,6 @@ export class Fief {
     this._upgrades = this.initUpgrades();
   }
 
-  get id() {
-    return this._id;
-  }
-
-  set id(val: string) {
-    this._id = val;
-  }
-
-  get type() {
-    return this._type;
-  }
-
-  set type(val: FiefType) {
-    this._type = val;
-  }
-
-  get currentAction() {
-    return this._currentAction;
-  }
-
-  set currentAction(val: FiefAction) {
-    this._currentAction = val;
-  }
-
-  get assigned() {
-    return this._assigned;
-  }
-
-  set assigned(val: Character | null) {
-    this._assigned = val;
-  }
-
-  get upgrades() {
-    return this._upgrades;
-  }
-
-  set upgrades(val: FiefUpgrade[]) {
-    this._upgrades = val;
-  }
-
-  get faction() {
-    return this._faction;
-  }
-
-  set faction(val: Faction) {
-    this._faction = val;
-  }
-
   private getInitialSlotCount(type: FiefType): number {
     switch (type) {
       case FiefType.Castle:
@@ -159,6 +111,7 @@ export class Fief {
         break;
     }
     this.upgrades = this.initUpgrades();
+    this.currentAction = this.getAvailableActions()[0];
   }
 
   public upgrade(upgrade: FiefUpgrade) {
@@ -211,5 +164,53 @@ export class Fief {
     this.upgrades = this.initUpgrades();
     this.currentAction = this.getAvailableActions()[0];
     this.assigned = null;
+  }
+
+  get id() {
+    return this._id;
+  }
+
+  set id(val: string) {
+    this._id = val;
+  }
+
+  get type() {
+    return this._type;
+  }
+
+  set type(val: FiefType) {
+    this._type = val;
+  }
+
+  get currentAction() {
+    return this._currentAction;
+  }
+
+  set currentAction(val: FiefAction) {
+    this._currentAction = val;
+  }
+
+  get assigned() {
+    return this._assigned;
+  }
+
+  set assigned(val: Character | null) {
+    this._assigned = val;
+  }
+
+  get upgrades() {
+    return this._upgrades;
+  }
+
+  set upgrades(val: FiefUpgrade[]) {
+    this._upgrades = val;
+  }
+
+  get faction() {
+    return this._faction;
+  }
+
+  set faction(val: Faction) {
+    this._faction = val;
   }
 }
