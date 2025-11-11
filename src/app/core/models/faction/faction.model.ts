@@ -1,9 +1,11 @@
 import { Character } from '../character/character.model';
-import { City } from '../city.model';
-import { Fief } from '../fief.model';
-import { FactionStats } from './faction-stats.model';
+import { City } from '../city/city.model';
+import { v4 as uuidv4 } from 'uuid';
+import { CivicStat } from './civic-stats.model';
+import { Fief } from '../fief/fief.model';
 
 export class Faction {
+  private _id: string;
   private _name: string;
   private _color: string;
   private _cities: City[] = [];
@@ -11,7 +13,7 @@ export class Faction {
   private _atWar: Faction[] = [];
   private _characters: Character[];
   private _player: boolean;
-  private _stats: FactionStats = new FactionStats();
+  private _stats: CivicStat = new CivicStat();
   private _spied: boolean = false;
   private _actionCount: number = 3;
 
@@ -19,12 +21,26 @@ export class Faction {
     name: string,
     color: string,
     characters: Character[],
-    player: boolean
+    player: boolean,
   ) {
+    this._id = uuidv4();
     this._name = name;
     this._color = color;
     this._player = player;
     this._characters = characters;
+  }
+
+  public applyTurnEconomy() {
+    this.cities.forEach((c) => {
+      this.stats.gold += c.stats.gold;
+    });
+  }
+
+  public get id(): string {
+    return this._id;
+  }
+  public set id(value: string) {
+    this._id = value;
   }
 
   get name() {
@@ -83,11 +99,11 @@ export class Faction {
     this._player = val;
   }
 
-  get stats(): FactionStats {
+  get stats(): CivicStat {
     return this._stats;
   }
 
-  set stats(val: FactionStats) {
+  set stats(val: CivicStat) {
     this._stats = val;
   }
 
@@ -112,7 +128,7 @@ export class Faction {
       this.name,
       this.color,
       this.characters,
-      this.player
+      this.player,
     );
 
     clone.characters = structuredClone(this.characters);

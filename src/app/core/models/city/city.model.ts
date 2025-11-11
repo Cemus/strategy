@@ -1,6 +1,7 @@
-import { Faction } from './faction/faction.model';
-import { Fief } from './fief.model';
+import { CivicStat } from '../faction/civic-stats.model';
+import { Faction } from '../faction/faction.model';
 import { v4 as uuidv4 } from 'uuid';
+import { Fief } from '../fief/fief.model';
 
 export class City {
   private _id: string;
@@ -8,9 +9,9 @@ export class City {
   private _faction: Faction;
   private _neighbors: City[];
   private _fiefs: Fief[];
-  private _defenseLvl: number;
   private _pathData: string;
   private _mapColor: string;
+  private _stats: CivicStat = new CivicStat(500, 0, 0, 0, 0, 0, 0);
 
   constructor(name: string, faction: Faction, fiefs: Fief[], pathData: string) {
     this._name = name;
@@ -19,7 +20,6 @@ export class City {
     this._pathData = pathData;
 
     this._id = uuidv4();
-    this._defenseLvl = 0;
     this._neighbors = [];
     this._mapColor = 'gray';
   }
@@ -64,14 +64,6 @@ export class City {
     this._fiefs = val;
   }
 
-  get defenseLvl() {
-    return this._defenseLvl;
-  }
-
-  set defenseLvl(val: number) {
-    this._defenseLvl = val;
-  }
-
   get pathData() {
     return this._pathData;
   }
@@ -86,5 +78,12 @@ export class City {
 
   set mapColor(val: string) {
     this._mapColor = val;
+  }
+
+  public get stats(): CivicStat {
+    return this._stats;
+  }
+  public set stats(value: CivicStat) {
+    this._stats = value;
   }
 }

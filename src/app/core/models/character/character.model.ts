@@ -1,8 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 import { CharacterStats } from './character-stats.model';
 import { Trait } from '../../types/trait.interface';
-import { Fief } from '../fief.model';
 import { Faction } from '../faction/faction.model';
+import { Fief } from '../fief/fief.model';
 
 export class Character {
   private _id: string;
@@ -23,7 +23,7 @@ export class Character {
     stats: CharacterStats,
     avatar: string,
     traits: Trait[] = [],
-    faction: Faction
+    faction: Faction,
   ) {
     this._id = uuidv4();
     this._name = name;
