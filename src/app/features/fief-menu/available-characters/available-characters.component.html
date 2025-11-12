@@ -7,11 +7,16 @@
           class="p-2 bg-slate-800 rounded hover:bg-slate-700 cursor-pointer"
           (click)="assignCharacterToFief(character)"
           [ngClass]="{
-            'text-yellow-500': character.job === fief,
+            'text-yellow-500': character.job !== null,
             'text-red-500': character.exhausted === true,
           }"
         >
-          <p class="font-bold">{{ character.name }}</p>
+          <p class="font-bold">
+            {{ character.name }}
+            @if (character.job) {
+              <span class="text-sm">({{ character.job.type }})</span>
+            }
+          </p>
           <p class="text-sm">
             Martial: {{ character.stats.might }} | Int:{{
               character.stats.knowledge

@@ -19,6 +19,7 @@ export class FiefUpgradesComponent {
   constructor(private manager: GameManager) {}
 
   buildFief(upgrade: FiefUpgrade) {
+    console.log('build');
     this.manager.upgradeFief(this.fief.id, upgrade);
   }
 }
