@@ -7,12 +7,35 @@
   border: solid 2px var(--color-red-600);
   transition: all;
   transition-duration: 250ms;
-  width: 150px;
   font-size: large;
-  user-select:none;
+  user-select: none;
+  min-width: 6rem;
+}
+
+.menu-text {
+  text-align: center;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  border: solid 2px var(--color-red-600);
+  transition: all;
+  transition-duration: 250ms;
+  font-size: large;
+  user-select: none;
 }
 
 .menu-button:hover {
   letter-spacing: 0.05rem;
   border-color: rgb(253, 253, 253);
+}
+
+@media (max-width: 720px) {
+  .menu-button {
+    padding-inline: 1rem;
+    min-width: 0;
+  }
+  .menu-button,
+  .menu-text {
+    font-size: small;
+    min-width: none;
+  }
 }
