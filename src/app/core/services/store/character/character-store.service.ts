@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Character } from '../../models/character/character.model';
+import { Character } from '../../../models/character/character.model';
 
 @Injectable({ providedIn: 'root' })
 export default class CharacterStoreService {

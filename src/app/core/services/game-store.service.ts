@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { generateTurnReport } from '../utils/turn-report';
 import { buildDefaultData } from '../utils/game-utils';
-import FactionStoreService from './store/faction-store.service';
-import CityStoreService from './store/city-store.service';
-import FiefStoreService from './store/fief-store.service';
-import CharacterStoreService from './store/character-store.service';
-import VueStoreService from './store/vue-store.service';
-import TurnStoreService from './store/turn-store.service';
-import ReportStoreService from './store/report-store.service';
-import MapStoreService from './store/map-store.service';
+import CharacterStoreService from './store/character/character-store.service';
+import CityStoreService from './store/city/city-store.service';
+import FactionStoreService from './store/faction/faction-store.service';
+import FiefStoreService from './store/fief/fief-store.service';
+import MapStoreService from './store/map/map-store.service';
+import ReportStoreService from './store/report/report-store.service';
+import TurnStoreService from './store/turn/turn-store.service';
+import VueStoreService from './store/vue/vue-store.service';
 
 @Injectable({
   providedIn: 'root',

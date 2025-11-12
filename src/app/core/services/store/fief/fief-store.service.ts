@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
-import { Fief } from '../../models/fief/fief.model';
+import { Fief } from '../../../models/fief/fief.model';
 
 @Injectable({ providedIn: 'root' })
 export default class FiefStoreService {

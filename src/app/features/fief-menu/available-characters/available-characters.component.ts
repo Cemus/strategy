@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { Character } from '../../../core/models/character/character.model';
 import { FiefType } from '../../../core/enums/fief-type.enum';
-import GameManager from '../../../core/services/manager/game-manager';
+import GameManager from '../../../core/services/manager/game-manager.service';
 import { Fief } from '../../../core/models/fief/fief.model';
 
 @Component({
@@ -20,8 +20,8 @@ export class AvailableCharactersComponent {
 
   assignCharacterToFief(character: Character) {
     this.fief.assigned == character
-      ? this.manager.assignCharacterToFief(this.fief.id, null)
-      : this.manager.assignCharacterToFief(this.fief.id, character);
+      ? this.manager.fief.assignCharacter(this.fief.id, null)
+      : this.manager.fief.assignCharacter(this.fief.id, character);
   }
 
   getTraitLabels(character: Character): string {

@@ -6,7 +6,7 @@ import { AssignedCharacterComponent } from './assigned-character/assigned-charac
 import { FiefActionsComponent } from './fief-actions/fief-actions.component';
 import { FiefUpgradesComponent } from './fief-upgrades/fief-upgrades.component';
 import { AvailableCharactersComponent } from './available-characters/available-characters.component';
-import GameManager from '../../core/services/manager/game-manager';
+import GameManager from '../../core/services/manager/game-manager.service';
 import { Fief, FiefUpgrade } from '../../core/models/fief/fief.model';
 @Component({
   selector: 'app-fief-menu',
@@ -38,12 +38,12 @@ export class FiefMenuComponent implements OnInit {
   destroyFief() {
     if (!this.selectedFief) return;
 
-    this.manager.destroyFief(this.selectedFief.id);
+    this.manager.fief.destroyFief(this.selectedFief.id);
   }
 
   buildFief(upgrade: FiefUpgrade) {
     if (!this.selectedFief) return;
 
-    this.manager.upgradeFief(this.selectedFief?.id, upgrade);
+    this.manager.fief.upgradeFief(this.selectedFief?.id, upgrade);
   }
 }

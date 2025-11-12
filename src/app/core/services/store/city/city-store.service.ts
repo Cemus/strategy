@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
-import { City } from '../../models/city/city.model';
+import { City } from '../../../models/city/city.model';
 
 @Injectable({ providedIn: 'root' })
 export default class CityStoreService {

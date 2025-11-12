@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GameStoreService } from '../../../core/services/game-store.service';
 import { CommonModule } from '@angular/common';
-import GameManager from '../../../core/services/manager/game-manager';
+import GameManager from '../../../core/services/manager/game-manager.service';
 
 @Component({
   selector: 'app-header',
@@ -22,6 +22,6 @@ export class HeaderComponent implements OnInit {
   }
 
   endTurn() {
-    this.manager.endTurn();
+    this.manager.turn.end();
   }
 }

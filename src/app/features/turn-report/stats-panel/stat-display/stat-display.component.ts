@@ -7,7 +7,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { SharedModule } from '../../../../shared/shared.module';
-import GameManagerService from '../../../../core/services/manager/game-manager';
+import GameManagerService from '../../../../core/services/manager/game-manager.service';
 import { FactionStat } from '../../../../core/models/faction/faction-stat.model';
 import { TurnReport } from '../../../../core/types/turn-report.interface';
 import { CivicStat } from '../../../../core/enums/civic-stat.enum';
@@ -50,13 +50,13 @@ export class StatDisplayComponent implements OnInit, OnChanges {
   }
 
   updateStatValues() {
-    this.currentValue = this.manager.getReportStat(
+    this.currentValue = this.manager.report.getReportStat(
       this.factionId,
       this.statName as keyof Record<CivicStat, number>,
       this.currentTurnReport,
     );
 
-    this.prevValue = this.manager.getReportStat(
+    this.prevValue = this.manager.report.getReportStat(
       this.factionId,
       this.statName as keyof Record<CivicStat, number>,
       this.previousTurnReport,

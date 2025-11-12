@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Faction } from '../../models/faction/faction.model';
+import { Faction } from '../../../models/faction/faction.model';
 
 @Injectable({ providedIn: 'root' })
 export default class FactionStoreService {

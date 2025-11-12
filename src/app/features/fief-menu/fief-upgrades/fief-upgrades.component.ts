@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { FiefType } from '../../../core/enums/fief-type.enum';
 import { GameStoreService } from '../../../core/services/game-store.service';
-import GameManager from '../../../core/services/manager/game-manager';
+import GameManager from '../../../core/services/manager/game-manager.service';
 import { Fief, FiefUpgrade } from '../../../core/models/fief/fief.model';
 
 @Component({
@@ -20,6 +20,6 @@ export class FiefUpgradesComponent {
 
   buildFief(upgrade: FiefUpgrade) {
     console.log('build');
-    this.manager.upgradeFief(this.fief.id, upgrade);
+    this.manager.fief.upgradeFief(this.fief.id, upgrade);
   }
 }
