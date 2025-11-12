@@ -4,7 +4,6 @@ import { Character } from '../models/character/character.model';
 import { GameStoreService } from '../services/game-store.service';
 import { Trait } from '../types/trait.interface';
 import { generateTurnReport } from '../utils/turn-report';
-import { FactionStat } from '../models/faction/faction-stat.model';
 import { Fief, FiefUpgrade } from '../models/fief/fief.model';
 import { Faction } from '../models/faction/faction.model';
 import { TurnReport } from '../types/turn-report.interface';

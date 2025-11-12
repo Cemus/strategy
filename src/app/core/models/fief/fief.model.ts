@@ -9,7 +9,9 @@ export type FiefUpgrade = {
   name: string;
   cost: number;
   effect?: Partial<Record<CivicStat, number>>;
-  actionBoosts?: Record<string, Partial<Record<CivicStat, number>>>;
+  actionBoosts?: Partial<
+    Record<FiefAction, Partial<Record<CivicStat, number>>>
+  >;
   bought: boolean;
 };
 
@@ -36,13 +38,13 @@ export class Fief {
 
     switch (this.type) {
       case FiefType.Farm:
-        base = { [CivicStat.Population]: 30, [CivicStat.Gold]: -15 };
+        base = { [CivicStat.Resource]: 30, [CivicStat.Gold]: -15 };
         break;
       case FiefType.Market:
-        base = { [CivicStat.Influence]: 30, [CivicStat.Gold]: -15 };
+        base = { [CivicStat.Influence]: 5, [CivicStat.Gold]: 10 };
         break;
       case FiefType.Castle:
-        base = { [CivicStat.Order]: 40, [CivicStat.Gold]: -25 };
+        base = { [CivicStat.Security]: 40, [CivicStat.Gold]: -25 };
         break;
       default:
         base = {};
@@ -63,9 +65,9 @@ export class Fief {
       case FiefType.Farm:
         return [FiefAction.Cultivate, FiefAction.Irrigate];
       case FiefType.Castle:
-        return [FiefAction.Recruit, FiefAction.Train];
+        return [FiefAction.Recruit, FiefAction.Patrol];
       case FiefType.Market:
-        return [FiefAction.Trade, FiefAction.Tax];
+        return [FiefAction.Buy, FiefAction.Sell];
       default:
         return [];
     }
@@ -80,46 +82,134 @@ export class Fief {
           {
             name: 'Build Farm',
             cost: 500,
-            effect: {},
+            effect: { [CivicStat.Resource]: 30, [CivicStat.Gold]: -15 },
+            actionBoosts: {
+              [FiefAction.Cultivate]: { [CivicStat.Resource]: 15 },
+            },
             bought: false,
           },
           {
             name: 'Build Castle',
             cost: 500,
-            effect: {},
+            effect: { [CivicStat.Security]: 40, [CivicStat.Gold]: -25 },
+            actionBoosts: {
+              [FiefAction.Recruit]: {
+                [CivicStat.Population]: -100,
+                [CivicStat.Conscript]: 100,
+              },
+              [FiefAction.Patrol]: { [CivicStat.Security]: 15 },
+            },
             bought: false,
           },
           {
             name: 'Build Market',
             cost: 500,
-            effect: {},
+            effect: { [CivicStat.Influence]: 5, [CivicStat.Gold]: 10 },
+            actionBoosts: {
+              [FiefAction.Buy]: {
+                [CivicStat.Resource]: 50,
+                [CivicStat.Gold]: -50,
+              },
+              [FiefAction.Sell]: {
+                [CivicStat.Gold]: 50,
+                [CivicStat.Resource]: -50,
+              },
+            },
             bought: false,
           },
         );
         break;
+
       case FiefType.Farm:
-        upgrades.push({
-          name: 'Irrigation System',
-          cost: 500,
-          effect: { [CivicStat.Population]: 2 },
-          actionBoosts: {
-            Cultivate: { [CivicStat.Population]: 5 },
+        upgrades.push(
+          {
+            name: 'Build Farm',
+            cost: 500,
+            effect: { [CivicStat.Resource]: 30, [CivicStat.Gold]: -15 },
+            actionBoosts: {
+              [FiefAction.Cultivate]: { [CivicStat.Resource]: 15 },
+            },
+            bought: true,
           },
-          bought: false,
-        });
+          {
+            name: 'Irrigation System',
+            cost: 500,
+            effect: { [CivicStat.Resource]: 10 },
+            bought: false,
+          },
+        );
         break;
+
+      case FiefType.Market:
+        upgrades.push(
+          {
+            name: 'Build Market',
+            cost: 500,
+            effect: { [CivicStat.Influence]: 5, [CivicStat.Gold]: 10 },
+            actionBoosts: {
+              [FiefAction.Buy]: {
+                [CivicStat.Resource]: 50,
+                [CivicStat.Gold]: -50,
+              },
+              [FiefAction.Sell]: {
+                [CivicStat.Gold]: 50,
+                [CivicStat.Resource]: -50,
+              },
+            },
+            bought: true,
+          },
+          {
+            name: 'Trading Post',
+            cost: 500,
+            effect: { [CivicStat.Gold]: 10, [CivicStat.Influence]: 10 },
+            bought: false,
+          },
+        );
+        break;
+
       case FiefType.Castle:
-        upgrades.push({
-          name: 'Rampart',
-          cost: 500,
-          effect: { [CivicStat.Security]: 5 },
-          bought: false,
-        });
+        upgrades.push(
+          {
+            name: 'Build Castle',
+            cost: 500,
+            effect: { [CivicStat.Security]: 40, [CivicStat.Gold]: -25 },
+            actionBoosts: {
+              [FiefAction.Recruit]: {
+                [CivicStat.Population]: -100,
+                [CivicStat.Conscript]: 100,
+              },
+              [FiefAction.Patrol]: { [CivicStat.Security]: 15 },
+            },
+            bought: true,
+          },
+          {
+            name: 'Rampart',
+            cost: 500,
+            effect: { [CivicStat.Security]: 10 },
+            bought: false,
+          },
+        );
         break;
       default:
         break;
     }
     return upgrades;
+  }
+
+  public upgrade(upgrade: FiefUpgrade) {
+    if (this.faction.stats.Gold < upgrade.cost || upgrade.bought) {
+      return;
+    }
+
+    this.faction.stats.Gold -= upgrade.cost;
+
+    const targetUpgrade = this.upgrades.find((u) => u.name === upgrade.name);
+    if (targetUpgrade) {
+      targetUpgrade.bought = true;
+    }
+    if (this.type === FiefType.Empty) {
+      this.build(upgrade);
+    }
   }
 
   public build(upgrade: FiefUpgrade) {
@@ -138,30 +228,11 @@ export class Fief {
     this.currentAction = this.getAvailableActions()[0];
   }
 
-  public upgrade(upgrade: FiefUpgrade) {
-    console.log(this.faction.stats.Gold < upgrade.cost);
-    if (this.faction.stats.Gold < upgrade.cost || upgrade.bought) {
-      return;
-    }
-
-    this.faction.stats.Gold -= upgrade.cost;
-
-    if (this.type === FiefType.Empty) {
-      this.build(upgrade);
-    } else {
-      const targetUpgrade = this.upgrades.find((u) => u.name === upgrade.name);
-      if (targetUpgrade) {
-        targetUpgrade.bought = true;
-      }
-    }
-  }
-
   public getUpgradeEffectsForAction(): Partial<Record<CivicStat, number>> {
     const total: Partial<Record<CivicStat, number>> = {};
 
     this.upgrades.forEach((upgrade) => {
       if (!upgrade.bought) return;
-
       if (upgrade.effect) {
         for (const stat in upgrade.effect) {
           total[stat as CivicStat] =
@@ -170,15 +241,22 @@ export class Fief {
         }
       }
 
-      if (upgrade.actionBoosts && upgrade.actionBoosts[this.currentAction]) {
-        for (const stat in upgrade.actionBoosts[this.currentAction]) {
-          total[stat as CivicStat] =
-            (total[stat as CivicStat] ?? 0) +
-            (upgrade.actionBoosts[this.currentAction][stat as CivicStat] ?? 0);
+      if (this.assigned) {
+        if (upgrade.actionBoosts && upgrade.actionBoosts[this.currentAction]) {
+          const boostsForAction =
+            upgrade.actionBoosts?.[
+              this.currentAction as keyof typeof FiefAction
+            ];
+          if (boostsForAction) {
+            for (const stat in boostsForAction) {
+              total[stat as CivicStat] =
+                (total[stat as CivicStat] ?? 0) +
+                (boostsForAction[stat as CivicStat] ?? 0);
+            }
+          }
         }
       }
     });
-
     return total;
   }
 

@@ -19,7 +19,6 @@ export class Faction {
     Resource: 500,
     Population: 1000,
     Conscript: 500,
-    Order: 80,
     Satisfaction: 80,
     Influence: 50,
     Security: 50,

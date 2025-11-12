@@ -86,7 +86,7 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
         label: `Fortify city ${this.selectedCity?.name}`,
         show:
           this.selectedCity?.faction?.name === this.playerFaction?.name &&
-          this.playerFaction.stats.Order > 3,
+          this.playerFaction.stats.Security > 3,
         stat: 'DEF',
         requirement: this.getCommandRequirement('fortify'),
         bgColor: 'bg-blue-700',
@@ -144,7 +144,7 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
         return base;
 
       case 'fortify':
-        return Math.floor(base / (this.playerFaction.stats.Order / 100) + 1);
+        return Math.floor(base / (this.playerFaction.stats.Security / 100) + 1);
 
       case 'askTruce': {
         let totalEnemy = 0;

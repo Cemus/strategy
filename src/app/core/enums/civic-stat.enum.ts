@@ -3,7 +3,6 @@ export enum CivicStat {
   Resource = 'Resource',
   Population = 'Population',
   Conscript = 'Conscript',
-  Order = 'Order',
   Satisfaction = 'Satisfaction',
   Influence = 'Influence',
   Security = 'Security',

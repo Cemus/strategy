@@ -1,10 +1,10 @@
 export enum FiefAction {
-  Train = 'Train troops',
   Recruit = 'Recruit',
+  Patrol = 'Patrol',
 
   Cultivate = 'Cultivate',
   Irrigate = 'Irrigate',
 
-  Trade = 'Trade',
-  Tax = 'Tax',
+  Buy = 'Buy',
+  Sell = 'Sell',
 }
