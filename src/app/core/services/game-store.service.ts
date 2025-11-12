@@ -40,7 +40,7 @@ export class GameStoreService {
       this.city.updateAll(cities);
       this.faction.updateAll(factions);
       this.character.updateAll(characters);
-      this.report.updateAll([generateTurnReport(factions)]);
+      this.report.updateAll([generateTurnReport(factions, [])]);
       this.initializationSubject.next(true);
     }
   }
