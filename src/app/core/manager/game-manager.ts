@@ -4,14 +4,28 @@ import { Character } from '../models/character/character.model';
 import { GameStoreService } from '../services/game-store.service';
 import { Trait } from '../types/trait.interface';
 import { generateTurnReport } from '../utils/turn-report';
-import { CivicStat } from '../models/faction/civic-stats.model';
-import { FiefUpgrade } from '../models/fief/fief.model';
+import { FactionStat } from '../models/faction/faction-stat.model';
+import { Fief, FiefUpgrade } from '../models/fief/fief.model';
 import { Faction } from '../models/faction/faction.model';
 import { TurnReport } from '../types/turn-report.interface';
+import { CivicStat } from '../enums/civic-stat.enum';
 
 @Injectable({ providedIn: 'root' })
 export default class GameManagerService {
   constructor(private readonly store: GameStoreService) {}
+
+  getFiefById(id: string): Fief | null {
+    const factions = this.store.faction.getAll();
+    for (const faction of factions) {
+      for (const city of faction.cities) {
+        const fief = city.fiefs.find((f) => f.id === id);
+        if (fief) {
+          return fief;
+        }
+      }
+    }
+    return null;
+  }
 
   assignCharacterToFief(fiefId: string, character: Character | null): void {
     const factions = this.store.faction.getAll();
@@ -32,6 +46,13 @@ export default class GameManagerService {
           }
 
           if (character !== null) {
+            if (character.job !== null) {
+              const currentFief = this.getFiefById(character.job.id);
+              if (currentFief) {
+                character.job = null;
+                currentFief.assigned = null;
+              }
+            }
             const previousCharacter = faction.characters.find(
               (c) => c.id === fief.assigned?.id,
             );
@@ -82,20 +103,18 @@ export default class GameManagerService {
       }
     }
   }
+
   upgradeFief(fiefId: string, upgrade: FiefUpgrade): void {
     const factions = this.store.faction.getAll();
-
     for (const faction of factions) {
       for (const city of faction.cities) {
         const fief = city.fiefs.find((f) => f.id === fiefId);
-
         if (fief) {
           fief.upgrade(upgrade);
           this.store.faction.updateAll(factions);
           this.store.fief.updateSelectedFief(fief);
+          return;
         }
-
-        return;
       }
     }
   }
@@ -151,8 +170,11 @@ export default class GameManagerService {
 
   applyTurnEconomy(factions: Faction[]) {
     factions.forEach((f) => {
-      f.applyTurnEconomy();
-      this.store.faction.updateSingle(f);
+      if (f.player) {
+        //temp
+        f.applyTurnEconomy();
+        this.store.faction.updateSingle(f);
+      }
     });
   }
 
@@ -172,13 +194,14 @@ export default class GameManagerService {
 
   getReportStat(
     factionId: string,
-    stat: keyof CivicStat,
+    stat: keyof Record<CivicStat, number>,
     report: TurnReport | null,
   ): number {
     if (!report) return 0;
     const factionSnap = report.factionsSnapshot.find(
       (f) => f.factionId === factionId,
     );
+
     return factionSnap?.stats[stat] ?? 0;
   }
 }

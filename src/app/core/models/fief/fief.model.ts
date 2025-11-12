@@ -31,13 +31,31 @@ export class Fief {
     this._upgrades = this.initUpgrades();
   }
 
-  private getInitialSlotCount(type: FiefType): number {
-    switch (type) {
+  public getEconomicOutput(): Partial<Record<CivicStat, number>> {
+    let base: Partial<Record<CivicStat, number>> = {};
+
+    switch (this.type) {
+      case FiefType.Farm:
+        base = { [CivicStat.Population]: 30, [CivicStat.Gold]: -15 };
+        break;
+      case FiefType.Market:
+        base = { [CivicStat.Influence]: 30, [CivicStat.Gold]: -15 };
+        break;
       case FiefType.Castle:
-        return 3;
+        base = { [CivicStat.Order]: 40, [CivicStat.Gold]: -25 };
+        break;
       default:
-        return 1;
+        base = {};
     }
+
+    const upgradeEffects = this.getUpgradeEffectsForAction();
+    for (const key in upgradeEffects) {
+      base[key as keyof Partial<Record<CivicStat, number>>] =
+        (base[key as keyof Partial<Record<CivicStat, number>>] ?? 0) +
+        (upgradeEffects[key as keyof Partial<Record<CivicStat, number>>] ?? 0);
+    }
+
+    return base;
   }
 
   public getAvailableActions(): FiefAction[] {
@@ -62,13 +80,19 @@ export class Fief {
           {
             name: 'Build Farm',
             cost: 500,
-            effect: { [CivicStat.Population]: 5 },
+            effect: {},
             bought: false,
           },
           {
             name: 'Build Castle',
             cost: 500,
-            effect: { [CivicStat.Population]: 5 },
+            effect: {},
+            bought: false,
+          },
+          {
+            name: 'Build Market',
+            cost: 500,
+            effect: {},
             bought: false,
           },
         );
@@ -115,11 +139,12 @@ export class Fief {
   }
 
   public upgrade(upgrade: FiefUpgrade) {
-    if (this.faction.stats.gold < upgrade.cost || upgrade.bought) {
+    console.log(this.faction.stats.Gold < upgrade.cost);
+    if (this.faction.stats.Gold < upgrade.cost || upgrade.bought) {
       return;
     }
 
-    this.faction.stats.gold -= upgrade.cost;
+    this.faction.stats.Gold -= upgrade.cost;
 
     if (this.type === FiefType.Empty) {
       this.build(upgrade);
@@ -131,9 +156,7 @@ export class Fief {
     }
   }
 
-  public getUpgradeEffectsForAction(
-    action: string,
-  ): Partial<Record<CivicStat, number>> {
+  public getUpgradeEffectsForAction(): Partial<Record<CivicStat, number>> {
     const total: Partial<Record<CivicStat, number>> = {};
 
     this.upgrades.forEach((upgrade) => {
@@ -147,11 +170,11 @@ export class Fief {
         }
       }
 
-      if (upgrade.actionBoosts && upgrade.actionBoosts[action]) {
-        for (const stat in upgrade.actionBoosts[action]) {
+      if (upgrade.actionBoosts && upgrade.actionBoosts[this.currentAction]) {
+        for (const stat in upgrade.actionBoosts[this.currentAction]) {
           total[stat as CivicStat] =
             (total[stat as CivicStat] ?? 0) +
-            (upgrade.actionBoosts[action][stat as CivicStat] ?? 0);
+            (upgrade.actionBoosts[this.currentAction][stat as CivicStat] ?? 0);
         }
       }
     });

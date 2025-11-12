@@ -1,8 +1,9 @@
 import { Character } from '../character/character.model';
 import { City } from '../city/city.model';
 import { v4 as uuidv4 } from 'uuid';
-import { CivicStat } from './civic-stats.model';
+import { FactionStat } from './faction-stat.model';
 import { Fief } from '../fief/fief.model';
+import { CivicStat } from '../../enums/civic-stat.enum';
 
 export class Faction {
   private _id: string;
@@ -13,7 +14,16 @@ export class Faction {
   private _atWar: Faction[] = [];
   private _characters: Character[];
   private _player: boolean;
-  private _stats: CivicStat = new CivicStat();
+  private _stats: Record<CivicStat, number> = {
+    Gold: 1000,
+    Resource: 500,
+    Population: 1000,
+    Conscript: 500,
+    Order: 80,
+    Satisfaction: 80,
+    Influence: 50,
+    Security: 50,
+  };
   private _spied: boolean = false;
   private _actionCount: number = 3;
 
@@ -31,9 +41,24 @@ export class Faction {
   }
 
   public applyTurnEconomy() {
+    const total: Partial<Record<CivicStat, number>> = {};
+
     this.cities.forEach((c) => {
-      this.stats.gold += c.stats.gold;
+      const cityEconomicOutput = c.computeCityEconomy();
+
+      for (const key in cityEconomicOutput) {
+        total[key as keyof Partial<Record<CivicStat, number>>] =
+          (total[key as keyof Partial<Record<CivicStat, number>>] ?? 0) +
+          (cityEconomicOutput[
+            key as keyof Partial<Record<CivicStat, number>>
+          ] ?? 0);
+      }
     });
+
+    for (const key in this.stats) {
+      this.stats[key as keyof Record<CivicStat, number>] +=
+        total[key as keyof Partial<Record<CivicStat, number>>] ?? 0;
+    }
   }
 
   public get id(): string {
@@ -99,11 +124,11 @@ export class Faction {
     this._player = val;
   }
 
-  get stats(): CivicStat {
+  get stats(): Record<CivicStat, number> {
     return this._stats;
   }
 
-  set stats(val: CivicStat) {
+  set stats(val: Record<CivicStat, number>) {
     this._stats = val;
   }
 

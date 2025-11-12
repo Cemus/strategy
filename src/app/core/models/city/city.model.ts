@@ -1,7 +1,7 @@
-import { CivicStat } from '../faction/civic-stats.model';
 import { Faction } from '../faction/faction.model';
 import { v4 as uuidv4 } from 'uuid';
 import { Fief } from '../fief/fief.model';
+import { CivicStat } from '../../enums/civic-stat.enum';
 
 export class City {
   private _id: string;
@@ -11,7 +11,6 @@ export class City {
   private _fiefs: Fief[];
   private _pathData: string;
   private _mapColor: string;
-  private _stats: CivicStat = new CivicStat(500, 0, 0, 0, 0, 0, 0);
 
   constructor(name: string, faction: Faction, fiefs: Fief[], pathData: string) {
     this._name = name;
@@ -22,6 +21,20 @@ export class City {
     this._id = uuidv4();
     this._neighbors = [];
     this._mapColor = 'gray';
+  }
+
+  public computeCityEconomy() {
+    const totals: Partial<Record<CivicStat, number>> = {};
+
+    for (const fief of this.fiefs) {
+      const output = fief.getEconomicOutput();
+      for (const key in output) {
+        totals[key as keyof Partial<Record<CivicStat, number>>] =
+          (totals[key as keyof Partial<Record<CivicStat, number>>] ?? 0) +
+          (output[key as keyof Partial<Record<CivicStat, number>>] ?? 0);
+      }
+    }
+    return totals;
   }
 
   get id() {
@@ -78,12 +91,5 @@ export class City {
 
   set mapColor(val: string) {
     this._mapColor = val;
-  }
-
-  public get stats(): CivicStat {
-    return this._stats;
-  }
-  public set stats(value: CivicStat) {
-    this._stats = value;
   }
 }

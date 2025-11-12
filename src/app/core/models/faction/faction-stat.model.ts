@@ -1,4 +1,4 @@
-export class CivicStat {
+export class FactionStat {
   public gold: number;
   public resource: number;
   public population: number;
