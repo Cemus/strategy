@@ -8,8 +8,9 @@ import {
 } from '@angular/core';
 import { SharedModule } from '../../../../shared/shared.module';
 import GameManagerService from '../../../../core/manager/game-manager';
-import { CivicStat } from '../../../../core/models/faction/civic-stats.model';
+import { FactionStat } from '../../../../core/models/faction/faction-stat.model';
 import { TurnReport } from '../../../../core/types/turn-report.interface';
+import { CivicStat } from '../../../../core/enums/civic-stat.enum';
 
 @Component({
   selector: 'app-stat-display',
@@ -51,13 +52,13 @@ export class StatDisplayComponent implements OnInit, OnChanges {
   updateStatValues() {
     this.currentValue = this.manager.getReportStat(
       this.factionId,
-      this.statName as keyof CivicStat,
+      this.statName as keyof Record<CivicStat, number>,
       this.currentTurnReport,
     );
 
     this.prevValue = this.manager.getReportStat(
       this.factionId,
-      this.statName as keyof CivicStat,
+      this.statName as keyof Record<CivicStat, number>,
       this.previousTurnReport,
     );
   }
