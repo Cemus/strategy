@@ -6,7 +6,7 @@ import { AssignedCharacterComponent } from './assigned-character/assigned-charac
 import { FiefActionsComponent } from './fief-actions/fief-actions.component';
 import { FiefUpgradesComponent } from './fief-upgrades/fief-upgrades.component';
 import { AvailableCharactersComponent } from './available-characters/available-characters.component';
-import GameManager from '../../core/manager/game-manager';
+import GameManager from '../../core/services/manager/game-manager';
 import { Fief, FiefUpgrade } from '../../core/models/fief/fief.model';
 @Component({
   selector: 'app-fief-menu',

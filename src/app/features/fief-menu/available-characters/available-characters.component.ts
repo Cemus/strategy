@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { Character } from '../../../core/models/character/character.model';
 import { FiefType } from '../../../core/enums/fief-type.enum';
-import GameManager from '../../../core/manager/game-manager';
+import GameManager from '../../../core/services/manager/game-manager';
 import { Fief } from '../../../core/models/fief/fief.model';
 
 @Component({

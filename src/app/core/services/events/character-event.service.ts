@@ -3,7 +3,7 @@ import { GameStoreService } from '../game-store.service';
 import { Character } from '../../models/character/character.model';
 import { WorldEvent } from '../../types/world-event.interface';
 import { CharacterFactory } from '../../utils/character-utils';
-import GameManager from '../../manager/game-manager';
+import GameManager from '../manager/game-manager';
 import { City } from '../../models/city/city.model';
 import { Trait } from '../../types/trait.interface';
 

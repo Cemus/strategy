@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
-import { CharacterStats } from '../models/character/character-stats.model';
-import { Character } from '../models/character/character.model';
-import { GameStoreService } from '../services/game-store.service';
-import { Trait } from '../types/trait.interface';
-import { generateTurnReport } from '../utils/turn-report';
-import { Fief, FiefUpgrade } from '../models/fief/fief.model';
-import { Faction } from '../models/faction/faction.model';
+import { CharacterStats } from '../../models/character/character-stats.model';
+import { Character } from '../../models/character/character.model';
+import { GameStoreService } from '../game-store.service';
+import { Trait } from '../../types/trait.interface';
+import { generateTurnReport } from '../../utils/turn-report';
+import { Fief, FiefUpgrade } from '../../models/fief/fief.model';
+import { Faction } from '../../models/faction/faction.model';
 import { v4 as uuidv4 } from 'uuid';
-import { TurnReport } from '../types/turn-report.interface';
-import { CivicStat } from '../enums/civic-stat.enum';
-import { WorldEvent } from '../types/world-event.interface';
+import { TurnReport } from '../../types/turn-report.interface';
+import { CivicStat } from '../../enums/civic-stat.enum';
+import { WorldEvent } from '../../types/world-event.interface';
 
 @Injectable({ providedIn: 'root' })
 export default class GameManagerService {
