@@ -14,7 +14,10 @@ export default class CityStoreService {
     this.citiesSubject.next(cities);
   }
 
-  updateSingle() {}
+  updateSingle(city: City) {
+    const cities = this.getAll().filter((c) => c.id !== city.id);
+    this.updateAll([...cities, city]);
+  }
 
   getSelected() {
     return this.selectedCitySubject.getValue();

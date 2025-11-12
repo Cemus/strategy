@@ -7,9 +7,21 @@ export default class FiefStoreService {
   private selectedFiefSubject = new BehaviorSubject<Fief | null>(null);
   selectedFief$ = this.selectedFiefSubject.asObservable();
 
-  updateAll() {}
+  private fiefsSubject = new BehaviorSubject<Fief[]>([]);
+  fiefs$ = this.fiefsSubject.asObservable();
 
-  updateSingle() {}
+  updateAll(fiefs: Fief[]) {
+    this.fiefsSubject.next(fiefs);
+  }
+
+  updateSingle(fief: Fief) {
+    const fiefs = this.getAll();
+    this.updateAll([...fiefs, fief]);
+  }
+
+  getAll() {
+    return this.fiefsSubject.getValue();
+  }
 
   updateSelectedFief(fief: Fief) {
     this.selectedFiefSubject.next(fief);
