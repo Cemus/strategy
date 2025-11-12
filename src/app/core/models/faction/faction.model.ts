@@ -1,7 +1,6 @@
 import { Character } from '../character/character.model';
 import { City } from '../city/city.model';
 import { v4 as uuidv4 } from 'uuid';
-import { FactionStat } from './faction-stat.model';
 import { Fief } from '../fief/fief.model';
 import { CivicStat } from '../../enums/civic-stat.enum';
 

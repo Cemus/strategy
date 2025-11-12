@@ -6,8 +6,10 @@ import { Trait } from '../types/trait.interface';
 import { generateTurnReport } from '../utils/turn-report';
 import { Fief, FiefUpgrade } from '../models/fief/fief.model';
 import { Faction } from '../models/faction/faction.model';
+import { v4 as uuidv4 } from 'uuid';
 import { TurnReport } from '../types/turn-report.interface';
 import { CivicStat } from '../enums/civic-stat.enum';
+import { WorldEvent } from '../types/world-event.interface';
 
 @Injectable({ providedIn: 'root' })
 export default class GameManagerService {
@@ -160,7 +162,8 @@ export default class GameManagerService {
     const currentFactions = this.store.faction.getAll();
 
     this.applyTurnEconomy(currentFactions);
-    const turnReport = generateTurnReport(currentFactions);
+    const worldEvents = this.generateEvents(currentFactions);
+    const turnReport = generateTurnReport(currentFactions, worldEvents);
 
     this.store.turn.changeTurn();
     this.store.vue.update('report');
@@ -177,7 +180,58 @@ export default class GameManagerService {
     });
   }
 
-  generateEvents() {}
+  generateEvents(factions: Faction[]): WorldEvent[] {
+    const events: WorldEvent[] = [];
+
+    factions.forEach((faction) => {
+      faction.cities.forEach((city) => {
+        city.fiefs.forEach((fief) => {
+          const char = fief.assigned;
+          if (!char) return;
+
+          const roll = Math.random() * 100;
+          const competence = char.stats.diplomacy + char.stats.governance;
+          const successChance = competence / 2;
+
+          if (roll < successChance) {
+            const effect = { [CivicStat.Resource]: 10 };
+            events.push({
+              id: uuidv4(),
+              factionId: faction.id,
+              fiefId: fief.id,
+              characterId: char.id,
+              title: `${char.name} succeeded at ${city.name}'s ${fief.type.toLowerCase()}`,
+              description: `The work of ${char.name} paid off. 10 resources gained!`,
+              effects: effect,
+            });
+
+            Object.entries(effect).forEach(([key, value]) => {
+              const statName = key as CivicStat;
+              if (value !== undefined) {
+                faction.stats[statName] =
+                  (faction.stats[statName] ?? 0) + value;
+              }
+            });
+          } else if (roll > 90) {
+            events.push({
+              id: uuidv4(),
+              factionId: faction.id,
+              fiefId: fief.id,
+              characterId: char.id,
+              title: `${char.name} failed at ${city.name}'s ${fief.type.toLowerCase()}`,
+              description: `${char.name} messed up at the ${fief.type.toLowerCase()}, lost 10 Gold.`,
+              effects: { [CivicStat.Gold]: -10 },
+            });
+            faction.stats[CivicStat.Gold] -= 10;
+          }
+          this.store.fief.updateSingle(fief);
+        });
+        this.store.city.updateSingle(city);
+      });
+      this.store.faction.updateSingle(faction);
+    });
+    return events;
+  }
 
   getCurrentReport(): TurnReport | null {
     const reports = this.store.report.getAll();

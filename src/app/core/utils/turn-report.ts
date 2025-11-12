@@ -3,8 +3,12 @@ import {
   FactionStatSnapShot,
   TurnReport,
 } from '../types/turn-report.interface';
+import { WorldEvent } from '../types/world-event.interface';
 
-export function generateTurnReport(factions: Faction[]): TurnReport {
+export function generateTurnReport(
+  factions: Faction[],
+  worldEvents: WorldEvent[],
+): TurnReport {
   const factionsSnapshot: FactionStatSnapShot[] = [];
 
   factions.forEach((f) => {
@@ -17,5 +21,6 @@ export function generateTurnReport(factions: Faction[]): TurnReport {
 
   return {
     factionsSnapshot: factionsSnapshot,
+    worldEvents: worldEvents,
   };
 }

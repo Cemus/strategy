@@ -1,15 +1,11 @@
+import { CivicStat } from '../enums/civic-stat.enum';
+
 export interface WorldEvent {
-  title: string;
-  type:
-    | 'relationImproved'
-    | 'traitGain'
-    | 'statGain'
-    | 'disorder'
-    | 'factionBonus'
-    | 'gold';
-  message: string;
+  id: string;
+  factionId: string;
+  fiefId?: string;
   characterId?: string;
-  characters?: [string, string];
-  cityId?: string;
-  factionId?: string;
+  title: string;
+  description: string;
+  effects?: Partial<Record<CivicStat, number>>;
 }
