@@ -62,16 +62,19 @@ export class EventManagerService {
       }
     }
     const roll = Math.random() * 100;
-    const event =
-      roll < rule.chance(...args)
-        ? rule.success(...args)
-        : rule.failure?.(...args);
-
-    if (event) {
-      events.push(event);
+    if (roll < rule.chance(...args)) {
+      if (rule.onSuccess) {
+        rule.onSuccess(...args);
+      }
+      events.push(rule.success(...args));
+    } else {
+      if (rule.onFailure) {
+        rule.onFailure(...args);
+      }
+      if (rule.failure) {
+        events.push(rule.failure(...args));
+      }
     }
-
-    rule.onApply?.(...args);
   }
 
   applyEventEffects(events: WorldEvent[]) {

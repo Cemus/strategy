@@ -28,7 +28,10 @@ export const characterEventRules: EventRule<[Character]>[] = [
         [CivicStat.Influence]: -10,
       },
     }),
-    onApply: (character: Character) => {
+    onSuccess: (character: Character) => {
+      character.stats.loyalty += 10;
+    },
+    onFailure: (character: Character) => {
       if (character.job) {
         character.job.assigned = null;
         character.job = null;

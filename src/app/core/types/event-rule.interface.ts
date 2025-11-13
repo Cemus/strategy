@@ -10,5 +10,6 @@ export interface EventRule<Args extends any[]> {
   success: (...args: Args) => WorldEvent;
   failure?: (...args: Args) => WorldEvent;
   weight?: number;
-  onApply?: (...args: Args) => void;
+  onSuccess?: (...args: Args) => void;
+  onFailure?: (...args: Args) => void;
 }

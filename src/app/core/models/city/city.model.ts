@@ -25,6 +25,7 @@ export class City {
 
   public computeCityEconomy() {
     const totals: Partial<Record<CivicStat, number>> = {};
+    const cityBaseRevenue = 100;
 
     for (const fief of this.fiefs) {
       const output = fief.getEconomicOutput();
@@ -34,6 +35,8 @@ export class City {
           (output[key as keyof Partial<Record<CivicStat, number>>] ?? 0);
       }
     }
+
+    totals[CivicStat.Gold] = (totals[CivicStat.Gold] ?? 0) + cityBaseRevenue;
     return totals;
   }
 
