@@ -17,6 +17,6 @@ export class CityFieftMenuComponent {
 
   onFiefClick(fief: Fief) {
     this.store.fief.updateSelectedFief(fief);
-    this.store.vue.update('fief');
+    this.store.view.update('fief');
   }
 }
