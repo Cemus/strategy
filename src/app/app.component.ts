@@ -42,7 +42,7 @@ export class AppComponent implements OnInit {
 
     this.playerFaction = this.factions.find((f) => f.player)!;
 
-    this.store.vue.selectedMenu$.subscribe((menu) => {
+    this.store.view.selectedMenu$.subscribe((menu) => {
       this.menu = menu;
     });
 

@@ -158,11 +158,11 @@ export class CharacterFactory {
     const name = this.getRandomName();
     const gender: 'Male' | 'Female' = Math.random() > 0.5 ? 'Male' : 'Female';
     const stats = new CharacterStats(
-      Formulae.getRandomNumber(1, 10),
-      Formulae.getRandomNumber(1, 10),
-      Formulae.getRandomNumber(1, 10),
-      Formulae.getRandomNumber(1, 10),
-      Formulae.getRandomNumber(1, 10)
+      Formulae.getRandomNumber(1, 50),
+      Formulae.getRandomNumber(1, 50),
+      Formulae.getRandomNumber(1, 50),
+      Formulae.getRandomNumber(1, 50),
+      Formulae.getRandomNumber(1, 50),
     );
     const avatar = this.getRandomAvatar(gender.toLowerCase());
     const traits = this.generateRandomTraits();
@@ -185,7 +185,7 @@ export class CharacterFactory {
 
   public static getRandomTrait(existingTraits: Trait[]): Trait | null {
     const availableTraits = this.traits.filter(
-      (t) => !existingTraits.includes(t)
+      (t) => !existingTraits.includes(t),
     );
 
     if (availableTraits.length === 0) {

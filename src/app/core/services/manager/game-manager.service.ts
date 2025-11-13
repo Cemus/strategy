@@ -19,7 +19,6 @@ import { TurnManagerService } from './turn/turn-manager.service';
 @Injectable({ providedIn: 'root' })
 export default class GameManagerService {
   constructor(
-    private readonly store: GameStoreService,
     readonly character: CharacterManagerService,
     readonly fief: FiefManagerService,
     readonly event: EventManagerService,

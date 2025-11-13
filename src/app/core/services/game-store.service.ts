@@ -9,7 +9,7 @@ import FiefStoreService from './store/fief/fief-store.service';
 import MapStoreService from './store/map/map-store.service';
 import ReportStoreService from './store/report/report-store.service';
 import TurnStoreService from './store/turn/turn-store.service';
-import VueStoreService from './store/vue/vue-store.service';
+import ViewStoreService from './store/view/view-store.service';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +23,7 @@ export class GameStoreService {
     readonly city: CityStoreService,
     readonly fief: FiefStoreService,
     readonly character: CharacterStoreService,
-    readonly vue: VueStoreService,
+    readonly view: ViewStoreService,
     readonly turn: TurnStoreService,
     readonly report: ReportStoreService,
     readonly map: MapStoreService,

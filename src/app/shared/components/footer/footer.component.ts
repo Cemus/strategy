@@ -15,6 +15,6 @@ export class FooterComponent {
   constructor(private store: GameStoreService) {}
 
   onMenuClick(menu: string) {
-    this.store.vue.update(menu);
+    this.store.view.update(menu);
   }
 }

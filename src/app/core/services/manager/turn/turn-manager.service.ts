@@ -21,7 +21,7 @@ export class TurnManagerService {
     const turnReport = generateTurnReport(currentFactions, worldEvents);
 
     this.store.turn.changeTurn();
-    this.store.vue.update('report');
+    this.store.view.update('report');
     this.store.report.addReport({ ...turnReport });
   }
 
