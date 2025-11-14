@@ -197,11 +197,11 @@ export class Fief {
   }
 
   public upgrade(upgrade: FiefUpgrade) {
-    if (this.faction.stats.Gold < upgrade.cost || upgrade.bought) {
+    if (this.faction.stats.gold < upgrade.cost || upgrade.bought) {
       return;
     }
 
-    this.faction.stats.Gold -= upgrade.cost;
+    this.faction.stats.gold -= upgrade.cost;
 
     const targetUpgrade = this.upgrades.find((u) => u.name === upgrade.name);
     if (targetUpgrade) {

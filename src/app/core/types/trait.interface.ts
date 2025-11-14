@@ -1,7 +1,7 @@
-import { CharacterStats } from '../models/character/character-stats.model';
+import { CharacterStat } from '../enums/character-stat.enum';
 
 export interface Trait {
   label: string;
   description: string;
-  statModifiers?: Partial<CharacterStats>;
+  statModifiers?: Partial<Record<Partial<CharacterStat>, number>>;
 }

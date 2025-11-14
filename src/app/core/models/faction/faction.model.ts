@@ -14,13 +14,13 @@ export class Faction {
   private _characters: Character[];
   private _player: boolean;
   private _stats: Record<CivicStat, number> = {
-    Gold: 1000,
-    Resource: 500,
-    Population: 1000,
-    Conscript: 500,
-    Satisfaction: 80,
-    Influence: 50,
-    Security: 50,
+    gold: 1000,
+    resource: 500,
+    population: 1000,
+    conscript: 500,
+    satisfaction: 80,
+    influence: 50,
+    security: 50,
   };
   private _spied: boolean = false;
   private _actionCount: number = 3;

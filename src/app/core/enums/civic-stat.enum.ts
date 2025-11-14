@@ -1,9 +1,9 @@
 export enum CivicStat {
-  Gold = 'Gold',
-  Resource = 'Resource',
-  Population = 'Population',
-  Conscript = 'Conscript',
-  Satisfaction = 'Satisfaction',
-  Influence = 'Influence',
-  Security = 'Security',
+  Gold = 'gold',
+  Resource = 'resource',
+  Population = 'population',
+  Conscript = 'conscript',
+  Satisfaction = 'satisfaction',
+  Influence = 'influence',
+  Security = 'security',
 }

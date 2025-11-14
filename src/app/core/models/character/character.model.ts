@@ -1,8 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
-import { CharacterStats } from './character-stats.model';
 import { Trait } from '../../types/trait.interface';
 import { Faction } from '../faction/faction.model';
 import { Fief } from '../fief/fief.model';
+import { CharacterStat } from '../../enums/character-stat.enum';
 
 export class Character {
   private _id: string;
@@ -11,7 +11,7 @@ export class Character {
   private _avatar: string;
   private _model: string;
   private _job: Fief | null;
-  private _stats: CharacterStats;
+  private _stats: Record<CharacterStat, number>;
   private _exhausted: boolean;
   private _traits: Trait[];
   private _relations: Record<string, number> = {};
@@ -20,7 +20,7 @@ export class Character {
   constructor(
     name: string,
     gender: 'Male' | 'Female',
-    stats: CharacterStats,
+    stats: Record<CharacterStat, number>,
     avatar: string,
     traits: Trait[] = [],
     faction: Faction,
@@ -36,6 +36,25 @@ export class Character {
     this._traits = traits;
     this._relations = {};
     this._faction = faction;
+    this.applyTraitModifiers();
+  }
+
+  applyTraitModifiers() {
+    this.traits.forEach((trait) => {
+      if (trait.statModifiers) {
+        for (const [key, value] of Object.entries(trait.statModifiers)) {
+          this.stats[key as CharacterStat] += value;
+        }
+      }
+    });
+  }
+
+  public getCost() {
+    const { governance, knowledge, diplomacy, might, loyalty } = this._stats;
+
+    const total = governance + knowledge + diplomacy + might + loyalty;
+
+    return Math.floor(total / 5);
   }
 
   public get id(): string {
@@ -80,13 +99,6 @@ export class Character {
     this._job = value;
   }
 
-  public get stats(): CharacterStats {
-    return this._stats;
-  }
-  public set stats(value: CharacterStats) {
-    this._stats = value;
-  }
-
   public get exhausted(): boolean {
     return this._exhausted;
   }
@@ -115,11 +127,10 @@ export class Character {
     this._faction = value;
   }
 
-  public getCost() {
-    const { governance, knowledge, diplomacy, might, loyalty } = this._stats;
-
-    const total = governance + knowledge + diplomacy + might + loyalty;
-
-    return Math.floor(total / 5);
+  public get stats(): Record<CharacterStat, number> {
+    return this._stats;
+  }
+  public set stats(value: Record<CharacterStat, number>) {
+    this._stats = value;
   }
 }

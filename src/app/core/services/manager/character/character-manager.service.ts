@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { CharacterStats } from '../../../models/character/character-stats.model';
 import { Trait } from '../../../types/trait.interface';
 import { GameStoreService } from '../../game-store.service';
+import { CharacterStat } from '../../../enums/character-stat.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +22,7 @@ export class CharacterManagerService {
 
   characterGainStat(
     characterId: string,
-    stat: keyof CharacterStats,
+    stat: keyof CharacterStat,
     value: number,
   ) {
     const character = this.store.character
@@ -31,7 +31,7 @@ export class CharacterManagerService {
 
     if (character) {
       if (character && stat in character.stats) {
-        character.stats[stat] += value;
+        character.stats[stat as CharacterStat] += value;
       }
     }
   }

@@ -1,4 +1,4 @@
-import { CharacterStats } from '../models/character/character-stats.model';
+import { CharacterStat } from '../enums/character-stat.enum';
 import { Character } from '../models/character/character.model';
 import { Faction } from '../models/faction/faction.model';
 import { Trait } from '../types/trait.interface';
@@ -10,8 +10,8 @@ export class CharacterFactory {
       label: 'sage',
       description: 'A keen mind for both scholarship and statecraft.',
       statModifiers: {
-        knowledge: 2,
-        governance: 1,
+        knowledge: 20,
+        governance: 10,
       },
     },
 
@@ -20,8 +20,8 @@ export class CharacterFactory {
       description:
         'Not afraid of danger. Martial bonus but may take unnecessary risks.',
       statModifiers: {
-        might: 2,
-        knowledge: -1,
+        might: 20,
+        knowledge: -5,
       },
     },
     {
@@ -29,62 +29,62 @@ export class CharacterFactory {
       description:
         'Thinks about money first. Administration bonus but poor reputation.',
       statModifiers: {
-        governance: 2,
-        diplomacy: -2,
+        governance: 20,
+        diplomacy: -20,
       },
     },
     {
       label: 'eloquent',
       description: 'Master of speech. Charisma bonus.',
       statModifiers: {
-        diplomacy: 3,
+        diplomacy: 20,
       },
     },
     {
       label: 'lazy',
       description: 'Unmotivated. Reduces overall performance.',
       statModifiers: {
-        might: -1,
-        governance: -1,
+        might: -10,
+        governance: -10,
       },
     },
     {
       label: 'genius',
       description: 'A brilliant mind. Massive knowledge bonus.',
       statModifiers: {
-        knowledge: 4,
+        knowledge: 30,
       },
     },
     {
       label: 'clumsy',
       description: 'Often makes mistakes.',
       statModifiers: {
-        governance: -1,
-        knowledge: -1,
+        governance: -10,
+        might: -10,
       },
     },
     {
       label: 'diligent',
       description: 'Works hard. Balanced bonus on multiple skills.',
       statModifiers: {
-        governance: 1,
-        might: 1,
+        governance: 20,
+        might: 10,
       },
     },
     {
       label: 'cruel',
       description: 'Uses fear to control. Less charisma, more martial.',
       statModifiers: {
-        might: 2,
-        diplomacy: -2,
+        might: 20,
+        diplomacy: -20,
       },
     },
     {
       label: 'honest',
       description: 'Trustworthy. Liked but sometimes too blunt.',
       statModifiers: {
-        diplomacy: 1,
-        governance: 1,
+        diplomacy: -10,
+        governance: 20,
       },
     },
     {
@@ -92,8 +92,8 @@ export class CharacterFactory {
       description:
         'Plots behind the scenes. Bonus in knowledge and secret relations.',
       statModifiers: {
-        knowledge: 1,
-        diplomacy: 2,
+        knowledge: 10,
+        diplomacy: 20,
       },
     },
   ];
@@ -157,17 +157,21 @@ export class CharacterFactory {
   public static generateCharacter(faction: Faction): Character {
     const name = this.getRandomName();
     const gender: 'Male' | 'Female' = Math.random() > 0.5 ? 'Male' : 'Female';
-    const stats = new CharacterStats(
-      Formulae.getRandomNumber(1, 50),
-      Formulae.getRandomNumber(1, 50),
-      Formulae.getRandomNumber(1, 50),
-      Formulae.getRandomNumber(1, 50),
-      Formulae.getRandomNumber(1, 50),
-    );
+    const stats = this.generateStats();
     const avatar = this.getRandomAvatar(gender.toLowerCase());
     const traits = this.generateRandomTraits();
 
     return new Character(name, gender, stats, avatar, traits, faction);
+  }
+
+  public static generateStats(): Record<CharacterStat, number> {
+    return {
+      governance: 50,
+      might: 50,
+      diplomacy: 50,
+      loyalty: 50,
+      knowledge: 50,
+    };
   }
 
   public static generateRandomTraits() {
