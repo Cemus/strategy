@@ -2,13 +2,17 @@
   <h3>Events</h3>
   @if (currentEvent) {
     <article
-      class="flex flex-col bg-slate-500 text-slate-100 w-2xl h-84 rounded-2xl shadow-2xl"
+      class="flex flex-col bg-slate-500 text-slate-100 w-2xl rounded-2xl shadow-2xl"
     >
       <header class="bg-slate-900 p-3 rounded-t-2xl">
         <h3>{{ currentEvent.title }}</h3>
       </header>
       <main class="flex flex-1 flex-col justify-between p-2">
-        <p>{{ currentEvent.description }}</p>
+        <ul class="flex flex-col gap-1">
+          @for (description of currentEvent.descriptions; track $index) {
+            <li>{{ description }}</li>
+          }
+        </ul>
         <footer class="flex justify-center">
           <small>
             <button

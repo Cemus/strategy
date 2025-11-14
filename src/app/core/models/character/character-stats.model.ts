@@ -1,3 +1,5 @@
+import { Formulae } from '../../utils/formulae';
+
 export class CharacterStats {
   private _governance: number;
   private _knowledge: number;
@@ -10,7 +12,7 @@ export class CharacterStats {
     knowledge: number,
     diplomacy: number,
     might: number,
-    loyalty: number
+    loyalty: number,
   ) {
     this._governance = governance;
     this._knowledge = knowledge;
@@ -23,34 +25,34 @@ export class CharacterStats {
     return this._governance;
   }
   public set governance(value: number) {
-    this._governance = value;
+    this._governance = Formulae.clamp(value);
   }
 
   public get knowledge(): number {
     return this._knowledge;
   }
   public set knowledge(value: number) {
-    this._knowledge = value;
+    this._knowledge = Formulae.clamp(value);
   }
 
   public get diplomacy(): number {
     return this._diplomacy;
   }
   public set diplomacy(value: number) {
-    this._diplomacy = value;
+    this._diplomacy = Formulae.clamp(value);
   }
 
   public get might(): number {
     return this._might;
   }
   public set might(value: number) {
-    this._might = value;
+    this._might = Formulae.clamp(value);
   }
 
   public get loyalty(): number {
     return this._loyalty;
   }
   public set loyalty(value: number) {
-    this._loyalty = value;
+    this._loyalty = Formulae.clamp(value);
   }
 }

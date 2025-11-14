@@ -5,18 +5,15 @@ export class Formulae {
   static getRandomNumber(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
+
+  static clamp(value: number, min = 0, max = 100) {
+    return Math.max(min, Math.min(max, value));
+  }
 }
 
 export function calculateRequiredXP(currentLevel: number) {
   const base = 50;
   return base * Math.pow(2, currentLevel);
-}
-
-export function getCityById(id: string, cities: City[]) {
-  const cityByName = Object.fromEntries(
-    cities.map((city) => [city.name, city]),
-  );
-  return cityByName[id];
 }
 
 export function getDistanceToClosestCity(
