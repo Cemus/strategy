@@ -1,4 +1,4 @@
-import { WorldEvent } from '../types/world-event.interface';
+import { WorldEvent } from './world-event.interface';
 
 export type EventLevel = 'Fief' | 'City' | 'Faction' | 'Character';
 

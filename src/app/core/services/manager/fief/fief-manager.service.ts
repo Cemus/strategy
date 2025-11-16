@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { GameStoreService } from '../../game-store.service';
+import { GameStoreService } from '../../store/game-store.service';
 import { Character } from '../../../models/character/character.model';
 import { Fief, FiefUpgrade } from '../../../models/fief/fief.model';
 

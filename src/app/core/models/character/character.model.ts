@@ -1,8 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
-import { Trait } from '../../types/trait.interface';
 import { Faction } from '../faction/faction.model';
 import { Fief } from '../fief/fief.model';
-import { CharacterStat } from '../../enums/character-stat.enum';
+import { CharacterStat } from '../../enums/character/character-stat.enum';
+import { Trait } from '../../types/character/trait.interface';
 
 export class Character {
   private _id: string;

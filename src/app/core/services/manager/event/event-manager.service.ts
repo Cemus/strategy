@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Faction } from '../../../models/faction/faction.model';
-import { WorldEvent } from '../../../types/world-event.interface';
-import { GameStoreService } from '../../game-store.service';
+import { WorldEvent } from '../../../types/event/world-event.interface';
+import { GameStoreService } from '../../store/game-store.service';
 import { FactionManagerService } from '../faction/faction-manager.service';
 import { characterRules, cityFiefRules, fiefRules } from './rules/index.rules';
-import { EventRule } from '../../../types/event-rule.interface';
+import { EventRule } from '../../../types/event/event-rule.interface';
 
 @Injectable({
   providedIn: 'root',

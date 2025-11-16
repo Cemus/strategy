@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { GameStoreService } from '../../core/services/game-store.service';
+import { GameStoreService } from '../../core/services/store/game-store.service';
 import { CommonModule } from '@angular/common';
-import { FiefType } from '../../core/enums/fief-type.enum';
+import { FiefType } from '../../core/enums/fief/fief-type.enum';
 import { AssignedCharacterComponent } from './assigned-character/assigned-character.component';
 import { FiefActionsComponent } from './fief-actions/fief-actions.component';
 import { FiefUpgradesComponent } from './fief-upgrades/fief-upgrades.component';

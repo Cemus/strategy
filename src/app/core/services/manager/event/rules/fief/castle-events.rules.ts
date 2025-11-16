@@ -1,8 +1,8 @@
-import { CivicStat } from '../../../../../enums/civic-stat.enum';
-import { FiefType } from '../../../../../enums/fief-type.enum';
+import { CivicStat } from '../../../../../enums/faction/civic-stat.enum';
+import { FiefType } from '../../../../../enums/fief/fief-type.enum';
 import { Fief } from '../../../../../models/fief/fief.model';
-import { EventRule } from '../../../../../types/event-rule.interface';
-import { Formulae } from '../../../../../utils/formulae';
+import { EventRule } from '../../../../../types/event/event-rule.interface';
+import { Formulae } from '../../../../../utils/formulae.utils';
 
 export const castleEventRules: EventRule<[Fief]>[] = [
   {

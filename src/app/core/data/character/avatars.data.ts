@@ -1,0 +1,37 @@
+export const avatarBasePath = 'assets/avatars/';
+
+export const maleAvatars = [
+  'generic0.jpg',
+  'generic1.jpg',
+  'generic2.jpg',
+  'generic3.jpg',
+  'generic4.jpg',
+  'generic5.jpg',
+  'generic6.jpg',
+  'generic7.jpg',
+  'generic8.jpg',
+  'generic9.jpg',
+  'generic10.jpg',
+  'generic11.jpg',
+  'generic12.jpg',
+  'generic13.jpg',
+  'generic14.jpg',
+  'generic15.jpg',
+  'generic16.jpg',
+  'generic17.jpg',
+  'generic18.jpg',
+  'generic19.jpg',
+];
+export const femaleAvatars = [
+  'generic21.jpg',
+  'generic22.jpg',
+  'generic23.jpg',
+  'generic24.jpg',
+  'generic25.jpg',
+  'generic26.jpg',
+  'generic27.jpg',
+  'generic28.jpg',
+  'generic29.jpg',
+  'generic30.jpg',
+  'generic31.jpg',
+];

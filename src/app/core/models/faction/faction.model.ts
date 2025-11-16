@@ -2,7 +2,7 @@ import { Character } from '../character/character.model';
 import { City } from '../city/city.model';
 import { v4 as uuidv4 } from 'uuid';
 import { Fief } from '../fief/fief.model';
-import { CivicStat } from '../../enums/civic-stat.enum';
+import { CivicStat } from '../../enums/faction/civic-stat.enum';
 
 export class Faction {
   private _id: string;

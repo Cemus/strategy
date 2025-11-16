@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { MapSubject } from '../../../types/map-subject.interface';
+import { MapSubject } from '../../../types/map/map-subject.interface';
 
 @Injectable({ providedIn: 'root' })
 export default class MapStoreService {

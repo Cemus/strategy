@@ -1,0 +1,20 @@
+export const prefixes = [
+  'A',
+  'Ao',
+  'Ae',
+  'An',
+  'Ar',
+  'At',
+  'As',
+  'Ba',
+  'Bi',
+  'Ca',
+  'Da',
+  'Fa',
+  'Ta',
+  'Ra',
+  'Sa',
+  'Ja',
+  'Ju',
+];
+export const suffixes = ['n', 'rne', 'me', 'z', 'eis', 'branth'];

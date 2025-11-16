@@ -1,4 +1,4 @@
-import { CharacterStat } from '../enums/character-stat.enum';
+import { CharacterStat } from '../../enums/character/character-stat.enum';
 
 export interface Trait {
   label: string;

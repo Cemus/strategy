@@ -1,5 +1,5 @@
-import { CivicStat } from '../enums/civic-stat.enum';
-import { WorldEvent } from './world-event.interface';
+import { CivicStat } from '../../enums/faction/civic-stat.enum';
+import { WorldEvent } from '../event/world-event.interface';
 
 export class FactionStatSnapShot {
   private _factionId: string;

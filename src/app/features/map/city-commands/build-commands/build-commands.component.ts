@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { City } from '../../../../core/models/city/city.model';
 import { Faction } from '../../../../core/models/faction/faction.model';
-import { getDistanceToClosestCity } from '../../../../core/utils/formulae';
+import { Formulae } from '../../../../core/utils/formulae.utils';
 
 export interface Command {
   id: string;
@@ -166,7 +166,10 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
       case 'spyNetwork':
         req = base;
         if (this.isCityAtWar()) req += 3;
-        req += getDistanceToClosestCity(this.selectedCity, this.playerFaction);
+        req += Formulae.getDistanceToClosestCity(
+          this.selectedCity,
+          this.playerFaction,
+        );
         return req;
 
       default:

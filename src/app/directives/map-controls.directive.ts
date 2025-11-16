@@ -1,5 +1,5 @@
 import { Directive, ElementRef, OnInit, OnDestroy } from '@angular/core';
-import { GameStoreService } from '../core/services/game-store.service';
+import { GameStoreService } from '../core/services/store/game-store.service';
 import { Subscription } from 'rxjs';
 
 @Directive({

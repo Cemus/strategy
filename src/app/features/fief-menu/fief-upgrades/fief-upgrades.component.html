@@ -7,13 +7,13 @@
           <button
             class="m-1 bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded cursor-pointer"
             [ngClass]="{
-              'bg-gray-700': upgrade.cost > fief.faction.stats.Gold,
-              'hover:bg-gray-700': upgrade.cost > fief.faction.stats.Gold,
+              'bg-gray-700': upgrade.cost > fief.faction.stats.gold,
+              'hover:bg-gray-700': upgrade.cost > fief.faction.stats.gold,
             }"
             (click)="buildFief(upgrade)"
           >
             {{ upgrade.name }} (Cost: {{ upgrade.cost }})
-            @if (!upgrade.bought && fief.faction.stats.Gold < upgrade.cost) {
+            @if (!upgrade.bought && fief.faction.stats.gold < upgrade.cost) {
               <small class="text-red-300"> (Too expensive) </small>
             }
           </button>
@@ -30,8 +30,8 @@
           <button
             class="m-1 bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded cursor-pointer"
             [ngClass]="{
-              'bg-gray-700': upgrade.cost > fief.faction.stats.Gold,
-              'hover:bg-gray-700': upgrade.cost > fief.faction.stats.Gold,
+              'bg-gray-700': upgrade.cost > fief.faction.stats.gold,
+              'hover:bg-gray-700': upgrade.cost > fief.faction.stats.gold,
             }"
             (click)="buildFief(upgrade)"
           >
@@ -41,7 +41,7 @@
             @if (upgrade.bought) {
               <small class="text-green-400">(Bought)</small>
             } @else {
-              @if (fief.faction.stats.Gold < upgrade.cost) {
+              @if (fief.faction.stats.gold < upgrade.cost) {
                 <small class="text-red-300"> (Too expensive) </small>
               }
             }

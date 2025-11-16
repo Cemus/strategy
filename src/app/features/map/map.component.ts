@@ -7,14 +7,14 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { GameStoreService } from '../../core/services/game-store.service';
+import { GameStoreService } from '../../core/services/store/game-store.service';
 import { CommonModule } from '@angular/common';
 import { City } from '../../core/models/city/city.model';
 import { Faction } from '../../core/models/faction/faction.model';
-import { citiesSetup } from '../../core/utils/cities-setup-utils';
 import { MapControlsDirective } from '../../directives/map-controls.directive';
 import { CityCommandsMenuComponent } from './city-commands/city-commands-menu/city-commands-menu.component';
 import { CityFieftMenuComponent } from './city-fief-menu/city-fief-menu.component';
+import { citiesSetup } from '../../core/utils/cities-setup.utils';
 
 @Component({
   selector: 'app-map',

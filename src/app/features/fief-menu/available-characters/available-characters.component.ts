@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { Character } from '../../../core/models/character/character.model';
-import { FiefType } from '../../../core/enums/fief-type.enum';
+import { FiefType } from '../../../core/enums/fief/fief-type.enum';
 import GameManager from '../../../core/services/manager/game-manager.service';
 import { Fief } from '../../../core/models/fief/fief.model';
 

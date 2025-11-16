@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { FiefType } from '../../../core/enums/fief-type.enum';
-import { FiefAction } from '../../../core/enums/fief-action.enum';
+import { FiefType } from '../../../core/enums/fief/fief-type.enum';
+import { FiefAction } from '../../../core/enums/fief/fief-action.enum';
 import { FormsModule } from '@angular/forms';
 import { Fief } from '../../../core/models/fief/fief.model';
 

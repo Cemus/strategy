@@ -3,7 +3,7 @@ import { Faction } from '../../../core/models/faction/faction.model';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../../shared/shared.module';
 import { StatDisplayComponent } from './stat-display/stat-display.component';
-import { TurnReport } from '../../../core/types/turn-report.interface';
+import { TurnReport } from '../../../core/types/report/turn-report.interface';
 
 @Component({
   selector: 'app-stats-panel',

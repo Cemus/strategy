@@ -1,7 +1,7 @@
-import { CivicStat } from '../../../../../enums/civic-stat.enum';
+import { CivicStat } from '../../../../../enums/faction/civic-stat.enum';
 import { Character } from '../../../../../models/character/character.model';
-import { EventRule } from '../../../../../types/event-rule.interface';
-import { Formulae } from '../../../../../utils/formulae';
+import { EventRule } from '../../../../../types/event/event-rule.interface';
+import { Formulae } from '../../../../../utils/formulae.utils';
 
 export const characterEventRules: EventRule<[Character]>[] = [
   {

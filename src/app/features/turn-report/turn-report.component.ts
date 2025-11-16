@@ -1,16 +1,10 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
-import { TurnReport } from '../../core/types/turn-report.interface';
-import { GameStoreService } from '../../core/services/game-store.service';
+import { Component, OnInit } from '@angular/core';
+import { GameStoreService } from '../../core/services/store/game-store.service';
 import { CommonModule } from '@angular/common';
 import { EventsComponent } from './event/events.component';
 import { Faction } from '../../core/models/faction/faction.model';
 import { StatsPanelComponent } from './stats-panel/stats-panel.component';
+import { TurnReport } from '../../core/types/report/turn-report.interface';
 
 @Component({
   selector: 'app-turn-report',

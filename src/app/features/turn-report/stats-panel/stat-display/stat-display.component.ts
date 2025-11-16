@@ -8,8 +8,8 @@ import {
 } from '@angular/core';
 import { SharedModule } from '../../../../shared/shared.module';
 import GameManagerService from '../../../../core/services/manager/game-manager.service';
-import { TurnReport } from '../../../../core/types/turn-report.interface';
-import { CivicStat } from '../../../../core/enums/civic-stat.enum';
+import { CivicStat } from '../../../../core/enums/faction/civic-stat.enum';
+import { TurnReport } from '../../../../core/types/report/turn-report.interface';
 
 @Component({
   selector: 'app-stat-display',

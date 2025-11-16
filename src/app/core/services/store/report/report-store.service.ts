@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
-import { TurnReport } from '../../../types/turn-report.interface';
+import { TurnReport } from '../../../types/report/turn-report.interface';
 
 @Injectable({ providedIn: 'root' })
 export default class ReportStoreService {

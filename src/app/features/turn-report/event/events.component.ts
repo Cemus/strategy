@@ -6,7 +6,7 @@ import {
   OnInit,
   SimpleChanges,
 } from '@angular/core';
-import { WorldEvent } from '../../../core/types/world-event.interface';
+import { WorldEvent } from '../../../core/types/event/world-event.interface';
 
 @Component({
   selector: 'app-events',

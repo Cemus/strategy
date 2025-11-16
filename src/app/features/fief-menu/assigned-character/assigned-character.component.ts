@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { FiefType } from '../../../core/enums/fief-type.enum';
+import { FiefType } from '../../../core/enums/fief/fief-type.enum';
 import { Fief } from '../../../core/models/fief/fief.model';
 
 @Component({

@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { City } from './core/models/city/city.model';
 import { Faction } from './core/models/faction/faction.model';
-import { GameStoreService } from './core/services/game-store.service';
+import { GameStoreService } from './core/services/store/game-store.service';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { CommonModule } from '@angular/common';
 import { FiefMenuComponent } from './features/fief-menu/fief-menu.component';
 import { TurnReportComponent } from './features/turn-report/turn-report.component';
 import { MapComponent } from './features/map/map.component';
+import GameManagerService from './core/services/manager/game-manager.service';
 
 @Component({
   selector: 'app-root',
@@ -31,11 +32,14 @@ export class AppComponent implements OnInit {
   protected menu = '';
   protected playerFaction!: Faction;
 
-  constructor(private store: GameStoreService) {}
+  constructor(
+    private readonly store: GameStoreService,
+    private manager: GameManagerService,
+  ) {}
 
   async ngOnInit(): Promise<void> {
-    if (!this.store.isInitialized()) {
-      await this.store.init();
+    if (!this.manager.isInitialized) {
+      await this.manager.init();
     }
     this.factions = this.store.faction.getAll();
     this.cities = this.store.city.getAll();

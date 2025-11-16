@@ -1,9 +1,9 @@
 import { v4 as uuidv4 } from 'uuid';
-import { FiefAction } from '../../enums/fief-action.enum';
-import { FiefType } from '../../enums/fief-type.enum';
+import { FiefAction } from '../../enums/fief/fief-action.enum';
+import { FiefType } from '../../enums/fief/fief-type.enum';
 import { Character } from '../character/character.model';
 import { Faction } from '../faction/faction.model';
-import { CivicStat } from '../../enums/civic-stat.enum';
+import { CivicStat } from '../../enums/faction/civic-stat.enum';
 
 export type FiefUpgrade = {
   name: string;

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { City } from '../../../core/models/city/city.model';
-import { GameStoreService } from '../../../core/services/game-store.service';
+import { GameStoreService } from '../../../core/services/store/game-store.service';
 import { Fief } from '../../../core/models/fief/fief.model';
 
 @Component({

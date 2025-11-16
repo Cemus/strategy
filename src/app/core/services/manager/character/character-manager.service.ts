@@ -1,13 +1,18 @@
 import { Injectable } from '@angular/core';
-import { Trait } from '../../../types/trait.interface';
-import { GameStoreService } from '../../game-store.service';
-import { CharacterStat } from '../../../enums/character-stat.enum';
+import { GameStoreService } from '../../store/game-store.service';
+import { CharacterStat } from '../../../enums/character/character-stat.enum';
+import { Trait } from '../../../types/character/trait.interface';
+import { Character } from '../../../models/character/character.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CharacterManagerService {
   constructor(private readonly store: GameStoreService) {}
+
+  init(characters: Character[]) {
+    this.store.character.updateAll(characters);
+  }
 
   characterImproveRelation(c1: string, c2: string, value: number) {
     const characters = this.store.character.getAll();

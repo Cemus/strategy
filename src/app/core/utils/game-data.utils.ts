@@ -1,9 +1,9 @@
-import { FiefType } from '../enums/fief-type.enum';
+import { FiefType } from '../enums/fief/fief-type.enum';
 import { Character } from '../models/character/character.model';
 import { City } from '../models/city/city.model';
 import { Faction } from '../models/faction/faction.model';
 import { Fief } from '../models/fief/fief.model';
-import { CharacterFactory } from './character-utils';
+import { CharacterFactory } from './character.utils';
 
 async function loadMapSvg(): Promise<string> {
   const response = await fetch('assets/map/map.svg');
