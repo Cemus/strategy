@@ -1,29 +1,39 @@
+import { CivicStat } from '../enums/faction/civic-stat.enum';
 import { FiefType } from '../enums/fief/fief-type.enum';
 import { Character } from '../models/character/character.model';
 import { City } from '../models/city/city.model';
 import { Faction } from '../models/faction/faction.model';
 import { Fief } from '../models/fief/fief.model';
 import { CharacterFactory } from './character.utils';
-
-async function loadMapSvg(): Promise<string> {
-  const response = await fetch('assets/map/map.svg');
-  if (!response.ok) throw new Error('ERROR: Cannot load the SVG...');
-  return await response.text();
-}
+import loadSVG from './svg.utils';
 
 async function buildCitiesFromSvg(
   factions: Faction[],
   factionCityNames: Record<string, string[]>,
 ): Promise<City[]> {
-  const svgText = await loadMapSvg();
-  const parser = new DOMParser();
-  const mapSvg = parser.parseFromString(svgText, 'image/svg+xml');
+  const svg = await loadSVG('assets/map/map.svg');
 
   const pathElements = Array.from(
-    mapSvg.querySelectorAll('path[data-name]'),
+    svg.querySelectorAll('path[data-name]'),
   ) as SVGPathElement[];
 
+  const cityCount: Record<string, number> = {
+    Aureth: 0,
+    Dalnor: 0,
+    Sylvaris: 0,
+    Kethral: 0,
+  };
+
   const cities: City[] = [];
+  const baseCityStat: Record<CivicStat, number> = {
+    gold: 1000,
+    resource: 500,
+    population: 10000,
+    conscript: 500,
+    satisfaction: 80,
+    influence: 50,
+    security: 50,
+  };
 
   pathElements.forEach((pathEl) => {
     const name = pathEl.getAttribute('data-name')!;
@@ -37,6 +47,11 @@ async function buildCitiesFromSvg(
       faction = factions.find((f) => f.name === 'Barbarians')!;
     }
 
+    let isCapital = false;
+    if (faction.name !== 'Barbarians') {
+      isCapital = factionCityNames[faction.name][0] === name;
+    }
+
     const city = new City(
       name,
       faction,
@@ -46,7 +61,12 @@ async function buildCitiesFromSvg(
         new Fief(FiefType.Empty, faction),
       ],
       pathData,
+      baseCityStat,
     );
+
+    if (isCapital) {
+      city.isCapital = true;
+    }
 
     faction.cities.push(city);
     faction.fiefs.push(...city.fiefs);
@@ -73,11 +93,26 @@ async function buildCitiesFromSvg(
 }
 
 function buildFactions(): Faction[] {
-  const aureth = new Faction('Aureth', 'red', [], true);
-  const dralnor = new Faction('Dalnor', 'aqua', [], false);
-  const sylvaris = new Faction('Sylvaris', 'purple', [], false);
-  const kethral = new Faction('Kethral', 'Teal', [], false);
-  const barbarians = new Faction('Barbarians', 'yellow', [], false);
+  const baseFactionStats = {
+    gold: 1000,
+    resource: 500,
+    population: 10000,
+    conscript: 500,
+    satisfaction: 80,
+    influence: 50,
+    security: 50,
+  };
+  const aureth = new Faction('Aureth', 'red', [], true, baseFactionStats);
+  const dralnor = new Faction('Dalnor', 'teal', [], false, baseFactionStats);
+  const sylvaris = new Faction('Sylvaris', 'lime', [], false, baseFactionStats);
+  const kethral = new Faction('Kethral', 'purple', [], false, baseFactionStats);
+  const barbarians = new Faction(
+    'Barbarians',
+    'yellow',
+    [],
+    false,
+    baseFactionStats,
+  );
   return [aureth, dralnor, sylvaris, kethral, barbarians];
 }
 
@@ -86,10 +121,10 @@ export async function buildDefaultData() {
   const characters: Character[] = [];
 
   const factionCityNames: Record<string, string[]> = {
-    Aureth: ['Forkal'],
-    Dalnor: ['Estinfelk', 'Podansk'],
-    Sylvaris: ['Sylveria'],
-    Kethral: ['Sahram'],
+    Aureth: ['Forkal', 'Estinfelk'],
+    Dalnor: ['Valdor', 'Vabranth'],
+    Sylvaris: ['Sylveria', 'Cronswald'],
+    Kethral: ['Tormouth'],
   };
 
   factions.forEach((f) => {
@@ -101,6 +136,14 @@ export async function buildDefaultData() {
   });
 
   const cities = await buildCitiesFromSvg(factions, factionCityNames);
+
+  factions.forEach((faction) => {
+    const totalPop: number = faction.cities.reduce(
+      (acc, city) => acc + city.stats.population,
+      0,
+    );
+    faction.stats.population += totalPop;
+  });
 
   return { cities, factions, characters };
 }

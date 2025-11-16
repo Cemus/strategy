@@ -11,8 +11,16 @@ export class City {
   private _fiefs: Fief[];
   private _pathData: string;
   private _mapColor: string;
+  private _stats: Record<CivicStat, number>;
+  private _isCapital: boolean = false;
 
-  constructor(name: string, faction: Faction, fiefs: Fief[], pathData: string) {
+  constructor(
+    name: string,
+    faction: Faction,
+    fiefs: Fief[],
+    pathData: string,
+    stats: Record<CivicStat, number>,
+  ) {
     this._name = name;
     this._faction = faction;
     this._fiefs = fiefs;
@@ -21,6 +29,8 @@ export class City {
     this._id = uuidv4();
     this._neighbors = [];
     this._mapColor = 'gray';
+
+    this._stats = stats;
   }
 
   public computeCityEconomy() {
@@ -94,5 +104,19 @@ export class City {
 
   set mapColor(val: string) {
     this._mapColor = val;
+  }
+
+  public get stats(): Record<CivicStat, number> {
+    return this._stats;
+  }
+  public set stats(value: Record<CivicStat, number>) {
+    this._stats = value;
+  }
+
+  public get isCapital(): boolean {
+    return this._isCapital;
+  }
+  public set isCapital(value: boolean) {
+    this._isCapital = value;
   }
 }

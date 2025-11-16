@@ -8,11 +8,11 @@
   <h3
     class="text-slate-200 lg:text-lg text-sm font-bold bg-red-600 rounded-t-md w-full p-2 text-center"
   >
-    {{ selectedCity?.name }}
+    {{ selectedCity.name }}
   </h3>
 
   <div class="flex">
-    @for (fief of selectedCity?.fiefs; track $index) {
+    @for (fief of selectedCity.fiefs; track $index) {
       <div class="flex w-full justify-end text-slate-200">
         <button
           class="flex flex-col items-center bg-slate-700 m-2 p-1 rounded-md border-slate-200 border-2 disabled:border-slate-700 hover:border-yellow-500 hover:cursor-pointer"
@@ -20,19 +20,7 @@
           [disabled]="!fief.faction.player"
         >
           <p class="lg:text-lg text-sm">{{ fief?.type }}</p>
-          <svg [attr.width]="80" [attr.height]="80">
-            <circle
-              [attr.cx]="40"
-              [attr.cy]="40"
-              [attr.r]="20"
-              [attr.fill]="selectedCity?.faction?.color"
-              stroke="black"
-              stroke-width="1"
-              class="cursor-help"
-            >
-              <title>{{ selectedCity?.faction?.name }}</title>
-            </circle>
-          </svg>
+          <app-fief-icon [fief]="fief" [selectedCity]="selectedCity" />
         </button>
       </div>
     }

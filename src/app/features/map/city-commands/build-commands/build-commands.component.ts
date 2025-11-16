@@ -55,7 +55,10 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
       {
         id: 'declareWar',
         label: `Declare war with ${this.selectedCity?.faction?.name}`,
-        show: this.isCityNeighbor() && !this.isCityAtWar(),
+        show:
+          this.isCityNeighbor() &&
+          !this.isCityAtWar() &&
+          !(this.playerFaction.name === this.selectedCity?.faction?.name),
         stat: 'ATK',
         requirement: this.getCommandRequirement('declareWar'),
         bgColor: 'bg-red-700',

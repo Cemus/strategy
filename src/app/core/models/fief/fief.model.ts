@@ -38,13 +38,13 @@ export class Fief {
 
     switch (this.type) {
       case FiefType.Farm:
-        base = { [CivicStat.Resource]: 30, [CivicStat.Gold]: -15 };
+        base = { [CivicStat.Resource]: 25 };
         break;
       case FiefType.Market:
-        base = { [CivicStat.Influence]: 5, [CivicStat.Gold]: 10 };
+        base = { [CivicStat.Gold]: 10 };
         break;
       case FiefType.Castle:
-        base = { [CivicStat.Security]: 40, [CivicStat.Gold]: -25 };
+        base = { [CivicStat.Security]: 1 };
         break;
       default:
         base = {};
@@ -75,120 +75,75 @@ export class Fief {
 
   private initUpgrades(): FiefUpgrade[] {
     const upgrades: FiefUpgrade[] = [];
+    const baseFarm = {
+      name: 'Build Farm',
+      cost: 500,
+      effect: { [CivicStat.Resource]: 30, [CivicStat.Gold]: -15 },
+      actionBoosts: {
+        [FiefAction.Cultivate]: { [CivicStat.Resource]: 15 },
+      },
+      bought: false,
+    };
+    const baseCastle = {
+      name: 'Build Castle',
+      cost: 500,
+      effect: { [CivicStat.Security]: 5, [CivicStat.Gold]: -25 },
+      actionBoosts: {
+        [FiefAction.Recruit]: {
+          [CivicStat.Population]: -100,
+          [CivicStat.Conscript]: 100,
+        },
+        [FiefAction.Patrol]: { [CivicStat.Security]: 5 },
+      },
+      bought: false,
+    };
+    const baseMarket = {
+      name: 'Build Market',
+      cost: 500,
+      effect: { [CivicStat.Influence]: 5, [CivicStat.Gold]: 10 },
+      actionBoosts: {
+        [FiefAction.Buy]: {
+          [CivicStat.Resource]: 50,
+          [CivicStat.Gold]: -50,
+        },
+        [FiefAction.Sell]: {
+          [CivicStat.Gold]: 50,
+          [CivicStat.Resource]: -50,
+        },
+      },
+      bought: false,
+    };
 
     switch (this.type) {
       case FiefType.Empty:
-        upgrades.push(
-          {
-            name: 'Build Farm',
-            cost: 500,
-            effect: { [CivicStat.Resource]: 30, [CivicStat.Gold]: -15 },
-            actionBoosts: {
-              [FiefAction.Cultivate]: { [CivicStat.Resource]: 15 },
-            },
-            bought: false,
-          },
-          {
-            name: 'Build Castle',
-            cost: 500,
-            effect: { [CivicStat.Security]: 40, [CivicStat.Gold]: -25 },
-            actionBoosts: {
-              [FiefAction.Recruit]: {
-                [CivicStat.Population]: -100,
-                [CivicStat.Conscript]: 100,
-              },
-              [FiefAction.Patrol]: { [CivicStat.Security]: 15 },
-            },
-            bought: false,
-          },
-          {
-            name: 'Build Market',
-            cost: 500,
-            effect: { [CivicStat.Influence]: 5, [CivicStat.Gold]: 10 },
-            actionBoosts: {
-              [FiefAction.Buy]: {
-                [CivicStat.Resource]: 50,
-                [CivicStat.Gold]: -50,
-              },
-              [FiefAction.Sell]: {
-                [CivicStat.Gold]: 50,
-                [CivicStat.Resource]: -50,
-              },
-            },
-            bought: false,
-          },
-        );
+        upgrades.push(baseFarm, baseCastle, baseMarket);
         break;
 
       case FiefType.Farm:
-        upgrades.push(
-          {
-            name: 'Build Farm',
-            cost: 500,
-            effect: { [CivicStat.Resource]: 30, [CivicStat.Gold]: -15 },
-            actionBoosts: {
-              [FiefAction.Cultivate]: { [CivicStat.Resource]: 15 },
-            },
-            bought: true,
-          },
-          {
-            name: 'Irrigation System',
-            cost: 500,
-            effect: { [CivicStat.Resource]: 10 },
-            bought: false,
-          },
-        );
+        upgrades.push(baseFarm, {
+          name: 'Irrigation System',
+          cost: 500,
+          effect: { [CivicStat.Resource]: 10 },
+          bought: false,
+        });
         break;
 
       case FiefType.Market:
-        upgrades.push(
-          {
-            name: 'Build Market',
-            cost: 500,
-            effect: { [CivicStat.Influence]: 5, [CivicStat.Gold]: 10 },
-            actionBoosts: {
-              [FiefAction.Buy]: {
-                [CivicStat.Resource]: 50,
-                [CivicStat.Gold]: -50,
-              },
-              [FiefAction.Sell]: {
-                [CivicStat.Gold]: 50,
-                [CivicStat.Resource]: -50,
-              },
-            },
-            bought: true,
-          },
-          {
-            name: 'Trading Post',
-            cost: 500,
-            effect: { [CivicStat.Gold]: 10, [CivicStat.Influence]: 10 },
-            bought: false,
-          },
-        );
+        upgrades.push(baseMarket, {
+          name: 'Trading Post',
+          cost: 500,
+          effect: { [CivicStat.Gold]: 10, [CivicStat.Influence]: 10 },
+          bought: false,
+        });
         break;
 
       case FiefType.Castle:
-        upgrades.push(
-          {
-            name: 'Build Castle',
-            cost: 500,
-            effect: { [CivicStat.Security]: 40, [CivicStat.Gold]: -25 },
-            actionBoosts: {
-              [FiefAction.Recruit]: {
-                [CivicStat.Population]: -100,
-                [CivicStat.Conscript]: 100,
-              },
-              [FiefAction.Patrol]: { [CivicStat.Security]: 15 },
-            },
-            bought: true,
-          },
-          {
-            name: 'Rampart',
-            cost: 500,
-            effect: { [CivicStat.Security]: 10 },
-            bought: false,
-          },
-        );
+        upgrades.push(baseCastle, {
+          name: 'Rampart',
+          cost: 500,
+          effect: { [CivicStat.Security]: 5 },
+          bought: false,
+        });
         break;
       default:
         break;

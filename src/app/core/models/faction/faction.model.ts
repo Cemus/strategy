@@ -3,6 +3,7 @@ import { City } from '../city/city.model';
 import { v4 as uuidv4 } from 'uuid';
 import { Fief } from '../fief/fief.model';
 import { CivicStat } from '../../enums/faction/civic-stat.enum';
+import { Formulae } from '../../utils/formulae.utils';
 
 export class Faction {
   private _id: string;
@@ -13,15 +14,7 @@ export class Faction {
   private _atWar: Faction[] = [];
   private _characters: Character[];
   private _player: boolean;
-  private _stats: Record<CivicStat, number> = {
-    gold: 1000,
-    resource: 500,
-    population: 1000,
-    conscript: 500,
-    satisfaction: 80,
-    influence: 50,
-    security: 50,
-  };
+  private _stats: Record<CivicStat, number>;
   private _spied: boolean = false;
   private _actionCount: number = 3;
 
@@ -30,12 +23,14 @@ export class Faction {
     color: string,
     characters: Character[],
     player: boolean,
+    stats: Record<CivicStat, number>,
   ) {
     this._id = uuidv4();
     this._name = name;
     this._color = color;
     this._player = player;
     this._characters = characters;
+    this._stats = stats;
   }
 
   public applyTurnEconomy() {
@@ -57,6 +52,15 @@ export class Faction {
       this.stats[key as keyof Record<CivicStat, number>] +=
         total[key as keyof Partial<Record<CivicStat, number>>] ?? 0;
     }
+
+    this.stats.security = Formulae.clamp(this.stats.security);
+
+    const satisfactionGrowth = Math.floor(
+      (50 - (100 - this.stats.security)) / 10,
+    );
+    this.stats.satisfaction = Formulae.clamp(
+      this.stats.satisfaction + satisfactionGrowth,
+    );
   }
 
   public get id(): string {
@@ -144,21 +148,5 @@ export class Faction {
 
   set actionCount(val: number) {
     this._actionCount = val;
-  }
-
-  public clone() {
-    const clone = new Faction(
-      this.name,
-      this.color,
-      this.characters,
-      this.player,
-    );
-
-    clone.characters = structuredClone(this.characters);
-    clone.cities = structuredClone(this.cities);
-    clone.fiefs = structuredClone(this.fiefs);
-    clone.stats = structuredClone(this.stats);
-
-    return clone;
   }
 }
