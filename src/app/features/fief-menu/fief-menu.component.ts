@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { GameStoreService } from '../../core/services/store/game-store.service';
-import { CommonModule } from '@angular/common';
+
 import { FiefType } from '../../core/enums/fief/fief-type.enum';
 import { AssignedCharacterComponent } from './assigned-character/assigned-character.component';
 import { FiefActionsComponent } from './fief-actions/fief-actions.component';
@@ -11,7 +11,6 @@ import { Fief, FiefUpgrade } from '../../core/models/fief/fief.model';
 @Component({
   selector: 'app-fief-menu',
   imports: [
-    CommonModule,
     AssignedCharacterComponent,
     FiefActionsComponent,
     FiefUpgradesComponent,

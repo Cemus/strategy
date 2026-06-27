@@ -1,11 +1,10 @@
-import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { FiefType } from '../../../core/enums/fief/fief-type.enum';
 import { Fief } from '../../../core/models/fief/fief.model';
 
 @Component({
   selector: 'app-assigned-character',
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './assigned-character.component.html',
   styleUrl: './assigned-character.component.css',
 })

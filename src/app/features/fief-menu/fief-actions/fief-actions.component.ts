@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { FiefType } from '../../../core/enums/fief/fief-type.enum';
 import { FiefAction } from '../../../core/enums/fief/fief-action.enum';
@@ -7,7 +6,7 @@ import { Fief } from '../../../core/models/fief/fief.model';
 
 @Component({
   selector: 'app-fief-actions',
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
   templateUrl: './fief-actions.component.html',
   styleUrl: './fief-actions.component.css',
 })

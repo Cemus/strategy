@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   Component,
   Input,
@@ -10,7 +9,7 @@ import { WorldEvent } from '../../../core/types/event/world-event.interface';
 
 @Component({
   selector: 'app-events',
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './events.component.html',
   styleUrl: './events.component.css',
 })

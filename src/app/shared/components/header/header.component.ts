@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import GameManager from '../../../core/services/manager/game-manager.service';
 import { GameStoreService } from '../../../core/services/store/game-store.service';
 
 @Component({
   selector: 'app-header',
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
 })

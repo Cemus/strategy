@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GameStoreService } from '../../core/services/store/game-store.service';
-import { CommonModule } from '@angular/common';
+
 import { EventsComponent } from './event/events.component';
 import { Faction } from '../../core/models/faction/faction.model';
 import { StatsPanelComponent } from './stats-panel/stats-panel.component';
@@ -8,7 +8,7 @@ import { TurnReport } from '../../core/types/report/turn-report.interface';
 
 @Component({
   selector: 'app-turn-report',
-  imports: [CommonModule, EventsComponent, StatsPanelComponent],
+  imports: [EventsComponent, StatsPanelComponent],
   templateUrl: './turn-report.component.html',
   styleUrl: './turn-report.component.css',
 })

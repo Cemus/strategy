@@ -4,7 +4,7 @@ import { Faction } from './core/models/faction/faction.model';
 import { GameStoreService } from './core/services/store/game-store.service';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
-import { CommonModule } from '@angular/common';
+
 import { FiefMenuComponent } from './features/fief-menu/fief-menu.component';
 import { TurnReportComponent } from './features/turn-report/turn-report.component';
 import { MapComponent } from './features/map/map.component';
@@ -13,7 +13,6 @@ import GameManagerService from './core/services/manager/game-manager.service';
 @Component({
   selector: 'app-root',
   imports: [
-    CommonModule,
     MapComponent,
     HeaderComponent,
     FooterComponent,

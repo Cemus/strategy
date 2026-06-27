@@ -101,23 +101,17 @@ export class MapControlsDirective implements OnInit, OnDestroy {
     const mouseX = event.clientX - containerBoundingBox.left;
     const mouseY = event.clientY - containerBoundingBox.top;
 
-    if (zoomingIn) {
-      this.translate.x -=
-        (mouseX - containerBoundingBox.width / 2 - this.translate.x) *
-        (zoomFactor - 1);
+    this.translate.x -=
+      (mouseX - containerBoundingBox.width / 2 - this.translate.x) *
+      (zoomFactor - 1);
 
-      this.translate.y -=
-        (mouseY - containerBoundingBox.height / 2 - this.translate.y) *
-        (zoomFactor - 1);
-    } else {
-      const recenterFactor = 0.2;
-      this.translate.x += (0 - this.translate.x) * recenterFactor;
-      this.translate.y += (0 - this.translate.y) * recenterFactor;
+    this.translate.y -=
+      (mouseY - containerBoundingBox.height / 2 - this.translate.y) *
+      (zoomFactor - 1);
 
-      if (this.scale <= 0.5) {
-        this.translate.x = 0;
-        this.translate.y = 0;
-      }
+    if (this.scale <= 0.5) {
+      this.translate.x = 0;
+      this.translate.y = 0;
     }
 
     this.store.map.update({
