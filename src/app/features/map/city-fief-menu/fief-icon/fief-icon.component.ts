@@ -10,8 +10,8 @@ import { FiefType } from '../../../../core/enums/fief/fief-type.enum';
   styleUrl: './fief-icon.component.css',
 })
 export class FiefIconComponent {
-  @Input() public selectedCity!: City;
-  @Input() public fief!: Fief;
+  @Input() public selectedCity: City | null = null;
+  @Input() public fief: Fief | null = null;
 
   protected fiefTypeEnum = FiefType;
 }

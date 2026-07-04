@@ -95,7 +95,6 @@ export class MapControlsDirective implements OnInit, OnDestroy {
 
     this.scale += delta;
     this.scale = Math.max(0.5, Math.min(2, this.scale));
-    const zoomingIn = this.scale >= prevScale;
     const zoomFactor = this.scale / prevScale;
 
     const mouseX = event.clientX - containerBoundingBox.left;

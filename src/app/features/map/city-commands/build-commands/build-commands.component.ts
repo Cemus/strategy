@@ -78,7 +78,11 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
         label: `Establish a spy network in ${this.selectedCity?.name}`,
         show:
           this.selectedCity?.faction?.name !== this.playerFaction?.name &&
-          this.selectedCity?.faction?.spied === false,
+          this.selectedCity?.faction?.spied === false &&
+          Formulae.getDistanceToClosestCity(
+            this.selectedCity,
+            this.playerFaction,
+          ) !== Infinity,
         stat: 'SPD',
         requirement: this.getCommandRequirement('spyNetwork'),
         bgColor: 'bg-yellow-700',
@@ -123,7 +127,7 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
     return (
       this.selectedCity &&
       this.playerFaction?.cities.some((ally) =>
-        this.selectedCity?.neighbors.some((n) => n.name === ally.name),
+        this.selectedCity?.provinceNeighbors.some((n) => n.name === ally.name),
       )
     );
   }
