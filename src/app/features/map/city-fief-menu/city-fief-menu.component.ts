@@ -11,7 +11,7 @@ import { FiefIconComponent } from './fief-icon/fief-icon.component';
   styleUrl: './city-fief-menu.component.css',
 })
 export class CityFieftMenuComponent {
-  @Input() selectedCity!: City;
+  @Input() selectedCity?: City;
 
   constructor(private store: GameStoreService) {}
 

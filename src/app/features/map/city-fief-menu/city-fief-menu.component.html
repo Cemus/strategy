@@ -1,28 +1,30 @@
-<div
-  class="flex flex-col items-center absolute lg:bottom-12 lg:right-2 bottom-12 right-2 bg-slate-600 rounded-md z-10 select-none cursor-auto"
-  (mousedown)="$event.stopPropagation()"
-  (mousemove)="$event.stopPropagation()"
-  (touchstart)="$event.stopPropagation()"
-  (touchmove)="$event.stopPropagation()"
->
-  <h3
-    class="text-slate-200 lg:text-lg text-sm font-bold bg-red-600 rounded-t-md w-full p-2 text-center"
+@if (selectedCity) {
+  <div
+    class="flex flex-col items-center absolute lg:bottom-12 lg:right-2 bottom-12 right-2 bg-slate-600 rounded-md z-10 select-none cursor-auto"
+    (mousedown)="$event.stopPropagation()"
+    (mousemove)="$event.stopPropagation()"
+    (touchstart)="$event.stopPropagation()"
+    (touchmove)="$event.stopPropagation()"
   >
-    {{ selectedCity.name }}
-  </h3>
+    <h3
+      class="text-slate-200 lg:text-lg text-sm font-bold bg-red-600 rounded-t-md w-full p-2 text-center"
+    >
+      {{ selectedCity.name }}
+    </h3>
 
-  <div class="flex">
-    @for (fief of selectedCity.fiefs; track $index) {
-      <div class="flex w-full justify-end text-slate-200">
-        <button
-          class="flex flex-col items-center bg-slate-700 m-2 p-1 rounded-md border-slate-200 border-2 disabled:border-slate-700 hover:border-yellow-500 hover:cursor-pointer"
-          (click)="onFiefClick(fief)"
-          [disabled]="!fief.faction.player"
-        >
-          <p class="lg:text-lg text-sm">{{ fief?.type }}</p>
-          <app-fief-icon [fief]="fief" [selectedCity]="selectedCity" />
-        </button>
-      </div>
-    }
+    <div class="flex">
+      @for (fief of selectedCity.fiefs; track $index) {
+        <div class="flex w-full justify-end text-slate-200">
+          <button
+            class="flex flex-col items-center bg-slate-700 m-2 p-1 rounded-md border-slate-200 border-2 disabled:border-slate-700 hover:border-yellow-500 hover:cursor-pointer"
+            (click)="onFiefClick(fief)"
+            [disabled]="!fief.faction.player"
+          >
+            <p class="lg:text-lg text-sm">{{ fief?.type }}</p>
+            <app-fief-icon [fief]="fief" [selectedCity]="selectedCity" />
+          </button>
+        </div>
+      }
+    </div>
   </div>
-</div>
+}

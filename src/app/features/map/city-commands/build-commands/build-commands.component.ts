@@ -127,7 +127,7 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
     return (
       this.selectedCity &&
       this.playerFaction?.cities.some((ally) =>
-        this.selectedCity?.provinceNeighbors.some((n) => n.name === ally.name),
+        this.selectedCity?.neighbors.some((n) => n.name === ally.name),
       )
     );
   }
