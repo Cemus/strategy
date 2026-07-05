@@ -120,7 +120,7 @@ export class Fief {
         break;
 
       case FiefType.Farm:
-        upgrades.push(baseFarm, {
+        upgrades.push({
           name: 'Irrigation System',
           cost: 500,
           effect: { [CivicStat.Resource]: 10 },
@@ -129,7 +129,7 @@ export class Fief {
         break;
 
       case FiefType.Market:
-        upgrades.push(baseMarket, {
+        upgrades.push({
           name: 'Trading Post',
           cost: 500,
           effect: { [CivicStat.Gold]: 10, [CivicStat.Influence]: 10 },
@@ -138,7 +138,7 @@ export class Fief {
         break;
 
       case FiefType.Castle:
-        upgrades.push(baseCastle, {
+        upgrades.push({
           name: 'Rampart',
           cost: 500,
           effect: { [CivicStat.Security]: 5 },

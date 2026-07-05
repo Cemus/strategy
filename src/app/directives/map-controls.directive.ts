@@ -59,6 +59,8 @@ export class MapControlsDirective implements OnInit, OnDestroy {
   }
 
   onTouchStart(event: TouchEvent) {
+    event.preventDefault();
+
     const touch = event.touches[0];
 
     if (!touch) return;
@@ -67,6 +69,8 @@ export class MapControlsDirective implements OnInit, OnDestroy {
   }
 
   onTouchMove(event: TouchEvent) {
+    event.preventDefault();
+
     if (event.touches.length === 0) return;
 
     const touch = event.touches[0];
@@ -143,7 +147,7 @@ export class MapControlsDirective implements OnInit, OnDestroy {
       'touchmove',
       (e) => this.onTouchMove(e),
       {
-        passive: true,
+        passive: false,
       },
     );
 
@@ -151,7 +155,7 @@ export class MapControlsDirective implements OnInit, OnDestroy {
       'touchstart',
       (e) => this.onTouchStart(e),
       {
-        passive: true,
+        passive: false,
       },
     );
 
