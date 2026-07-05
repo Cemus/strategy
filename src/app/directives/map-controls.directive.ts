@@ -42,7 +42,6 @@ export class MapControlsDirective implements OnInit, OnDestroy {
 
   onMouseMove(event: MouseEvent) {
     if (event.buttons === 0) return;
-    if (this.scale === 0.5) return;
 
     const dx = event.clientX - this.dragStart.x;
     const dy = event.clientY - this.dragStart.y;
@@ -69,7 +68,6 @@ export class MapControlsDirective implements OnInit, OnDestroy {
 
   onTouchMove(event: TouchEvent) {
     if (event.touches.length === 0) return;
-    if (this.scale === 0.5) return;
 
     const touch = event.touches[0];
     const dx = touch.clientX - this.dragStart.x;
