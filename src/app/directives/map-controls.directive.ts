@@ -1,13 +1,14 @@
 import { Directive, ElementRef, OnInit, OnDestroy } from '@angular/core';
 import { GameStoreService } from '../core/services/store/game-store.service';
 import { Subscription } from 'rxjs';
+import { NgTemplateOutlet } from '@angular/common';
 
 @Directive({
   selector: '[appMapControls]',
   standalone: true,
 })
 export class MapControlsDirective implements OnInit, OnDestroy {
-  private svgRef!: SVGSVGElement | null;
+  private svgRef: SVGSVGElement | null = null;
 
   private dragStart = { x: 0, y: 0 };
   private translate = { x: 0, y: 0 };
@@ -41,6 +42,7 @@ export class MapControlsDirective implements OnInit, OnDestroy {
 
   onMouseMove(event: MouseEvent) {
     if (event.buttons === 0) return;
+    if (this.scale === 0.5) return;
 
     const dx = event.clientX - this.dragStart.x;
     const dy = event.clientY - this.dragStart.y;
@@ -67,6 +69,7 @@ export class MapControlsDirective implements OnInit, OnDestroy {
 
   onTouchMove(event: TouchEvent) {
     if (event.touches.length === 0) return;
+    if (this.scale === 0.5) return;
 
     const touch = event.touches[0];
     const dx = touch.clientX - this.dragStart.x;
