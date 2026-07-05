@@ -11,18 +11,22 @@ import { Fief } from '../../../core/models/fief/fief.model';
   styleUrl: './fief-actions.component.css',
 })
 export class FiefActionsComponent {
-  @Input() fief!: Fief;
+  @Input() fief?: Fief;
 
   protected fiefTypeEnum = FiefType;
 
   onActionSelected(event: Event) {
+    if (!this.fief) return;
+
     const selectedValue = (event.target as HTMLSelectElement).value;
     this.fief.currentAction = selectedValue as FiefAction;
   }
 
   getAvailableFiefActions() {
+    if (!this.fief) return;
+
     return this.fief
       .getAvailableActions()
-      .filter((action) => action !== this.fief.currentAction);
+      .filter((action) => action !== this.fief?.currentAction);
   }
 }

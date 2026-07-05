@@ -1,5 +1,4 @@
-import { Component, Input } from '@angular/core';
-import { City } from '../../../../core/models/city/city.model';
+import { Component, Input, OnInit } from '@angular/core';
 import { Fief } from '../../../../core/models/fief/fief.model';
 import { FiefType } from '../../../../core/enums/fief/fief-type.enum';
 
@@ -9,9 +8,13 @@ import { FiefType } from '../../../../core/enums/fief/fief-type.enum';
   templateUrl: './fief-icon.component.html',
   styleUrl: './fief-icon.component.css',
 })
-export class FiefIconComponent {
-  @Input() public selectedCity: City | null = null;
+export class FiefIconComponent implements OnInit {
   @Input() public fief: Fief | null = null;
 
   protected fiefTypeEnum = FiefType;
+
+  ngOnInit(): void {
+    console.log('test');
+    console.log(this.fief);
+  }
 }

@@ -1,21 +1,29 @@
-@if (fief.type !== fiefTypeEnum.Empty && fief.assigned) {
-  <label
-    class="block text-slate-200 text-md font-bold mb-2"
-    for="fiefAction-select"
-    >Choose an action:</label
-  >
+@if (fief && fief.type !== fiefTypeEnum.Empty && fief.assigned) {
+  <div class="flex flex-col justify-center items-center">
+    <label
+      class="block text-slate-200 text-md font-bold mb-2"
+      for="fiefAction-select"
+      >Choose an action</label
+    >
 
-  <select
-    [(ngModel)]="fief.currentAction"
-    name="fiefActions"
-    id="fiefAction-select"
-    [disabled]="!fief.assigned"
-    class="bg-slate-800 text-slate-200 border border-slate-200 rounded px-2 py-1 disabled:text-red-300 disabled:border-slate-800"
-    (change)="onActionSelected($event)"
-  >
-    <option [value]="fief.currentAction">{{ fief.currentAction }}</option>
-    @for (action of getAvailableFiefActions(); track $index) {
-      <option [value]="action">{{ action }}</option>
-    }
-  </select>
+    <select
+      [(ngModel)]="fief.currentAction"
+      name="fiefActions"
+      id="fiefAction-select"
+      [disabled]="!fief.assigned"
+      class="bg-slate-800 text-slate-200 border border-slate-200 rounded px-2 py-1 disabled:text-red-300 disabled:border-slate-800"
+      (change)="onActionSelected($event)"
+    >
+      <option [value]="fief.currentAction">{{ fief.currentAction }}</option>
+      @for (action of getAvailableFiefActions(); track $index) {
+        <option [value]="action">{{ action }}</option>
+      }
+    </select>
+    <p>
+      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus ipsa nihil
+      odit maxime dolores provident laborum nulla ut consectetur deserunt
+      tenetur reprehenderit vero sequi, recusandae incidunt asperiores inventore
+      ratione. Beatae.
+    </p>
+  </div>
 }

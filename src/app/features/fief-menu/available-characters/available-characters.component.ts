@@ -12,13 +12,14 @@ import { Fief } from '../../../core/models/fief/fief.model';
   styleUrl: './available-characters.component.css',
 })
 export class AvailableCharactersComponent {
-  @Input() fief!: Fief;
+  @Input() fief?: Fief;
 
   protected fiefTypeEnum = FiefType;
 
   constructor(private readonly manager: GameManager) {}
 
   assignCharacterToFief(character: Character) {
+    if (!this.fief) return;
     this.fief.assigned == character
       ? this.manager.fief.assignCharacter(this.fief.id, null)
       : this.manager.fief.assignCharacter(this.fief.id, character);
