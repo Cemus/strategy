@@ -1,21 +1,9 @@
 @if (fief && fief.type !== fiefTypeEnum.Empty) {
   <div class="flex flex-col items-center justify-center">
     <h4 class="text-lg font-semibold mb-2">Assigned Character</h4>
+    <app-character-avatar [character]="fief.assigned" />
     @if (fief.assigned !== null) {
-      <img
-        [src]="fief.assigned.avatar"
-        [alt]="fief.assigned.name"
-        class="w-24 h-24 rounded object-cover border border-slate-600"
-      />
-      <p class="">{{ fief.assigned.name }}</p>
       <app-fief-actions [fief]="fief" />
-    } @else {
-      <img
-        [src]="'assets/avatars/none.jpg'"
-        [alt]="'No character assigned'"
-        class="w-24 h-24 rounded object-cover border border-slate-600"
-      />
-      <p class="text-red-300">None</p>
     }
   </div>
 }

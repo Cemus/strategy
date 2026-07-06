@@ -9,20 +9,31 @@
       </h3>
     </header>
 
-    <div class="flex flex-1 flex-col gap-4">
-      <app-assigned-character class="flex-1" [fief]="selectedFief" />
+    <app-fief-menu-nav
+      [currentPanel]="currentPanel"
+      (changePanel)="handleChangePanel($event)"
+    />
 
-      <app-fief-upgrades [fief]="selectedFief" />
-      @if (selectedFief.type !== fiefTypeEnum.Empty) {
-        <button
-          class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded cursor-pointer place-self-start"
-          (click)="destroyFief()"
-          [disabled]="!selectedFief"
-        >
-          Destroy Fief
-        </button>
+    <div class="flex flex-1 flex-col">
+      @switch (currentPanel) {
+        @case ("character") {
+          <app-fief-menu-character [fief]="selectedFief" />
+        }
+        @case ("summary") {
+          <app-fief-menu-summary
+            [fief]="selectedFief"
+            (destroyFief)="handleDestroyFief()"
+          />
+        }
+        @case ("upgrade") {
+          <app-fief-upgrades [fief]="selectedFief" />
+        }
+
+        @default {}
       }
     </div>
-    <app-available-characters [fief]="selectedFief" />
+
+    <!--     <app-available-characters [fief]="selectedFief" />
+ -->
   </div>
 }
