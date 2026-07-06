@@ -1,7 +1,6 @@
 import { Directive, ElementRef, OnInit, OnDestroy } from '@angular/core';
 import { GameStoreService } from '../core/services/store/game-store.service';
 import { Subscription } from 'rxjs';
-import { NgTemplateOutlet } from '@angular/common';
 
 @Directive({
   selector: '[appMapControls]',
