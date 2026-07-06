@@ -59,8 +59,6 @@ export class MapControlsDirective implements OnInit, OnDestroy {
   }
 
   onTouchStart(event: TouchEvent) {
-    event.preventDefault();
-
     const touch = event.touches[0];
 
     if (!touch) return;
