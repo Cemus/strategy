@@ -1,9 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { GameStoreService } from '../../core/services/store/game-store.service';
-import { FiefType } from '../../core/enums/fief/fief-type.enum';
-import { AssignedCharacterComponent } from './assigned-character/assigned-character.component';
 import { FiefUpgradesComponent } from './fief-upgrades/fief-upgrades.component';
-import { AvailableCharactersComponent } from './available-characters/available-characters.component';
 import GameManager from '../../core/services/manager/game-manager.service';
 import { Fief, FiefUpgrade } from '../../core/models/fief/fief.model';
 import { FiefIconComponent } from '../map/city-fief-menu/fief-icon/fief-icon.component';
@@ -16,7 +13,6 @@ import { FiefMenuCharacterComponent } from './fief-menu-character/fief-menu-char
   selector: 'app-fief-menu',
   imports: [
     FiefUpgradesComponent,
-    AvailableCharactersComponent,
     FiefIconComponent,
     FiefMenuNavComponent,
     FiefMenuSummaryComponent,
