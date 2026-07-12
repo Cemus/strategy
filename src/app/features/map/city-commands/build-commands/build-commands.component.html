@@ -5,7 +5,10 @@
         class="flex w-full p-1 items-baseline hover:bg-slate-700 hover:cursor-pointer"
         (click)="openCommandModal(cmd)"
       >
-        <p [ngClass]="statInfoStyle(cmd.bgColor, cmd.textColor)">
+        <p
+          class="px-2 border-solid w-2/6 text-center border-black border-2 font-semibold lg:text-base text-xs"
+          [ngClass]="[cmd.bgColor, cmd.textColor]"
+        >
           {{ cmd.stat }}
           @if (cmd.requirement !== null) {
             <span>: {{ cmd.requirement }}</span>

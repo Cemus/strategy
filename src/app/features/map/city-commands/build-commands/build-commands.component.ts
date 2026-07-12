@@ -120,7 +120,7 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
         stat: '???',
         requirement: null,
         bgColor: 'bg-slate-100',
-        textColor: 'black',
+        textColor: 'text-black',
       },
     ];
   }
@@ -187,17 +187,6 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
       default:
         return base;
     }
-  }
-
-  statInfoStyle(bgColor: string, textColor: string): string {
-    const textClass =
-      textColor === 'black'
-        ? 'text-black'
-        : textColor === 'slate-100'
-          ? 'text-slate-100'
-          : '';
-
-    return `px-2 ${bgColor} ${textClass} border-solid w-2/6 text-center border-black border-2 font-semibold lg:text-base text-xs`;
   }
 
   textInfoStyle(): string {
