@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Character } from '../../../core/models/character/character.model';
 import { FiefType } from '../../../core/enums/fief/fief-type.enum';
 import GameManager from '../../../core/services/manager/game-manager.service';
@@ -13,6 +13,7 @@ import { Fief } from '../../../core/models/fief/fief.model';
 })
 export class AvailableCharactersComponent {
   @Input() fief?: Fief;
+  @Output() closeCharacterSelectionModal = new EventEmitter<void>();
 
   protected fiefTypeEnum = FiefType;
 
@@ -31,5 +32,9 @@ export class AvailableCharactersComponent {
         ?.map((t) => t.label.charAt(0).toUpperCase() + t.label.slice(1))
         .join(', ') ?? ''
     );
+  }
+
+  emitCloseCharacterSelectionModal() {
+    this.closeCharacterSelectionModal.emit();
   }
 }

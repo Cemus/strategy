@@ -8,13 +8,8 @@ import { FiefType } from '../../../../core/enums/fief/fief-type.enum';
   templateUrl: './fief-icon.component.html',
   styleUrl: './fief-icon.component.css',
 })
-export class FiefIconComponent implements OnInit {
+export class FiefIconComponent {
   @Input() public fief: Fief | null = null;
 
   protected fiefTypeEnum = FiefType;
-
-  ngOnInit(): void {
-    console.log('test');
-    console.log(this.fief);
-  }
 }

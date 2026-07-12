@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FiefType } from '../../../core/enums/fief/fief-type.enum';
 import GameManager from '../../../core/services/manager/game-manager.service';
 import { Fief, FiefUpgrade } from '../../../core/models/fief/fief.model';
@@ -12,6 +12,7 @@ import { Fief, FiefUpgrade } from '../../../core/models/fief/fief.model';
 })
 export class FiefUpgradesComponent {
   @Input() fief!: Fief;
+  @Output() destroyFief = new EventEmitter<void>();
 
   protected fiefTypeEnum = FiefType;
 
@@ -19,5 +20,9 @@ export class FiefUpgradesComponent {
 
   buildFief(upgrade: FiefUpgrade) {
     this.manager.fief.upgradeFief(this.fief.id, upgrade);
+  }
+
+  emitDestroyFief() {
+    this.destroyFief.emit();
   }
 }

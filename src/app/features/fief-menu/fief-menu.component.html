@@ -1,39 +1,36 @@
 @if (selectedFief) {
-  <div
-    class="flex flex-1 gap-2 flex-col bg-slate-900 text-slate-200 p-2 justify-between"
-  >
-    <header class="flex items-end gap-1">
+  <div class="flex flex-1 min-h-0 flex-col bg-slate-900 text-slate-200 p-2">
+    <header class="flex items-end gap-1 mb-2">
       <app-fief-icon [fief]="selectedFief" />
       <h3 class="relative top-1 text-xl font-semibold self-end place-self-end">
         {{ selectedFief.type }} ({{ selectedCity?.name }})
       </h3>
     </header>
 
-    <app-fief-menu-nav
-      [currentPanel]="currentPanel"
-      (changePanel)="handleChangePanel($event)"
-    />
-
-    <div class="flex flex-1 flex-col">
-      @switch (currentPanel) {
-        @case ("character") {
-          <app-fief-menu-character [fief]="selectedFief" />
-        }
-        @case ("summary") {
-          <app-fief-menu-summary
-            [fief]="selectedFief"
-            (destroyFief)="handleDestroyFief()"
-          />
-        }
-        @case ("upgrade") {
-          <app-fief-upgrades [fief]="selectedFief" />
-        }
-
-        @default {}
+    <div
+      class="flex md:justify-around overflow-y-auto"
+      [class.justify-center]="selectedFief.type === fiefTypeEnum.Empty"
+    >
+      @if (selectedFief.type !== fiefTypeEnum.Empty) {
+        <app-assigned-character
+          [fief]="selectedFief"
+          (openCharacterSelectionModal)="onCharacterSelectionModal()"
+          class="max-w-1/2 min-h-0 overflow-y-auto"
+        />
       }
-    </div>
 
-    <!--     <app-available-characters [fief]="selectedFief" />
- -->
+      <app-fief-upgrades
+        [fief]="selectedFief"
+        (destroyFief)="handleDestroyFief()"
+        [class.max-w-1/2]="selectedFief.type !== fiefTypeEnum.Empty"
+      />
+    </div>
   </div>
+
+  <dialog #characterDialog class="m-auto p-2 bg-slate-900 rounded-lg">
+    <app-available-characters
+      [fief]="selectedFief"
+      (closeCharacterSelectionModal)="onCharacterSelectionModal()"
+    />
+  </dialog>
 }

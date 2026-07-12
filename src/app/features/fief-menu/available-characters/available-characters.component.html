@@ -1,10 +1,10 @@
 @if (fief && fief.type !== fiefTypeEnum.Empty) {
-  <div class="mt-4">
-    <h4 class="text-lg font-semibold mb-2">Available Characters</h4>
+  <div class="flex flex-col text-white gap-2">
+    <h4 class="text-lg font-semibold">Available Characters</h4>
     <div class="flex flex-col gap-2 max-h-60 overflow-y-auto">
       @for (character of fief.faction.characters; track $index) {
         <div
-          class="p-2 bg-slate-800 rounded hover:bg-slate-700 cursor-pointer select-none"
+          class="p-2 bg-slate-800 rounded hover:bg-slate-700 cursor-pointer select-none mr-4"
           (click)="assignCharacterToFief(character)"
           [ngClass]="{
             'text-yellow-500': character.job !== null,
@@ -40,5 +40,11 @@
         </div>
       }
     </div>
+    <button
+      class="cursor-pointer bg-blue-600 m-auto px-12 py-1.5 rounded"
+      (click)="emitCloseCharacterSelectionModal()"
+    >
+      Close
+    </button>
   </div>
 }

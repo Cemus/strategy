@@ -200,6 +200,6 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
   }
 
   handleEventMenuDisplay(id: string, req: number | null): void {
-    console.log(`Display event: ${id} with requirement ${req}`);
+    console.log(` event: ${id} with requirement ${req}`);
   }
 }

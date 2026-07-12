@@ -1,31 +1,33 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { GameStoreService } from '../../core/services/store/game-store.service';
 import { FiefUpgradesComponent } from './fief-upgrades/fief-upgrades.component';
 import GameManager from '../../core/services/manager/game-manager.service';
 import { Fief, FiefUpgrade } from '../../core/models/fief/fief.model';
 import { FiefIconComponent } from '../map/city-fief-menu/fief-icon/fief-icon.component';
 import { City } from '../../core/models/city/city.model';
-import { FiefMenuNavComponent } from './fief-menu-nav/fief-menu-nav.component';
-import { FiefMenuSummaryComponent } from './fief-menu-summary/fief-menu-summary.component';
-import { FiefMenuCharacterComponent } from './fief-menu-character/fief-menu-character.component';
+import { AvailableCharactersComponent } from './available-characters/available-characters.component';
+import { AssignedCharacterComponent } from './assigned-character/assigned-character.component';
+import { FiefType } from '../../core/enums/fief/fief-type.enum';
 
 @Component({
   selector: 'app-fief-menu',
   imports: [
     FiefUpgradesComponent,
     FiefIconComponent,
-    FiefMenuNavComponent,
-    FiefMenuSummaryComponent,
-    FiefMenuCharacterComponent,
+
+    AvailableCharactersComponent,
+    AssignedCharacterComponent,
   ],
   templateUrl: './fief-menu.component.html',
   styleUrl: './fief-menu.component.css',
   standalone: true,
 })
 export class FiefMenuComponent implements OnInit {
+  @ViewChild('characterDialog')
+  private dialog?: ElementRef<HTMLDialogElement>;
   protected selectedFief: Fief | null = null;
   protected selectedCity: City | null = null;
-  protected currentPanel: 'character' | 'summary' | 'upgrade' = 'summary';
+  protected fiefTypeEnum = FiefType;
 
   constructor(
     private readonly store: GameStoreService,
@@ -35,6 +37,12 @@ export class FiefMenuComponent implements OnInit {
   ngOnInit(): void {
     this.selectedFief = this.store.fief.getSelected();
     this.selectedCity = this.store.city.getSelected();
+  }
+
+  onCharacterSelectionModal() {
+    this.dialog?.nativeElement.open
+      ? this.dialog?.nativeElement.close()
+      : this.dialog?.nativeElement.showModal();
   }
 
   handleDestroyFief() {
@@ -47,9 +55,5 @@ export class FiefMenuComponent implements OnInit {
     if (!this.selectedFief) return;
 
     this.manager.fief.upgradeFief(this.selectedFief?.id, upgrade);
-  }
-
-  handleChangePanel(nextPanel: 'character' | 'summary' | 'upgrade') {
-    this.currentPanel = nextPanel;
   }
 }
