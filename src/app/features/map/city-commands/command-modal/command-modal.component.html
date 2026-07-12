@@ -1,0 +1,31 @@
+@if (cmd) {
+  <div class="flex flex-col justify-center items-center text-white">
+    <header>
+      <h3>{{ cmd.label }}</h3>
+    </header>
+    <main class="flex-1 w-full">
+      <aside class="flex flex-col justify-between items-center w-full">
+        <p class="">Requirements</p>
+        <div
+          class="flex flex-col items-center px-3 rounded"
+          [class]="cmd.bgColor"
+        >
+          <p class="tracking-[inherit]]">{{ cmd.stat }}</p>
+          <p>
+            <span>{{ currentStat }}</span
+            >/<span>{{ cmd.requirement }}</span>
+          </p>
+        </div>
+      </aside>
+      <app-available-characters />
+    </main>
+    <footer class="flex justify-between w-full">
+      <button class="menu-button" (click)="emitCloseCommandModal()">
+        Cancel
+      </button>
+      <button class="menu-button" [disabled]="!areRequirementsFullfilled()">
+        Confirm
+      </button>
+    </footer>
+  </div>
+}

@@ -1,14 +1,17 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
+  ElementRef,
   Input,
   OnChanges,
   OnInit,
   SimpleChanges,
+  ViewChild,
 } from '@angular/core';
 import { City } from '../../../../core/models/city/city.model';
 import { Faction } from '../../../../core/models/faction/faction.model';
 import { Formulae } from '../../../../core/utils/formulae.utils';
+import { CommandModalComponent } from '../command-modal/command-modal.component';
 
 export interface Command {
   id: string;
@@ -23,7 +26,7 @@ export interface Command {
 @Component({
   selector: 'app-build-commands',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, CommandModalComponent],
   templateUrl: './build-commands.component.html',
   styleUrls: ['./build-commands.component.css'],
 })
@@ -31,8 +34,10 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
   @Input() selectedCity?: City;
   @Input() playerFaction?: Faction;
   @Input() cities?: City[];
-
-  commands: Command[] = [];
+  @ViewChild('commandDialog')
+  private dialog?: ElementRef<HTMLDialogElement>;
+  protected activeCommand?: Command;
+  protected commands: Command[] = [];
 
   ngOnInit(): void {
     this.buildCommands();
@@ -90,7 +95,7 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
       },
       {
         id: 'fortify',
-        label: `Fortify city ${this.selectedCity?.name}`,
+        label: `Fortify ${this.selectedCity?.name}'s defenses`,
         show:
           this.selectedCity?.faction?.name === this.playerFaction?.name &&
           this.playerFaction.stats.security > 3,
@@ -199,7 +204,12 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
     return `px-2 w-3/4 lg:text-base text-sm`;
   }
 
-  handleEventMenuDisplay(id: string, req: number | null): void {
-    console.log(` event: ${id} with requirement ${req}`);
+  openCommandModal(command: Command): void {
+    this.activeCommand = command;
+    this.dialog?.nativeElement.showModal();
+  }
+
+  onCloseCommandModal(): void {
+    this.dialog?.nativeElement.close();
   }
 }

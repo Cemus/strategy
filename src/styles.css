@@ -4,7 +4,7 @@
   text-align: center;
   border-radius: 0.25rem;
   cursor: pointer;
-  border: solid 2px var(--color-red-600);
+  border: solid 2px transparent;
   transition: all;
   transition-duration: 250ms;
   font-size: large;
@@ -26,6 +26,18 @@
 .menu-button:hover {
   letter-spacing: 0.05rem;
   border-color: rgb(253, 253, 253);
+}
+
+.menu-button:disabled {
+  letter-spacing: 0;
+  cursor: auto;
+  border: solid 2px transparent;
+  color: var(--color-gray-600);
+  font-style: italic;
+}
+
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 @media (max-width: 720px) {
