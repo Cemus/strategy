@@ -8,6 +8,7 @@ import { City } from '../../core/models/city/city.model';
 import { AvailableCharactersComponent } from './available-characters/available-characters.component';
 import { AssignedCharacterComponent } from './assigned-character/assigned-character.component';
 import { FiefType } from '../../core/enums/fief/fief-type.enum';
+import { Character } from '../../core/models/character/character.model';
 
 @Component({
   selector: 'app-fief-menu',
@@ -55,5 +56,12 @@ export class FiefMenuComponent implements OnInit {
     if (!this.selectedFief) return;
 
     this.manager.fief.upgradeFief(this.selectedFief?.id, upgrade);
+  }
+
+  onAssignCharacterToFief(character: Character) {
+    if (!this.selectedFief) return;
+    this.selectedFief.assigned == character
+      ? this.manager.fief.assignCharacter(this.selectedFief.id, null)
+      : this.manager.fief.assignCharacter(this.selectedFief.id, character);
   }
 }

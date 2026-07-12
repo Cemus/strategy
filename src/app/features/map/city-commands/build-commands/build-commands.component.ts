@@ -16,6 +16,7 @@ import { CommandModalComponent } from '../command-modal/command-modal.component'
 export interface Command {
   id: string;
   label: string;
+  description: string;
   show: boolean;
   stat: string;
   requirement: number | null;
@@ -60,6 +61,8 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
       {
         id: 'declareWar',
         label: `Declare war with ${this.selectedCity?.faction?.name}`,
+        description:
+          'Open hostilities against this faction and unlock battles for its provinces.',
         show:
           this.isCityNeighbor() &&
           !this.isCityAtWar() &&
@@ -72,6 +75,7 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
       {
         id: 'battle',
         label: `Attack ${this.selectedCity?.name}!`,
+        description: `Launch an assault to seize control ${this.selectedCity?.name}.`,
         show: this.isCityNeighbor() && this.isCityAtWar(),
         stat: 'BTL',
         requirement: null,
@@ -81,6 +85,8 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
       {
         id: 'spyNetwork',
         label: `Establish a spy network in ${this.selectedCity?.name}`,
+        description:
+          'Establish an intelligence network to reveal information and support future operations.',
         show:
           this.selectedCity?.faction?.name !== this.playerFaction?.name &&
           this.selectedCity?.faction?.spied === false &&
@@ -96,6 +102,7 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
       {
         id: 'fortify',
         label: `Fortify ${this.selectedCity?.name}'s defenses`,
+        description: `Strengthen the province defenses against future enemy attacks. Current city's fortification level : ${this.selectedCity.stats.security}.`,
         show:
           this.selectedCity?.faction?.name === this.playerFaction?.name &&
           this.playerFaction.stats.security > 3,
@@ -107,6 +114,7 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
       {
         id: 'askTruce',
         label: `Negotiate truce with ${this.selectedCity?.faction?.name}`,
+        description: `Send officers to negociate the end of the conflict against the ${this.selectedCity.faction.name} faction.`,
         show: this.isCityAtWar(),
         stat: 'INT',
         requirement: this.getCommandRequirement('askTruce'),
@@ -116,6 +124,8 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
       {
         id: 'random',
         label: 'Random event',
+        description:
+          'Trigger a random event that may bring unexpected rewards or setbacks.',
         show: this.selectedCity?.faction?.name === this.playerFaction?.name,
         stat: '???',
         requirement: null,

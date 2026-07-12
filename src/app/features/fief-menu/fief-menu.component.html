@@ -27,10 +27,19 @@
     </div>
   </div>
 
-  <dialog #characterDialog class="m-auto p-2 bg-slate-900 rounded-lg">
+  <dialog
+    #characterDialog
+    class="text-slate-100 m-auto p-2 bg-slate-900 rounded-lg"
+  >
     <app-available-characters
-      [fief]="selectedFief"
-      (closeCharacterSelectionModal)="onCharacterSelectionModal()"
+      [characters]="selectedFief.faction.characters"
+      (assignCharacter)="onAssignCharacterToFief($event)"
     />
+    <button
+      class="block mx-auto mt-2 cursor-pointer bg-blue-600 px-12 py-1.5 rounded"
+      (click)="onCharacterSelectionModal()"
+    >
+      Close
+    </button>
   </dialog>
 }

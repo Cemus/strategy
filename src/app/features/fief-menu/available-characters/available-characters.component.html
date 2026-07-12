@@ -1,50 +1,42 @@
-@if (fief && fief.type !== fiefTypeEnum.Empty) {
-  <div class="flex flex-col text-white gap-2">
-    <h4 class="text-lg font-semibold">Available Characters</h4>
-    <div class="flex flex-col gap-2 max-h-60 overflow-y-auto">
-      @for (character of fief.faction.characters; track $index) {
-        <div
-          class="p-2 bg-slate-800 rounded hover:bg-slate-700 cursor-pointer select-none mr-4"
-          (click)="assignCharacterToFief(character)"
-          [ngClass]="{
-            'text-yellow-500': character.job !== null,
-            'text-red-500': character.exhausted === true,
-          }"
-        >
-          <div class="flex items-center gap-1">
-            <div class="flex flex-col items-center justify-center">
-              <img class="w-24 h-24 mx-4" src="{{ character.avatar }}" />
-              <p class="font-bold">
-                {{ character.name }}
-                @if (character.job) {
-                  <span class="text-sm">({{ character.job.type }})</span>
-                }
-              </p>
-            </div>
-            <div class="self-baseline">
-              <p class="text-sm">
-                Martial: {{ character.stats.might }} | Int.:{{
-                  character.stats.knowledge
-                }}
-                | Dipl.: {{ character.stats.diplomacy }} | Gov.:
-                {{ character.stats.governance }} | Know.:
-                {{ character.stats.knowledge }}
-              </p>
-              @if (character.traits.length) {
-                <p class="text-xs italic text-slate-400">
-                  Traits: {{ getTraitLabels(character) }}
-                </p>
+@if (characters.length > 0) {
+  <h4 class="text-lg font-semibold">Available Characters</h4>
+  <div class="flex flex-col gap-2 max-h-60 overflow-y-auto">
+    @for (character of characters; track $index) {
+      <div
+        class="p-2 bg-slate-800 rounded hover:bg-slate-700 cursor-pointer select-none mr-4"
+        (click)="emitAssignCharacter(character)"
+        [ngClass]="{
+          'text-yellow-500': character.job !== null,
+          'text-red-500': character.exhausted === true,
+        }"
+      >
+        <div class="flex items-center gap-1">
+          <div class="flex flex-col items-center justify-center">
+            <img class="w-24 h-24 mx-4" src="{{ character.avatar }}" />
+            <p class="font-bold">
+              {{ character.name }}
+              @if (character.job) {
+                <span class="text-sm">({{ character.job.type }})</span>
               }
-            </div>
+            </p>
+          </div>
+          <div class="self-baseline">
+            <p class="text-sm">
+              Martial: {{ character.stats.might }} | Int.:{{
+                character.stats.knowledge
+              }}
+              | Dipl.: {{ character.stats.diplomacy }} | Gov.:
+              {{ character.stats.governance }} | Know.:
+              {{ character.stats.knowledge }}
+            </p>
+            @if (character.traits.length) {
+              <p class="text-xs italic text-slate-400">
+                Traits: {{ getTraitLabels(character) }}
+              </p>
+            }
           </div>
         </div>
-      }
-    </div>
-    <button
-      class="cursor-pointer bg-blue-600 m-auto px-12 py-1.5 rounded"
-      (click)="emitCloseCharacterSelectionModal()"
-    >
-      Close
-    </button>
+      </div>
+    }
   </div>
 }
