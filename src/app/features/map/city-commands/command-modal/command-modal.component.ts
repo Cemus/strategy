@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Command } from '../build-commands/build-commands.component';
-import { AvailableCharactersComponent } from '../../../fief-menu/available-characters/available-characters.component';
+import { AvailableCharactersComponent } from '../../../../shared/components/available-characters/available-characters.component';
 import { Character } from '../../../../core/models/character/character.model';
 import { ModalComponent } from '../../../../shared/components/modal/modal.component';
 

@@ -5,7 +5,7 @@ import GameManager from '../../core/services/manager/game-manager.service';
 import { Fief, FiefUpgrade } from '../../core/models/fief/fief.model';
 import { FiefIconComponent } from '../map/city-fief-menu/fief-icon/fief-icon.component';
 import { City } from '../../core/models/city/city.model';
-import { AvailableCharactersComponent } from './available-characters/available-characters.component';
+import { AvailableCharactersComponent } from '../../shared/components/available-characters/available-characters.component';
 import { AssignedCharacterComponent } from './assigned-character/assigned-character.component';
 import { FiefType } from '../../core/enums/fief/fief-type.enum';
 import { Character } from '../../core/models/character/character.model';
