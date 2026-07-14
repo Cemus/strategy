@@ -35,8 +35,13 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
   @Input() selectedCity?: City;
   @Input() playerFaction?: Faction;
   @Input() cities?: City[];
+
   @ViewChild('commandDialog')
   private dialog?: ElementRef<HTMLDialogElement>;
+
+  @ViewChild('commandModal')
+  private modal?: CommandModalComponent;
+
   protected activeCommand?: Command;
   protected commands: Command[] = [];
 
@@ -205,10 +210,12 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
 
   openCommandModal(command: Command): void {
     this.activeCommand = command;
+    this.modal?.open();
     this.dialog?.nativeElement.showModal();
   }
 
   onCloseCommandModal(): void {
+    this.modal?.close();
     this.dialog?.nativeElement.close();
   }
 }

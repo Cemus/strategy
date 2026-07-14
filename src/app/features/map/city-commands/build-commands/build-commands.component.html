@@ -24,6 +24,7 @@
 
 <dialog #commandDialog class="m-auto p-2 bg-slate-900 rounded-lg">
   <app-command-modal
+    #commandModal
     [cmd]="activeCommand"
     [characters]="selectedCity?.faction?.characters ?? []"
     (closeCommandModal)="onCloseCommandModal()"

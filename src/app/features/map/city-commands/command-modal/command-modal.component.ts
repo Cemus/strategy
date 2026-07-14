@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Command } from '../build-commands/build-commands.component';
 import { AvailableCharactersComponent } from '../../../fief-menu/available-characters/available-characters.component';
 import { Character } from '../../../../core/models/character/character.model';
+import { ModalComponent } from '../../../../shared/components/modal/modal.component';
 
 @Component({
   selector: 'app-command-modal',
@@ -9,16 +10,12 @@ import { Character } from '../../../../core/models/character/character.model';
   templateUrl: './command-modal.component.html',
   styleUrl: './command-modal.component.css',
 })
-export class CommandModalComponent implements OnInit {
+export class CommandModalComponent extends ModalComponent {
   @Input() cmd?: Command;
   @Input() characters: Character[] = [];
 
   @Output() closeCommandModal = new EventEmitter<void>();
   protected currentStat: number = 0;
-
-  ngOnInit(): void {
-    console.log(this.cmd);
-  }
 
   areRequirementsFullfilled() {
     if (this.cmd?.requirement) {

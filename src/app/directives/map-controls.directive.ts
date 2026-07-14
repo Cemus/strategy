@@ -12,7 +12,8 @@ export class MapControlsDirective implements OnInit, OnDestroy {
   private dragStart = { x: 0, y: 0 };
   private translate = { x: 0, y: 0 };
   private scale = 0.5;
-  private zoomSubscription: Subscription | undefined;
+  private mapSubscription: Subscription | undefined;
+  private controlsPaused = false;
 
   constructor(
     private elRef: ElementRef<HTMLElement>,
@@ -23,23 +24,28 @@ export class MapControlsDirective implements OnInit, OnDestroy {
     this.svgRef = this.elRef.nativeElement.querySelector('svg')!;
     this.setupListeners();
 
-    this.zoomSubscription = this.store.map.map$.subscribe((map) => {
+    this.mapSubscription = this.store.map.map$.subscribe((map) => {
       this.scale = map.scale;
       this.translate = { x: map.translationX, y: map.translationY };
+      this.controlsPaused = map.pause;
       this.applyTransform();
     });
   }
 
   ngOnDestroy(): void {
     this.removeListeners();
-    this.zoomSubscription?.unsubscribe();
+    this.mapSubscription?.unsubscribe();
   }
 
   onMouseDown(event: MouseEvent) {
+    if (this.store.map.areMapControlsPaused()) return;
+
     this.dragStart = { x: event.clientX, y: event.clientY };
   }
 
   onMouseMove(event: MouseEvent) {
+    if (this.store.map.areMapControlsPaused()) return;
+    if (event.buttons === 0) return;
     if (event.buttons === 0) return;
 
     const dx = event.clientX - this.dragStart.x;
@@ -53,11 +59,14 @@ export class MapControlsDirective implements OnInit, OnDestroy {
       scale: this.scale,
       translationX: this.translate.x,
       translationY: this.translate.y,
+      pause: this.controlsPaused,
     });
     this.applyTransform();
   }
 
   onTouchStart(event: TouchEvent) {
+    if (this.store.map.areMapControlsPaused()) return;
+
     const touch = event.touches[0];
 
     if (!touch) return;
@@ -66,6 +75,8 @@ export class MapControlsDirective implements OnInit, OnDestroy {
   }
 
   onTouchMove(event: TouchEvent) {
+    if (this.store.map.areMapControlsPaused()) return;
+
     event.preventDefault();
 
     if (event.touches.length === 0) return;
@@ -82,11 +93,14 @@ export class MapControlsDirective implements OnInit, OnDestroy {
       scale: this.scale,
       translationX: this.translate.x,
       translationY: this.translate.y,
+      pause: this.controlsPaused,
     });
     this.applyTransform(false);
   }
 
   private onWheel = (event: WheelEvent) => {
+    if (this.store.map.areMapControlsPaused()) return;
+
     const containerBoundingBox =
       this.svgRef?.parentElement?.getBoundingClientRect();
     if (!containerBoundingBox || !this.svgRef) return;
@@ -119,6 +133,7 @@ export class MapControlsDirective implements OnInit, OnDestroy {
       scale: this.scale,
       translationX: this.translate.x,
       translationY: this.translate.y,
+      pause: this.controlsPaused,
     });
     this.applyTransform(true);
   };
