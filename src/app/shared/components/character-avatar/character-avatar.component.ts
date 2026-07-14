@@ -8,5 +8,5 @@ import { Character } from '../../../core/models/character/character.model';
   styleUrl: './character-avatar.component.css',
 })
 export class CharacterAvatarComponent {
-  @Input() character: Character | null = null;
+  @Input() character?: Character;
 }

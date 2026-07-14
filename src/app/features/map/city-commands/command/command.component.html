@@ -1,0 +1,30 @@
+@if (command) {
+  @if (command.show) {
+    <li
+      class="flex w-full p-1 items-baseline hover:bg-slate-700 hover:cursor-pointer"
+      (click)="openCommandModal(command)"
+    >
+      <p
+        class="px-2 border-solid w-2/6 text-center border-black border-2 font-semibold lg:text-base text-xs"
+        [ngClass]="[command.bgColor, command.textColor]"
+      >
+        {{ command.stat }}
+        @if (command.requirement !== null) {
+          <span>: {{ command.requirement }}</span>
+        }
+      </p>
+      <p [ngClass]="textInfoStyle()">
+        {{ command.label }}
+      </p>
+    </li>
+  }
+
+  @if (isModalOpened) {
+    <app-command-modal
+      #commandModal
+      [command]="activeCommand"
+      [characters]="characters"
+      (closeCommandModal)="onCloseCommandModal()"
+    />
+  }
+}

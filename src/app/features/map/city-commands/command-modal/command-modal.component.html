@@ -1,63 +1,90 @@
-@if (cmd) {
-  <div class="flex h-full flex-col text-white">
-    <!-- HEADER -->
-    <header class="border-b border-slate-600 pb-3">
-      <h2 class="text-xl font-bold">
-        {{ cmd.label }}
-      </h2>
+@if (command) {
+  <div class="modal-backdrop">
+    <div class="modal flex h-full flex-col text-white">
+      <!-- HEADER -->
+      <header class="border-b border-slate-600 pb-3">
+        <h2 class="text-xl font-bold">
+          {{ command.label }}
+        </h2>
 
-      <p class="mt-2 text-sm text-slate-300">
-        {{ cmd.description }}
-      </p>
-    </header>
+        <p class="mt-2 text-sm text-slate-300">
+          {{ command.description }}
+        </p>
+      </header>
 
-    <main class="flex flex-1 flex-col gap-6 py-4">
-      @if (cmd.requirement) {
-        <section>
-          <h3 class="mb-2 font-semibold">Requirement</h3>
+      <main class="flex flex-1 flex-col gap-6 py-4">
+        @if (command.requirement) {
+          <section>
+            <h4 class="text-lg font-semibold">Requirement</h4>
 
-          <div
-            class="flex items-center justify-between rounded-lg px-4 py-3"
-            [class]="cmd.bgColor"
-          >
-            <div>
-              <p class="text-xs uppercase opacity-70">
-                {{ cmd.stat }}
-              </p>
+            <div
+              class="flex items-center justify-between rounded-lg px-4 py-3"
+              [class]="command.bgColor"
+            >
+              <div>
+                <p class="text-xs uppercase opacity-70">
+                  {{ command.stat }}
+                </p>
 
-              <p class="text-lg font-bold">
-                {{ currentStat }} / {{ cmd.requirement }}
-              </p>
+                <p class="text-lg font-bold">
+                  {{ currentStatScore }} / {{ command.requirement }}
+                </p>
+              </div>
+
+              @if (areRequirementsFullfilled()) {
+                <span class="text-green-400 font-extrabold text-4xl">V</span>
+              } @else {
+                <span class="text-red-400 font-extrabold text-4xl">X</span>
+              }
             </div>
-
-            @if (areRequirementsFullfilled()) {
-              <span>✔</span>
-            } @else {
-              <span>✖</span>
-            }
+          </section>
+          <section class="flex-1">
+            <h4 class="text-lg font-semibold">Selected characters</h4>
+            <ul class="flex gap-2">
+              @for (key of tempCharactersMap.keys(); track $index) {
+                <li>
+                  <app-character-avatar
+                    [character]="tempCharactersMap.get(key)"
+                  />
+                </li>
+              }
+            </ul>
+          </section>
+        }
+        <section
+          class="flex justify-around min-h-8 text-xl bg-slate-800 border-rounded"
+        >
+          <div class="symbol">▼</div>
+          <div class="w-3/4">
+            <p class="text-center text-white">{{ message[""] }}</p>
+            <p class="text-center text-red-400">{{ message["error"] }}</p>
+            <p class="text-center text-orange-400">{{ message["warning"] }}</p>
+            <p class="text-center text-green-400">{{ message["success"] }}</p>
           </div>
+          <div class="symbol">▼</div>
         </section>
-      }
+        <section class="min-h-0">
+          <app-available-characters
+            [characters]="characters"
+            [tempSelectedCharacters]="tempCharactersMap"
+            (assignCharacter)="onAssignCharacterToMission($event)"
+          />
+        </section>
+      </main>
 
-      <section class="min-h-0">
-        <app-available-characters
-          [characters]="characters"
-          (assignCharacter)="onAssignCharacterToMission($event)"
-        />
-      </section>
-    </main>
+      <footer class="flex gap-3 border-t border-slate-600 pt-4">
+        <button class="menu-button flex-1" (click)="emitCloseCommandModal()">
+          Cancel
+        </button>
 
-    <footer class="flex gap-3 border-t border-slate-600 pt-4">
-      <button class="menu-button flex-1" (click)="emitCloseCommandModal()">
-        Cancel
-      </button>
-
-      <button
-        class="menu-button flex-1"
-        [disabled]="!areRequirementsFullfilled()"
-      >
-        Confirm
-      </button>
-    </footer>
+        <button
+          class="menu-button flex-1"
+          [disabled]="!areRequirementsFullfilled()"
+          (click)="confirm()"
+        >
+          Confirm
+        </button>
+      </footer>
+    </div>
   </div>
 }

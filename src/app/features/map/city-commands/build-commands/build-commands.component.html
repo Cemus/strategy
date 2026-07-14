@@ -1,32 +1,8 @@
 <ul>
-  @for (cmd of commands; track $index) {
-    @if (cmd.show) {
-      <li
-        class="flex w-full p-1 items-baseline hover:bg-slate-700 hover:cursor-pointer"
-        (click)="openCommandModal(cmd)"
-      >
-        <p
-          class="px-2 border-solid w-2/6 text-center border-black border-2 font-semibold lg:text-base text-xs"
-          [ngClass]="[cmd.bgColor, cmd.textColor]"
-        >
-          {{ cmd.stat }}
-          @if (cmd.requirement !== null) {
-            <span>: {{ cmd.requirement }}</span>
-          }
-        </p>
-        <p [ngClass]="textInfoStyle()">
-          {{ cmd.label }}
-        </p>
-      </li>
-    }
+  @for (command of commands; track $index) {
+    <app-command
+      [command]="command"
+      [characters]="selectedCity?.faction?.characters ?? []"
+    />
   }
 </ul>
-
-<dialog #commandDialog class="m-auto p-2 bg-slate-900 rounded-lg">
-  <app-command-modal
-    #commandModal
-    [cmd]="activeCommand"
-    [characters]="selectedCity?.faction?.characters ?? []"
-    (closeCommandModal)="onCloseCommandModal()"
-  />
-</dialog>

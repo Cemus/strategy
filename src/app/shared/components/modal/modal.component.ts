@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { GameStoreService } from '../../../core/services/store/game-store.service';
 
 @Component({
@@ -7,8 +7,16 @@ import { GameStoreService } from '../../../core/services/store/game-store.servic
   templateUrl: './modal.component.html',
   styleUrl: './modal.component.css',
 })
-export abstract class ModalComponent {
+export abstract class ModalComponent implements OnInit, OnDestroy {
   constructor(private readonly store: GameStoreService) {}
+
+  ngOnInit(): void {
+    this.open();
+  }
+
+  ngOnDestroy(): void {
+    this.close();
+  }
 
   public open() {
     this.store.map.toggleMapControls(false);

@@ -12,6 +12,7 @@ import { City } from '../../../../core/models/city/city.model';
 import { Faction } from '../../../../core/models/faction/faction.model';
 import { Formulae } from '../../../../core/utils/formulae.utils';
 import { CommandModalComponent } from '../command-modal/command-modal.component';
+import { CommandComponent } from '../command/command.component';
 
 export interface Command {
   id: string;
@@ -27,7 +28,7 @@ export interface Command {
 @Component({
   selector: 'app-build-commands',
   standalone: true,
-  imports: [CommonModule, CommandModalComponent],
+  imports: [CommonModule, CommandComponent],
   templateUrl: './build-commands.component.html',
   styleUrls: ['./build-commands.component.css'],
 })
@@ -36,13 +37,6 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
   @Input() playerFaction?: Faction;
   @Input() cities?: City[];
 
-  @ViewChild('commandDialog')
-  private dialog?: ElementRef<HTMLDialogElement>;
-
-  @ViewChild('commandModal')
-  private modal?: CommandModalComponent;
-
-  protected activeCommand?: Command;
   protected commands: Command[] = [];
 
   ngOnInit(): void {
@@ -202,20 +196,5 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
       default:
         return base;
     }
-  }
-
-  textInfoStyle(): string {
-    return `px-2 w-3/4 lg:text-base text-sm`;
-  }
-
-  openCommandModal(command: Command): void {
-    this.activeCommand = command;
-    this.modal?.open();
-    this.dialog?.nativeElement.showModal();
-  }
-
-  onCloseCommandModal(): void {
-    this.modal?.close();
-    this.dialog?.nativeElement.close();
   }
 }

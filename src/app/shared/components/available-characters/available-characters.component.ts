@@ -10,6 +10,8 @@ import { Character } from '../../../core/models/character/character.model';
 })
 export class AvailableCharactersComponent {
   @Input() characters: Character[] = [];
+  @Input() tempSelectedCharacters: Map<string, Character> = new Map();
+
   @Output() closeCharacterSelectionModal = new EventEmitter<void>();
   @Output() assignCharacter = new EventEmitter<Character>();
 
