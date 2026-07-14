@@ -14,21 +14,20 @@ export class CommandComponent {
   @Input() command?: Command;
   @Input() characters: Character[] = [];
 
-  @ViewChild('commandModal')
-  private modal?: CommandModalComponent;
-
-  protected activeCommand?: Command;
   protected isModalOpened: boolean = false;
 
-  openCommandModal(command: Command): void {
+  openCommandModal(): void {
     this.isModalOpened = true;
-    this.activeCommand = command;
-    this.modal?.open();
   }
 
   onCloseCommandModal(): void {
-    this.modal?.close();
     this.isModalOpened = false;
+  }
+
+  onConfirmCommand(characters: Character[]) {
+    characters.forEach((c) => {
+      c.exhausted = true;
+    });
   }
 
   textInfoStyle(): string {

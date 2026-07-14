@@ -16,6 +16,8 @@ export class CommandModalComponent extends ModalComponent {
   @Input() characters: Character[] = [];
 
   @Output() closeCommandModal = new EventEmitter<void>();
+  @Output() confirmCommand = new EventEmitter<Character[]>();
+
   private initMessage: Record<string, string> = {
     '': 'Select enough characters to fullfill the requirements',
   };
@@ -36,9 +38,9 @@ export class CommandModalComponent extends ModalComponent {
 
   onAssignCharacterToMission(character: Character) {
     if (character.exhausted) {
-      this.message = { error: 'This character is exhausted this turn' };
+      this.updateMessage({ error: 'This character is exhausted this turn' });
       setTimeout(() => {
-        this.message = this.initMessage;
+        this.updateMessage();
       }, 2000);
       return;
     }
@@ -51,10 +53,20 @@ export class CommandModalComponent extends ModalComponent {
       }
     }
     this.updateStatScore();
+    this.updateMessage();
+  }
+
+  updateMessage(message?: Record<string, string>): void {
+    if (message) {
+      this.message = { error: 'This character is exhausted this turn' };
+      return;
+    }
     if (this.areRequirementsFullfilled()) {
       this.message = { success: 'Requirements fullfilled!' };
     } else {
-      this.message = this.initMessage;
+      this.message = {
+        '': 'Select enough characters to fullfill the requirements',
+      };
     }
   }
 
@@ -70,13 +82,8 @@ export class CommandModalComponent extends ModalComponent {
     }
   }
 
-  confirm() {
-    for (const key of this.tempCharactersMap.keys()) {
-      const character = this.tempCharactersMap.get(key);
-
-      if (character) {
-        character.exhausted = true;
-      }
-    }
+  emitConfirmCommand() {
+    this.confirmCommand.emit(Array.from(this.tempCharactersMap.values()));
+    this.emitCloseCommandModal();
   }
 }

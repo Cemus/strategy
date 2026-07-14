@@ -40,7 +40,7 @@
           </section>
           <section class="flex-1">
             <h4 class="text-lg font-semibold">Selected characters</h4>
-            <ul class="flex gap-2">
+            <ul class="flex flex-wrap gap-2 h-full items-center">
               @for (key of tempCharactersMap.keys(); track $index) {
                 <li>
                   <app-character-avatar
@@ -80,7 +80,7 @@
         <button
           class="menu-button flex-1"
           [disabled]="!areRequirementsFullfilled()"
-          (click)="confirm()"
+          (click)="emitConfirmCommand()"
         >
           Confirm
         </button>

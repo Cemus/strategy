@@ -2,7 +2,7 @@
   @if (command.show) {
     <li
       class="flex w-full p-1 items-baseline hover:bg-slate-700 hover:cursor-pointer"
-      (click)="openCommandModal(command)"
+      (click)="openCommandModal()"
     >
       <p
         class="px-2 border-solid w-2/6 text-center border-black border-2 font-semibold lg:text-base text-xs"
@@ -21,10 +21,10 @@
 
   @if (isModalOpened) {
     <app-command-modal
-      #commandModal
-      [command]="activeCommand"
+      [command]="command"
       [characters]="characters"
       (closeCommandModal)="onCloseCommandModal()"
+      (confirmCommand)="onConfirmCommand($event)"
     />
   }
 }
