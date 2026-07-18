@@ -27,6 +27,8 @@ export class CommandComponent {
   ) {}
 
   openAssignModal(): void {
+    this.usedCharacters = [];
+
     this.isAssignModalOpened = true;
   }
 
