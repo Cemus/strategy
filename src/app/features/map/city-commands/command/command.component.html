@@ -2,7 +2,7 @@
   @if (command.show) {
     <li
       class="flex w-full p-1 items-baseline hover:bg-slate-700 hover:cursor-pointer"
-      (click)="openCommandModal()"
+      (click)="openAssignModal()"
     >
       <p
         class="px-2 border-solid w-2/6 text-center border-black border-2 font-semibold lg:text-base text-xs"
@@ -19,12 +19,20 @@
     </li>
   }
 
-  @if (isModalOpened) {
-    <app-command-modal
+  @if (isAssignModalOpened) {
+    <app-command-assign-modal
       [command]="command"
       [characters]="characters"
-      (closeCommandModal)="onCloseCommandModal()"
+      (closeModal)="onCloseAssignModal()"
       (confirmCommand)="onConfirmCommand($event)"
+    />
+  }
+
+  @if (isResultModalOpened) {
+    <app-command-result-modal
+      [command]="command"
+      [usedCharacters]="usedCharacters"
+      (closeModal)="onCloseResultModal()"
     />
   }
 }

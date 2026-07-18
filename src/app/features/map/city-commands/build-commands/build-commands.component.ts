@@ -11,7 +11,6 @@ import {
 import { City } from '../../../../core/models/city/city.model';
 import { Faction } from '../../../../core/models/faction/faction.model';
 import { Formulae } from '../../../../core/utils/formulae.utils';
-import { CommandModalComponent } from '../command-modal/command-modal.component';
 import { CommandComponent } from '../command/command.component';
 
 export interface Command {

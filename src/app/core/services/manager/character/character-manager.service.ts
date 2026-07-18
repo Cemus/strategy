@@ -14,7 +14,7 @@ export class CharacterManagerService {
     this.store.character.updateAll(characters);
   }
 
-  characterImproveRelation(c1: string, c2: string, value: number) {
+  improveRelation(c1: string, c2: string, value: number) {
     const characters = this.store.character.getAll();
     const character1 = characters.find((c) => c.id == c1);
     const character2 = characters.find((c) => c.id == c2);
@@ -25,11 +25,7 @@ export class CharacterManagerService {
     }
   }
 
-  characterGainStat(
-    characterId: string,
-    stat: keyof CharacterStat,
-    value: number,
-  ) {
+  gainStat(characterId: string, stat: keyof CharacterStat, value: number) {
     const character = this.store.character
       .getAll()
       .find((c) => c.id === characterId);
@@ -41,7 +37,7 @@ export class CharacterManagerService {
     }
   }
 
-  characterGainTrait(characterId: string, trait: Trait) {
+  gainTrait(characterId: string, trait: Trait) {
     const character = this.store.character
       .getAll()
       .find((c) => c.id === characterId);
@@ -51,5 +47,18 @@ export class CharacterManagerService {
         character.traits.push(trait);
       }
     }
+  }
+
+  getCharacterById(id: string) {
+    return this.store.character.getAll().find((f) => f.id === id);
+  }
+
+  exhaust(id: string): Character | null {
+    const character = this.getCharacterById(id);
+
+    if (!character) return null;
+
+    character.exhausted = true;
+    return character;
   }
 }

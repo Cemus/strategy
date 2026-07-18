@@ -6,16 +6,16 @@ import { ModalComponent } from '../../../../shared/components/modal/modal.compon
 import { CharacterAvatarComponent } from '../../../../shared/components/character-avatar/character-avatar.component';
 
 @Component({
-  selector: 'app-command-modal',
+  selector: 'app-command-assign-modal',
   imports: [AvailableCharactersComponent, CharacterAvatarComponent],
-  templateUrl: './command-modal.component.html',
-  styleUrl: './command-modal.component.css',
+  templateUrl: './command-assign-modal.component.html',
+  styleUrl: './command-assign-modal.component.css',
 })
-export class CommandModalComponent extends ModalComponent {
+export class CommandAssignModalComponent extends ModalComponent {
   @Input() command?: Command;
   @Input() characters: Character[] = [];
 
-  @Output() closeCommandModal = new EventEmitter<void>();
+  @Output() closeModal = new EventEmitter<void>();
   @Output() confirmCommand = new EventEmitter<Character[]>();
 
   private initMessage: Record<string, string> = {
@@ -33,7 +33,7 @@ export class CommandModalComponent extends ModalComponent {
   }
 
   emitCloseCommandModal() {
-    this.closeCommandModal.emit();
+    this.closeModal.emit();
   }
 
   onAssignCharacterToMission(character: Character) {

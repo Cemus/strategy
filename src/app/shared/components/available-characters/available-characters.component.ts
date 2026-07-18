@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Character } from '../../../core/models/character/character.model';
+import { CharacterAvatarComponent } from '../character-avatar/character-avatar.component';
 
 @Component({
   selector: 'app-available-characters',
-  imports: [CommonModule],
+  imports: [CommonModule, CharacterAvatarComponent],
   templateUrl: './available-characters.component.html',
   styleUrl: './available-characters.component.css',
 })

@@ -1,0 +1,36 @@
+@if (command) {
+  <div class="modal-backdrop">
+    <div class="modal flex flex-col text-white">
+      <!-- HEADER -->
+      <header class="border-b border-slate-600 pb-3">
+        <h2 class="text-xl font-bold">
+          {{ command.label }}
+        </h2>
+
+        <p class="mt-2 text-sm text-slate-300">
+          <span>{{ getUsedCharactersNames() }}</span>
+          successfully built fortifications!
+        </p>
+      </header>
+
+      <main class="flex flex-1 flex-col gap-6 py-4">
+        <section class="flex-1">
+          <h4 class="text-lg font-semibold">Used characters</h4>
+          <ul class="flex flex-wrap gap-2 h-full items-center">
+            @for (character of usedCharacters; track $index) {
+              <li>
+                <app-character-avatar [character]="character" />
+              </li>
+            }
+          </ul>
+        </section>
+      </main>
+
+      <footer class="flex gap-3 border-t border-slate-600 pt-4">
+        <button class="menu-button flex-1" (click)="emitCloseModal()">
+          Confirm
+        </button>
+      </footer>
+    </div>
+  </div>
+}

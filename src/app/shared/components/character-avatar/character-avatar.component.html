@@ -1,5 +1,12 @@
-<div class="flex flex-col items-center justify-center">
+<div class="relative flex flex-col items-center justify-center">
   @if (character) {
+    @if (character.exhausted) {
+      <div
+        class="absolute rotate-[-18deg] border-2 border-red-500 bg-red-900/70 px-2 py-0.5 text-xs font-extrabold tracking-widest text-red-300 uppercase"
+      >
+        <p>EXHAUSTED</p>
+      </div>
+    }
     <img
       [src]="character.avatar"
       [alt]="character.name"

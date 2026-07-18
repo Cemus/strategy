@@ -12,15 +12,8 @@
         }"
       >
         <div class="flex items-center gap-1">
-          <div class="flex flex-col items-center justify-center">
-            <img class="w-24 h-24 mx-4" src="{{ character.avatar }}" />
-            <p class="font-bold">
-              {{ character.name }}
-              @if (character.job) {
-                <span class="text-sm">({{ character.job.type }})</span>
-              }
-            </p>
-          </div>
+          <app-character-avatar [character]="character" />
+
           <div class="self-baseline">
             <p class="text-sm">
               Martial: {{ character.stats.might }} | Int.:{{

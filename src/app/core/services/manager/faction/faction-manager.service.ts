@@ -15,4 +15,12 @@ export class FactionManagerService {
   getFactionById(id: string) {
     return this.store.faction.getAll().find((f) => f.id === id);
   }
+
+  decreaserActionCount(id: string): void {
+    const faction = this.getFactionById(id);
+
+    if (!faction) return;
+
+    faction.actionCount--;
+  }
 }
