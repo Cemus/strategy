@@ -38,7 +38,6 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
     ) {
       this.buildCommands();
     }
-    console.log('test');
   }
 
   private buildCommands(): void {
