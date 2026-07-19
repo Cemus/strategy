@@ -15,6 +15,7 @@ import { MapControlsDirective } from '../../directives/map-controls.directive';
 import { CityCommandsMenuComponent } from './city-commands/city-commands-menu/city-commands-menu.component';
 import { CityFieftMenuComponent } from './city-fief-menu/city-fief-menu.component';
 import { citiesSetup } from '../../core/utils/cities-setup.utils';
+import GameManagerService from '../../core/services/manager/game-manager.service';
 
 @Component({
   selector: 'app-map',
@@ -40,10 +41,10 @@ export class MapComponent implements OnChanges, AfterViewInit {
   isDragging = false;
   private initialized = false;
 
-  constructor(private store: GameStoreService) {}
+  constructor(private manager: GameManagerService) {}
 
   ngOnInit() {
-    this.selectedCity = this.store.city.getSelected();
+    this.selectedCity = this.manager.city.getSelected();
   }
 
   ngAfterViewInit() {
@@ -54,7 +55,10 @@ export class MapComponent implements OnChanges, AfterViewInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.initialized && (changes['cities'] || changes['playerFaction'])) {
+    if (
+      this.initialized &&
+      (changes['cities'] || changes['playerFaction'] || changes['factions'])
+    ) {
       this.setupCities();
     }
   }
@@ -67,7 +71,7 @@ export class MapComponent implements OnChanges, AfterViewInit {
   }
 
   handleCitySelection(city: City) {
-    this.store.city.updateSelected(city);
-    this.selectedCity = this.store.city.getSelected();
+    this.manager.city.updateSelected(city);
+    this.selectedCity = this.manager.city.getSelected();
   }
 }

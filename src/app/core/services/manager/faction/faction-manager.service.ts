@@ -6,7 +6,11 @@ import { Faction } from '../../../models/faction/faction.model';
   providedIn: 'root',
 })
 export class FactionManagerService {
-  constructor(private readonly store: GameStoreService) {}
+  public factions$;
+
+  constructor(private readonly store: GameStoreService) {
+    this.factions$ = this.store.faction.factions$;
+  }
 
   init(factions: Faction[]) {
     this.store.faction.updateAll(factions);
@@ -18,6 +22,8 @@ export class FactionManagerService {
     if (!faction) return;
 
     faction.actionCount--;
+
+    this.store.faction.updateSingle(faction);
   }
 
   getAll() {
@@ -28,6 +34,10 @@ export class FactionManagerService {
     return this.store.faction.getFactionById(id);
   }
 
+  getPlayerFaction() {
+    return this.store.faction.getAll().find((f) => f.player === true);
+  }
+
   truce(factionAId: string, factionBId: string) {
     const factionA = this.getFactionById(factionAId);
     const factionB = this.getFactionById(factionBId);
@@ -36,6 +46,9 @@ export class FactionManagerService {
 
     factionA.atWar = factionA?.atWar.filter((f) => f.id === factionBId);
     factionB.atWar = factionB?.atWar.filter((f) => f.id === factionAId);
+
+    this.store.faction.updateSingle(factionA);
+    this.store.faction.updateSingle(factionB);
   }
 
   war(factionAId: string, factionBId: string) {
@@ -52,6 +65,9 @@ export class FactionManagerService {
 
     factionA.atWar.push(factionB);
     factionB.atWar.push(factionA);
+
+    this.store.faction.updateSingle(factionA);
+    this.store.faction.updateSingle(factionB);
   }
 
   spyCity(factionId: string, cityId: string) {
@@ -63,5 +79,8 @@ export class FactionManagerService {
     if (faction.spies.some((c) => c.id === cityId)) return;
 
     faction.spies.push(city);
+
+    this.store.faction.updateSingle(faction);
+    this.store.city.updateSingle(city);
   }
 }

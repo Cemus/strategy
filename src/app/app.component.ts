@@ -29,7 +29,7 @@ export class AppComponent implements OnInit {
   protected factions: Faction[] = [];
   protected cities: City[] = [];
   protected menu = '';
-  protected playerFaction!: Faction;
+  protected playerFaction?: Faction;
 
   constructor(private manager: GameManagerService) {}
 
@@ -37,14 +37,16 @@ export class AppComponent implements OnInit {
     if (!this.manager.isInitialized) {
       await this.manager.init();
     }
-    this.factions = this.manager.faction.getAll();
-    this.cities = this.manager.city.getAll();
-
-    this.playerFaction = this.factions.find((f) => f.player)!;
-
+    this.manager.faction.factions$.subscribe((factions) => {
+      this.factions = factions;
+    });
+    this.manager.city.cities$.subscribe((cities) => {
+      this.cities = cities;
+    });
     this.manager.view.selectedMenu$.subscribe((menu) => {
       this.menu = menu;
     });
+    this.playerFaction = this.factions.find((f) => f.player);
 
     this.loading = false;
   }

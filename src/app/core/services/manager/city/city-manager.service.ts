@@ -7,7 +7,11 @@ import { CivicStat } from '../../../enums/faction/civic-stat.enum';
   providedIn: 'root',
 })
 export class CityManagerService {
-  constructor(private readonly store: GameStoreService) {}
+  public cities$;
+
+  constructor(private readonly store: GameStoreService) {
+    this.cities$ = this.store.city.cities$;
+  }
 
   init(cities: City[]) {
     this.store.city.updateAll(cities);
@@ -23,6 +27,10 @@ export class CityManagerService {
 
   getAll() {
     return this.store.city.getAll();
+  }
+
+  updateSelected(city: City) {
+    this.store.city.updateSelected(city);
   }
 
   updateStat(cityId: string, stat: Partial<Record<CivicStat, number>>) {

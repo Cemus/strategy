@@ -9,8 +9,8 @@ import { GameStoreService } from '../../../core/services/store/game-store.servic
   styleUrl: './footer.component.css',
 })
 export class FooterComponent {
-  @Input() playerFaction!: Faction;
-  @Input() currentMenu!: string;
+  @Input() playerFaction?: Faction;
+  @Input() currentMenu: string = '';
 
   constructor(private store: GameStoreService) {}
 

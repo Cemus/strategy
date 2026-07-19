@@ -128,6 +128,7 @@ export async function buildDefaultData() {
   factions.forEach((f) => {
     for (let index = 0; index < 3; index++) {
       const character = CharacterFactory.generateCharacter(f);
+      character.faction = f;
       f.characters.push(character);
       characters.push(character);
     }

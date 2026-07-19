@@ -2,7 +2,7 @@
   @for (command of commands; track $index) {
     <app-command
       [command]="command"
-      [characters]="selectedCity?.faction?.characters ?? []"
+      [characters]="playerFaction?.characters ?? []"
       (updateCommands)="onUpdateCommands()"
     />
   }
