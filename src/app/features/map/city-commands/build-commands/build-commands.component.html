@@ -3,6 +3,7 @@
     <app-command
       [command]="command"
       [characters]="selectedCity?.faction?.characters ?? []"
+      (updateCommands)="onUpdateCommands()"
     />
   }
 </ul>

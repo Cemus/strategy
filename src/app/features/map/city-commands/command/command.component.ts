@@ -1,11 +1,10 @@
-import { Component, Input } from '@angular/core';
-import { Command } from '../build-commands/build-commands.component';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Character } from '../../../../core/models/character/character.model';
 import { CommandAssignModalComponent } from '../command-assign-modal/command-assign-modal.component';
 import { NgClass } from '@angular/common';
 import { CommandResultModalComponent } from '../command-result-modal/command-result-modal.component';
 import GameManagerService from '../../../../core/services/manager/game-manager.service';
-import { GameStoreService } from '../../../../core/services/store/game-store.service';
+import { Command } from '../../../../core/types/command/command';
 
 @Component({
   selector: 'app-command',
@@ -16,6 +15,8 @@ import { GameStoreService } from '../../../../core/services/store/game-store.ser
 export class CommandComponent {
   @Input() command?: Command;
   @Input() characters: Character[] = [];
+
+  @Output() updateCommands = new EventEmitter();
 
   protected isAssignModalOpened: boolean = false;
   protected isResultModalOpened: boolean = false;
@@ -38,20 +39,22 @@ export class CommandComponent {
   }
 
   onConfirmCommand(characters: Character[]) {
-    const factionId = this.characters[0].faction.id;
+    if (this.command) {
+      const factionId = this.characters[0].faction.id;
 
-    characters.forEach((c) => {
-      const character = this.manager.character.exhaust(c.id);
-      if (character) {
-        this.usedCharacters.push(character);
-      }
-    });
+      this.manager.command.execute(this.command);
+      characters.forEach((c) => {
+        const character = this.manager.character.exhaust(c.id);
+        if (character) {
+          this.usedCharacters.push(character);
+        }
+      });
+      this.manager.faction.decreaserActionCount(factionId);
 
-    // resultat de l'action avec le mana
+      this.updateCommands.emit();
 
-    this.manager.faction.decreaserActionCount(factionId);
-
-    this.isResultModalOpened = true;
+      this.isResultModalOpened = true;
+    }
   }
 
   textInfoStyle(): string {

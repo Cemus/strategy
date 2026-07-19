@@ -16,6 +16,10 @@ export default class FactionStoreService {
     this.updateAll([...factions, faction]);
   }
 
+  getFactionById(id: string) {
+    return this.getAll().find((f) => f.id === id);
+  }
+
   getAll() {
     return this.factionsSubject.getValue();
   }

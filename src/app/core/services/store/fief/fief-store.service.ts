@@ -30,4 +30,8 @@ export default class FiefStoreService {
   getSelected() {
     return this.selectedFiefSubject.getValue();
   }
+
+  getFiefById(id: string) {
+    return this.getAll().find((f) => f.id === id);
+  }
 }

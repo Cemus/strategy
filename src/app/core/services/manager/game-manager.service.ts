@@ -9,6 +9,7 @@ import { FactionManagerService } from './faction/faction-manager.service';
 import { buildDefaultData } from '../../utils/game-data.utils';
 import { ViewManagerservice } from './view/view-manager.service';
 import { MapManagerService } from './map/map-manager.service';
+import { CommandManagerService } from './command/command-manager.service';
 
 @Injectable({ providedIn: 'root' })
 export default class GameManagerService {
@@ -24,6 +25,7 @@ export default class GameManagerService {
     readonly faction: FactionManagerService,
     readonly view: ViewManagerservice,
     readonly map: MapManagerService,
+    readonly command: CommandManagerService,
   ) {}
 
   async init() {

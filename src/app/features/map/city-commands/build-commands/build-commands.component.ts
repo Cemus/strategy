@@ -1,28 +1,16 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
-  ElementRef,
   Input,
   OnChanges,
   OnInit,
   SimpleChanges,
-  ViewChild,
 } from '@angular/core';
 import { City } from '../../../../core/models/city/city.model';
 import { Faction } from '../../../../core/models/faction/faction.model';
 import { Formulae } from '../../../../core/utils/formulae.utils';
 import { CommandComponent } from '../command/command.component';
-
-export interface Command {
-  id: string;
-  label: string;
-  description: string;
-  show: boolean;
-  stat: string;
-  requirement: number | null;
-  bgColor: string;
-  textColor: string;
-}
+import { Command } from '../../../../core/types/command/command';
 
 @Component({
   selector: 'app-build-commands',
@@ -50,6 +38,7 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
     ) {
       this.buildCommands();
     }
+    console.log('test');
   }
 
   private buildCommands(): void {
@@ -61,33 +50,50 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
         label: `Declare war with ${this.selectedCity?.faction?.name}`,
         description:
           'Open hostilities against this faction and unlock battles for its provinces.',
+        successText: `declared our intention to go in war against ${this.selectedCity?.faction?.name}. Your armies can now march against their provinces.`,
         show:
           this.isCityNeighbor() &&
           !this.isCityAtWar() &&
-          !(this.playerFaction.name === this.selectedCity?.faction?.name),
+          this.playerFaction.name !== this.selectedCity?.faction?.name,
         stat: 'ATK',
         requirement: this.getCommandRequirement('declareWar'),
         bgColor: 'bg-red-700',
         textColor: 'slate-100',
+        context: {
+          characters: [],
+          fiefs: [],
+          factions: [this.playerFaction, this.selectedCity?.faction],
+          cities: [],
+        },
       },
       {
         id: 'battle',
         label: `Attack ${this.selectedCity?.name}!`,
-        description: `Launch an assault to seize control ${this.selectedCity?.name}.`,
+        description: `Launch an assault to seize control of ${this.selectedCity?.name}.`,
+        successText: `${this.selectedCity?.name} has been attacked. The battle outcome has been recorded.`,
         show: this.isCityNeighbor() && this.isCityAtWar(),
         stat: 'BTL',
         requirement: null,
         bgColor: 'bg-red-700',
         textColor: 'slate-100',
+        context: {
+          characters: [],
+          fiefs: [],
+          factions: [this.playerFaction, this.selectedCity?.faction],
+          cities: [],
+        },
       },
       {
         id: 'spyNetwork',
         label: `Establish a spy network in ${this.selectedCity?.name}`,
         description:
           'Establish an intelligence network to reveal information and support future operations.',
+        successText: `established in ${this.selectedCity?.name}. Enemy activity can now be monitored.`,
         show:
           this.selectedCity?.faction?.name !== this.playerFaction?.name &&
-          this.selectedCity?.faction?.spied === false &&
+          this.playerFaction.spies.some(
+            (c) => c.id === this.selectedCity?.id,
+          ) === false &&
           Formulae.getDistanceToClosestCity(
             this.selectedCity,
             this.playerFaction,
@@ -96,11 +102,18 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
         requirement: this.getCommandRequirement('spyNetwork'),
         bgColor: 'bg-yellow-700',
         textColor: 'slate-100',
+        context: {
+          characters: [],
+          fiefs: [],
+          factions: [this.playerFaction],
+          cities: [this.selectedCity],
+        },
       },
       {
         id: 'fortify',
         label: `Fortify ${this.selectedCity?.name}'s defenses`,
         description: `Strengthen the province defenses against future enemy attacks. Current city's fortification level : ${this.selectedCity.stats.security}.`,
+        successText: `have reinforced ${this.selectedCity?.name}'s defenses. Security has increased.`,
         show:
           this.selectedCity?.faction?.name === this.playerFaction?.name &&
           this.playerFaction.stats.security > 3,
@@ -108,27 +121,48 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
         requirement: this.getCommandRequirement('fortify'),
         bgColor: 'bg-blue-700',
         textColor: 'slate-100',
+        context: {
+          characters: [],
+          fiefs: [],
+          factions: [this.playerFaction],
+          cities: [this.selectedCity],
+        },
       },
       {
         id: 'askTruce',
         label: `Negotiate truce with ${this.selectedCity?.faction?.name}`,
-        description: `Send officers to negociate the end of the conflict against the ${this.selectedCity.faction.name} faction.`,
+        description: `Send officers to negotiate the end of the conflict against the ${this.selectedCity.faction.name} faction.`,
+        successText: `negotiations succeeded. The war with ${this.selectedCity?.faction?.name} has ended.`,
         show: this.isCityAtWar(),
         stat: 'INT',
         requirement: this.getCommandRequirement('askTruce'),
         bgColor: 'bg-emerald-700',
         textColor: 'slate-100',
+        context: {
+          characters: [],
+          fiefs: [],
+          factions: [this.playerFaction, this.selectedCity.faction],
+          cities: [],
+        },
       },
       {
         id: 'random',
         label: 'Random event',
         description:
           'Trigger a random event that may bring unexpected rewards or setbacks.',
+        successText:
+          'An unexpected event has occurred. Its consequences will shape the future of your faction.',
         show: this.selectedCity?.faction?.name === this.playerFaction?.name,
         stat: '???',
         requirement: null,
         bgColor: 'bg-slate-100',
         textColor: 'text-black',
+        context: {
+          characters: [],
+          fiefs: [],
+          factions: [this.playerFaction],
+          cities: [this.selectedCity],
+        },
       },
     ];
   }
@@ -195,5 +229,9 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
       default:
         return base;
     }
+  }
+
+  onUpdateCommands() {
+    this.buildCommands();
   }
 }

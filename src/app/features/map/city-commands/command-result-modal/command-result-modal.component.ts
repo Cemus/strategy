@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Character } from '../../../../core/models/character/character.model';
 import { CharacterAvatarComponent } from '../../../../shared/components/character-avatar/character-avatar.component';
 import { ModalComponent } from '../../../../shared/components/modal/modal.component';
-import { Command } from '../build-commands/build-commands.component';
+import { Command } from '../../../../core/types/command/command';
 
 @Component({
   selector: 'app-command-result-modal',

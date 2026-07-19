@@ -27,6 +27,10 @@ export default class CityStoreService {
     return this.citiesSubject.getValue();
   }
 
+  getCityById(id: string) {
+    return this.getAll().find((c) => c.id === id);
+  }
+
   updateSelected(city: City | null) {
     this.selectedCitySubject.getValue() == city
       ? this.selectedCitySubject.next(null)

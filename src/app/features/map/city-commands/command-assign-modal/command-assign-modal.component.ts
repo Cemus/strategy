@@ -1,11 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Command } from '../build-commands/build-commands.component';
 import { AvailableCharactersComponent } from '../../../../shared/components/available-characters/available-characters.component';
 import { Character } from '../../../../core/models/character/character.model';
 import { ModalComponent } from '../../../../shared/components/modal/modal.component';
 import { CharacterAvatarComponent } from '../../../../shared/components/character-avatar/character-avatar.component';
-import { MapManagerService } from '../../../../core/services/manager/map/map-manager.service';
-import GameManagerService from '../../../../core/services/manager/game-manager.service';
+import { Command } from '../../../../core/types/command/command';
 
 @Component({
   selector: 'app-command-assign-modal',

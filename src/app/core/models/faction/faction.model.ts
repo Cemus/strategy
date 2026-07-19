@@ -15,7 +15,7 @@ export class Faction {
   private _characters: Character[];
   private _player: boolean;
   private _stats: Record<CivicStat, number>;
-  private _spied: boolean = false;
+  private _spies: City[] = [];
   private _actionCount: number = 3;
 
   constructor(
@@ -134,12 +134,12 @@ export class Faction {
     this._stats = val;
   }
 
-  get spied() {
-    return this._spied;
+  get spies() {
+    return this._spies;
   }
 
-  set spied(val: boolean) {
-    this._spied = val;
+  set spies(val: City[]) {
+    this._spies = val;
   }
 
   get actionCount() {
