@@ -44,8 +44,8 @@ export class FactionManagerService {
 
     if (!factionA || !factionB) return;
 
-    factionA.atWar = factionA?.atWar.filter((f) => f.id === factionBId);
-    factionB.atWar = factionB?.atWar.filter((f) => f.id === factionAId);
+    factionA.atWar = factionA?.atWar.filter((f) => f.id !== factionBId);
+    factionB.atWar = factionB?.atWar.filter((f) => f.id !== factionAId);
 
     this.store.faction.updateSingle(factionA);
     this.store.faction.updateSingle(factionB);
