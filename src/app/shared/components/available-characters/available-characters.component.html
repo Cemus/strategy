@@ -28,6 +28,12 @@
                 Traits: {{ getTraitLabels(character) }}
               </p>
             }
+            @if (character.job) {
+              <p>
+                Governor of {{ character.job.city.name }}
+                {{ character.job.type }}
+              </p>
+            }
           </div>
         </div>
       </div>

@@ -29,6 +29,7 @@ export class FiefMenuComponent implements OnInit {
   protected selectedFief: Fief | null = null;
   protected selectedCity: City | null = null;
   protected fiefTypeEnum = FiefType;
+  protected isModalOpened = false;
 
   constructor(private readonly manager: GameManager) {}
 
@@ -37,10 +38,8 @@ export class FiefMenuComponent implements OnInit {
     this.selectedCity = this.manager.city.getSelected();
   }
 
-  onCharacterSelectionModal() {
-    this.dialog?.nativeElement.open
-      ? this.dialog?.nativeElement.close()
-      : this.dialog?.nativeElement.showModal();
+  toggleModal() {
+    this.isModalOpened = !this.isModalOpened;
   }
 
   handleDestroyFief() {

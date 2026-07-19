@@ -4,6 +4,8 @@ import { AvailableCharactersComponent } from '../../../../shared/components/avai
 import { Character } from '../../../../core/models/character/character.model';
 import { ModalComponent } from '../../../../shared/components/modal/modal.component';
 import { CharacterAvatarComponent } from '../../../../shared/components/character-avatar/character-avatar.component';
+import { MapManagerService } from '../../../../core/services/manager/map/map-manager.service';
+import GameManagerService from '../../../../core/services/manager/game-manager.service';
 
 @Component({
   selector: 'app-command-assign-modal',
@@ -24,6 +26,8 @@ export class CommandAssignModalComponent extends ModalComponent {
   protected currentStatScore: number = 0;
   protected tempCharactersMap: Map<string, Character> = new Map();
   protected message: Record<string, string> = this.initMessage;
+  private pendingGovernorConfirmation: string | null = null;
+  private confirmationTimer?: ReturnType<typeof setTimeout>;
 
   areRequirementsFullfilled() {
     if (this.command?.requirement) {
@@ -38,27 +42,67 @@ export class CommandAssignModalComponent extends ModalComponent {
 
   onAssignCharacterToMission(character: Character) {
     if (character.exhausted) {
-      this.updateMessage({ error: 'This character is exhausted this turn' });
-      setTimeout(() => {
-        this.updateMessage();
-      }, 2000);
+      this.updateMessage({
+        error: `${character.name} is exhausted this turn`,
+      });
+      this.resetMessageAfterDelay();
       return;
     }
-    if (this.tempCharactersMap.get(character.id)) {
+
+    if (character.job) {
+      if (this.pendingGovernorConfirmation === character.id) {
+        this.pendingGovernorConfirmation = null;
+
+        if (this.confirmationTimer) {
+          clearTimeout(this.confirmationTimer);
+        }
+
+        this.selectCharacter(character);
+        this.updateMessage();
+        return;
+      }
+
+      this.pendingGovernorConfirmation = character.id;
+
+      this.updateMessage({
+        warning: `${character.name} is currently governor. Click again to assign.`,
+      });
+
+      this.confirmationTimer = setTimeout(() => {
+        this.pendingGovernorConfirmation = null;
+        this.updateMessage();
+      }, 2000);
+
+      return;
+    }
+
+    this.selectCharacter(character);
+    this.updateMessage();
+  }
+
+  private selectCharacter(character: Character) {
+    if (character.job) {
+      this.manager.fief.assignCharacter(character.job.id, null);
+    }
+
+    if (this.tempCharactersMap.has(character.id)) {
       this.tempCharactersMap.delete(character.id);
     } else {
-      if (!character.job) {
-        this.tempCharactersMap.set(character.id, character);
-      } else {
-      }
+      this.tempCharactersMap.set(character.id, character);
     }
+
     this.updateStatScore();
-    this.updateMessage();
+  }
+
+  private resetMessageAfterDelay() {
+    setTimeout(() => {
+      this.updateMessage();
+    }, 2000);
   }
 
   updateMessage(message?: Record<string, string>): void {
     if (message) {
-      this.message = { error: 'This character is exhausted this turn' };
+      this.message = message;
       return;
     }
     if (this.areRequirementsFullfilled()) {

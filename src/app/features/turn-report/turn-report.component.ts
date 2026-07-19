@@ -34,8 +34,5 @@ export class TurnReportComponent implements OnInit {
         this.playerFaction.id,
       );
     }
-    console.log(this.currentTurnReport);
-    console.log(this.previousTurnReport);
-    console.log(this.playerFaction);
   }
 }

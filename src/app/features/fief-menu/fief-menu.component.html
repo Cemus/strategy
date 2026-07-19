@@ -14,8 +14,8 @@
       @if (selectedFief.type !== fiefTypeEnum.Empty) {
         <app-assigned-character
           [fief]="selectedFief"
-          (openCharacterSelectionModal)="onCharacterSelectionModal()"
-          class="max-w-1/2 min-h-0 overflow-y-auto"
+          (openCharacterSelectionModal)="toggleModal()"
+          class="max-w-1/2 min-h-0 overflow-visible"
         />
       }
 
@@ -27,19 +27,20 @@
     </div>
   </div>
 
-  <dialog
-    #characterDialog
-    class="text-slate-100 m-auto p-2 bg-slate-900 rounded-lg"
-  >
-    <app-available-characters
-      [characters]="selectedFief.faction.characters"
-      (assignCharacter)="onAssignCharacterToFief($event)"
-    />
-    <button
-      class="block mx-auto mt-2 cursor-pointer bg-blue-600 px-12 py-1.5 rounded"
-      (click)="onCharacterSelectionModal()"
-    >
-      Close
-    </button>
-  </dialog>
+  @if (isModalOpened) {
+    <div class="modal-backdrop">
+      <div class="modal text-white">
+        <app-available-characters
+          [characters]="selectedFief.faction.characters"
+          (assignCharacter)="onAssignCharacterToFief($event)"
+        />
+        <button
+          class="block mx-auto mt-2 cursor-pointer bg-blue-600 px-12 py-1.5 rounded"
+          (click)="toggleModal()"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  }
 }

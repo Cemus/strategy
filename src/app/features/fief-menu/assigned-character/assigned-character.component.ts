@@ -3,10 +3,11 @@ import { FiefType } from '../../../core/enums/fief/fief-type.enum';
 import { Fief } from '../../../core/models/fief/fief.model';
 import { FiefAction } from '../../../core/enums/fief/fief-action.enum';
 import { FormsModule } from '@angular/forms';
+import { CharacterAvatarComponent } from '../../../shared/components/character-avatar/character-avatar.component';
 
 @Component({
   selector: 'app-assigned-character',
-  imports: [FormsModule],
+  imports: [FormsModule, CharacterAvatarComponent],
   templateUrl: './assigned-character.component.html',
   styleUrl: './assigned-character.component.css',
 })

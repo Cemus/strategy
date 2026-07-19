@@ -44,7 +44,7 @@
               @for (key of tempCharactersMap.keys(); track $index) {
                 <li>
                   <app-character-avatar
-                    [character]="tempCharactersMap.get(key)"
+                    [character]="tempCharactersMap.get(key) ?? null"
                   />
                 </li>
               }

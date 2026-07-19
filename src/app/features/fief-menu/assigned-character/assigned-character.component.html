@@ -1,31 +1,9 @@
 @if (fief && fief.type !== fiefTypeEnum.Empty) {
-  <h4 class="text-lg font-semibold mb-2">Assigned Character</h4>
+  <h4 class="text-lg font-semibold mb-2">Governor</h4>
   <div class="">
-    @if (fief.assigned) {
-      <button
-        (click)="emitOpenCharacterSelectionModal()"
-        class="cursor-pointer"
-      >
-        <img
-          [src]="fief.assigned.avatar"
-          [alt]="fief.assigned.name"
-          class="w-24 h-24 rounded object-cover border border-slate-600"
-        />
-      </button>
-      <p class="">{{ fief.assigned.name }}</p>
-    } @else {
-      <button
-        (click)="emitOpenCharacterSelectionModal()"
-        class="cursor-pointer"
-      >
-        <img
-          [src]="'assets/avatars/none.jpg'"
-          [alt]="'No character assigned'"
-          class="w-24 h-24 rounded object-cover border border-slate-600"
-        />
-      </button>
-      <p class="text-red-300">None</p>
-    }
+    <button (click)="emitOpenCharacterSelectionModal()" class="cursor-pointer">
+      <app-character-avatar [character]="fief.assigned" />
+    </button>
   </div>
   @if (fief.assigned !== null) {
     <div class="">

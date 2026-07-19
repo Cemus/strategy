@@ -52,17 +52,15 @@ async function buildCitiesFromSvg(
       isCapital = factionCityNames[faction.name][0] === name;
     }
 
-    const city = new City(
-      name,
-      faction,
-      [
-        new Fief(FiefType.Castle, faction),
-        new Fief(FiefType.Empty, faction),
-        new Fief(FiefType.Empty, faction),
-      ],
-      pathData,
-      baseCityStat,
-    );
+    const city = new City(name, faction, [], pathData, baseCityStat);
+
+    const fiefs: Fief[] = [
+      new Fief(FiefType.Castle, city.faction, city),
+      new Fief(FiefType.Empty, city.faction, city),
+      new Fief(FiefType.Empty, city.faction, city),
+    ];
+
+    city.fiefs.push(...fiefs);
 
     if (isCapital) {
       city.isCapital = true;

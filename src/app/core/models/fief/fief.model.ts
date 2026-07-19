@@ -4,6 +4,7 @@ import { FiefType } from '../../enums/fief/fief-type.enum';
 import { Character } from '../character/character.model';
 import { Faction } from '../faction/faction.model';
 import { CivicStat } from '../../enums/faction/civic-stat.enum';
+import { City } from '../city/city.model';
 
 export type FiefUpgrade = {
   name: string;
@@ -22,9 +23,11 @@ export class Fief {
   private _assigned: Character | null;
   private _upgrades: FiefUpgrade[];
   private _faction: Faction;
+  private _city: City;
 
-  constructor(type: FiefType, faction: Faction) {
+  constructor(type: FiefType, faction: Faction, city: City) {
     this._type = type;
+    this._city = city;
     this._faction = faction;
 
     this._id = uuidv4();
@@ -262,5 +265,13 @@ export class Fief {
 
   set faction(val: Faction) {
     this._faction = val;
+  }
+
+  get city(): City {
+    return this._city;
+  }
+
+  set city(city: City) {
+    this._city = city;
   }
 }

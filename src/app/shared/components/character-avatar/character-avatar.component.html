@@ -1,22 +1,26 @@
-<div class="relative flex flex-col items-center justify-center">
+<div class="relative flex flex-col items-center justify-center py-2">
   @if (character) {
     @if (character.exhausted) {
       <div
-        class="absolute rotate-[-18deg] border-2 border-red-500 bg-red-900/70 px-2 py-0.5 text-xs font-extrabold tracking-widest text-red-300 uppercase"
+        class="absolute rotate-[-18deg] border-2 border-red-500 bg-red-900/70 px-2 py-0.5 text-xs font-extrabold tracking-widest text-red-300 uppercase z-10"
       >
         <p>EXHAUSTED</p>
       </div>
     }
-    <img
-      [src]="character.avatar"
-      [alt]="character.name"
-      class="w-24 h-24 rounded object-cover border border-slate-600"
-    />
-    <p class="">
-      {{ character.name }}
+    <div class="relative">
+      <img
+        [src]="character.avatar"
+        [alt]="character.name"
+        class="w-24 h-24 rounded object-cover border border-slate-600"
+      />
       @if (character.job) {
-        <span>({{ character.job.type }})</span>
+        <app-crown-icon class="absolute rotate-[-32deg] -top-4 right-14" />
       }
+    </div>
+    <p
+      class="line-clamp-2 flex flex-col items-center justify-center text-center w-min px-8"
+    >
+      {{ character.name }}
     </p>
   } @else {
     <img
