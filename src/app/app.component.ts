@@ -31,21 +31,18 @@ export class AppComponent implements OnInit {
   protected menu = '';
   protected playerFaction!: Faction;
 
-  constructor(
-    private readonly store: GameStoreService,
-    private manager: GameManagerService,
-  ) {}
+  constructor(private manager: GameManagerService) {}
 
   async ngOnInit(): Promise<void> {
     if (!this.manager.isInitialized) {
       await this.manager.init();
     }
-    this.factions = this.store.faction.getAll();
-    this.cities = this.store.city.getAll();
+    this.factions = this.manager.faction.getAll();
+    this.cities = this.manager.city.getAll();
 
     this.playerFaction = this.factions.find((f) => f.player)!;
 
-    this.store.view.selectedMenu$.subscribe((menu) => {
+    this.manager.view.selectedMenu$.subscribe((menu) => {
       this.menu = menu;
     });
 

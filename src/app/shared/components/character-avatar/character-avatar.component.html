@@ -12,7 +12,12 @@
       [alt]="character.name"
       class="w-24 h-24 rounded object-cover border border-slate-600"
     />
-    <p class="">{{ character.name }}</p>
+    <p class="">
+      {{ character.name }}
+      @if (character.job) {
+        <span>({{ character.job.type }})</span>
+      }
+    </p>
   } @else {
     <img
       [src]="'assets/avatars/none.jpg'"

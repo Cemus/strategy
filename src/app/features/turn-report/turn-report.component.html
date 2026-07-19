@@ -1,13 +1,18 @@
-<div class="flex flex-1 flex-col gap-2">
-  <h2>Month report</h2>
+@if (playerFaction && currentTurnReport && previousTurnReport) {
+  <div class="flex flex-1 flex-col gap-2">
+    <h2>Month report</h2>
 
-  <app-stats-panel
-    [playerFaction]="playerFaction"
-    [currentTurnReport]="currentTurnReport"
-    [previousTurnReport]="previousTurnReport"
-  />
+    <app-stats-panel
+      [playerFaction]="playerFaction"
+      [currentTurnReport]="currentTurnReport"
+      [previousTurnReport]="previousTurnReport"
+    />
 
-  @if (currentTurnReport.worldEvents) {
-    <app-events [events]="currentTurnReport.worldEvents" class="self-center" />
-  }
-</div>
+    @if (currentTurnReport.worldEvents) {
+      <app-events
+        [events]="currentTurnReport.worldEvents"
+        class="self-center"
+      />
+    }
+  </div>
+}

@@ -21,10 +21,7 @@ export class CommandComponent {
   protected isResultModalOpened: boolean = false;
   protected usedCharacters: Character[] = [];
 
-  constructor(
-    private readonly manager: GameManagerService,
-    private readonly store: GameStoreService,
-  ) {}
+  constructor(private readonly manager: GameManagerService) {}
 
   openAssignModal(): void {
     this.usedCharacters = [];

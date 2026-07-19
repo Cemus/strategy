@@ -12,13 +12,10 @@ import { GameStoreService } from '../../../core/services/store/game-store.servic
 export class HeaderComponent implements OnInit {
   protected turn: number = 1;
 
-  constructor(
-    private readonly store: GameStoreService,
-    private readonly manager: GameManager,
-  ) {}
+  constructor(private readonly manager: GameManager) {}
 
   ngOnInit(): void {
-    this.store.turn.turn$.subscribe((arg) => (this.turn = arg));
+    this.manager.turn.turn$.subscribe((arg) => (this.turn = arg));
   }
 
   endTurn() {

@@ -1,6 +1,6 @@
 import { Directive, ElementRef, OnInit, OnDestroy } from '@angular/core';
-import { GameStoreService } from '../core/services/store/game-store.service';
 import { Subscription } from 'rxjs';
+import GameManagerService from '../core/services/manager/game-manager.service';
 
 @Directive({
   selector: '[appMapControls]',
@@ -17,14 +17,14 @@ export class MapControlsDirective implements OnInit, OnDestroy {
 
   constructor(
     private elRef: ElementRef<HTMLElement>,
-    private store: GameStoreService,
+    private manager: GameManagerService,
   ) {}
 
   ngOnInit(): void {
     this.svgRef = this.elRef.nativeElement.querySelector('svg')!;
     this.setupListeners();
 
-    this.mapSubscription = this.store.map.map$.subscribe((map) => {
+    this.mapSubscription = this.manager.map.map$.subscribe((map) => {
       this.scale = map.scale;
       this.translate = { x: map.translationX, y: map.translationY };
       this.controlsPaused = map.pause;
@@ -38,13 +38,13 @@ export class MapControlsDirective implements OnInit, OnDestroy {
   }
 
   onMouseDown(event: MouseEvent) {
-    if (this.store.map.areMapControlsPaused()) return;
+    if (this.manager.map.areMapControlsPaused()) return;
 
     this.dragStart = { x: event.clientX, y: event.clientY };
   }
 
   onMouseMove(event: MouseEvent) {
-    if (this.store.map.areMapControlsPaused()) return;
+    if (this.manager.map.areMapControlsPaused()) return;
     if (event.buttons === 0) return;
     if (event.buttons === 0) return;
 
@@ -55,7 +55,7 @@ export class MapControlsDirective implements OnInit, OnDestroy {
     this.translate.y += dy;
     this.dragStart = { x: event.clientX, y: event.clientY };
 
-    this.store.map.update({
+    this.manager.map.update({
       scale: this.scale,
       translationX: this.translate.x,
       translationY: this.translate.y,
@@ -65,7 +65,7 @@ export class MapControlsDirective implements OnInit, OnDestroy {
   }
 
   onTouchStart(event: TouchEvent) {
-    if (this.store.map.areMapControlsPaused()) return;
+    if (this.manager.map.areMapControlsPaused()) return;
 
     const touch = event.touches[0];
 
@@ -75,7 +75,7 @@ export class MapControlsDirective implements OnInit, OnDestroy {
   }
 
   onTouchMove(event: TouchEvent) {
-    if (this.store.map.areMapControlsPaused()) return;
+    if (this.manager.map.areMapControlsPaused()) return;
 
     event.preventDefault();
 
@@ -89,7 +89,7 @@ export class MapControlsDirective implements OnInit, OnDestroy {
     this.translate.y += dy;
     this.dragStart = { x: touch.clientX, y: touch.clientY };
 
-    this.store.map.update({
+    this.manager.map.update({
       scale: this.scale,
       translationX: this.translate.x,
       translationY: this.translate.y,
@@ -99,7 +99,7 @@ export class MapControlsDirective implements OnInit, OnDestroy {
   }
 
   private onWheel = (event: WheelEvent) => {
-    if (this.store.map.areMapControlsPaused()) return;
+    if (this.manager.map.areMapControlsPaused()) return;
 
     const containerBoundingBox =
       this.svgRef?.parentElement?.getBoundingClientRect();
@@ -129,7 +129,7 @@ export class MapControlsDirective implements OnInit, OnDestroy {
       this.translate.y = 0;
     }
 
-    this.store.map.update({
+    this.manager.map.update({
       scale: this.scale,
       translationX: this.translate.x,
       translationY: this.translate.y,

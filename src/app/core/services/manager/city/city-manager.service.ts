@@ -15,4 +15,12 @@ export class CityManagerService {
   getCityById(id: string) {
     return this.store.city.getAll().find((c) => c.id === id);
   }
+
+  getSelected() {
+    return this.store.city.getSelected();
+  }
+
+  getAll() {
+    return this.store.city.getAll();
+  }
 }

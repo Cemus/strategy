@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { GameStoreService } from '../../../core/services/store/game-store.service';
+import { MapManagerService } from '../../../core/services/manager/map/map-manager.service';
 
 @Component({
   selector: 'app-modal',
@@ -8,7 +8,7 @@ import { GameStoreService } from '../../../core/services/store/game-store.servic
   styleUrl: './modal.component.css',
 })
 export abstract class ModalComponent implements OnInit, OnDestroy {
-  constructor(private readonly store: GameStoreService) {}
+  constructor(private readonly manager: MapManagerService) {}
 
   ngOnInit(): void {
     this.open();
@@ -19,10 +19,10 @@ export abstract class ModalComponent implements OnInit, OnDestroy {
   }
 
   public open() {
-    this.store.map.toggleMapControls(false);
+    this.manager.toggleMapControls(false);
   }
 
   public close() {
-    this.store.map.toggleMapControls(true);
+    this.manager.toggleMapControls(true);
   }
 }

@@ -61,4 +61,8 @@ export class CharacterManagerService {
     character.exhausted = true;
     return character;
   }
+
+  unexhaustAll() {
+    this.store.character.getAll().forEach((c) => (c.exhausted = false));
+  }
 }

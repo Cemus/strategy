@@ -30,14 +30,11 @@ export class FiefMenuComponent implements OnInit {
   protected selectedCity: City | null = null;
   protected fiefTypeEnum = FiefType;
 
-  constructor(
-    private readonly store: GameStoreService,
-    private readonly manager: GameManager,
-  ) {}
+  constructor(private readonly manager: GameManager) {}
 
   ngOnInit(): void {
-    this.selectedFief = this.store.fief.getSelected();
-    this.selectedCity = this.store.city.getSelected();
+    this.selectedFief = this.manager.fief.getSelected();
+    this.selectedCity = this.manager.city.getSelected();
   }
 
   onCharacterSelectionModal() {

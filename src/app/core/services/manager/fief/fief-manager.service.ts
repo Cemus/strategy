@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { GameStoreService } from '../../store/game-store.service';
 import { Character } from '../../../models/character/character.model';
 import { Fief, FiefUpgrade } from '../../../models/fief/fief.model';
+import { Faction } from '../../../models/faction/faction.model';
 
 @Injectable({
   providedIn: 'root',
@@ -105,12 +106,24 @@ export class FiefManagerService {
       for (const city of faction.cities) {
         const fief = city.fiefs.find((f: Fief) => f.id === fiefId);
         if (fief) {
-          fief.upgrade(upgrade);
+          if (!this.canBuyUpgrade) {
+            return;
+          }
+          faction.stats.gold -= upgrade.cost;
+          fief.applyUpgrade(upgrade);
           this.store.faction.updateAll(factions);
           this.store.fief.updateSelectedFief(fief);
           return;
         }
       }
     }
+  }
+
+  canBuyUpgrade(faction: Faction, upgrade: FiefUpgrade) {
+    return faction.stats.gold < upgrade.cost || upgrade.bought;
+  }
+
+  getSelected() {
+    return this.store.fief.getSelected();
   }
 }

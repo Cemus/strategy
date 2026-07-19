@@ -16,16 +16,7 @@ export default class MapStoreService {
     this.mapSubject.next(mapInfos);
   }
 
-  toggleMapControls(toggle: boolean) {
-    this.mapSubject.next({
-      scale: this.mapSubject.value.scale,
-      translationX: this.mapSubject.value.translationX,
-      translationY: this.mapSubject.value.translationY,
-      pause: !toggle,
-    });
-  }
-
-  areMapControlsPaused() {
-    return this.mapSubject.value.pause;
+  getMapSubject() {
+    return this.mapSubject.value;
   }
 }

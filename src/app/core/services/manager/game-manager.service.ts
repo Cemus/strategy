@@ -7,6 +7,8 @@ import { TurnManagerService } from './turn/turn-manager.service';
 import { CityManagerService } from './city/city-manager.service';
 import { FactionManagerService } from './faction/faction-manager.service';
 import { buildDefaultData } from '../../utils/game-data.utils';
+import { ViewManagerservice } from './view/view-manager.service';
+import { MapManagerService } from './map/map-manager.service';
 
 @Injectable({ providedIn: 'root' })
 export default class GameManagerService {
@@ -20,6 +22,8 @@ export default class GameManagerService {
     readonly turn: TurnManagerService,
     readonly city: CityManagerService,
     readonly faction: FactionManagerService,
+    readonly view: ViewManagerservice,
+    readonly map: MapManagerService,
   ) {}
 
   async init() {

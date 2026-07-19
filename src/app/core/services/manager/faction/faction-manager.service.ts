@@ -23,4 +23,8 @@ export class FactionManagerService {
 
     faction.actionCount--;
   }
+
+  getAll() {
+    return this.store.faction.getAll();
+  }
 }
