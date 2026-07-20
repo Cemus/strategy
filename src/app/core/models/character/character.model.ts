@@ -16,6 +16,7 @@ export class Character {
   private _traits: Trait[];
   private _relations: Record<string, number> = {};
   private _faction: Faction;
+  private _loyalty: number;
 
   constructor(
     name: string,
@@ -36,6 +37,7 @@ export class Character {
     this._traits = traits;
     this._relations = {};
     this._faction = faction;
+    this._loyalty = 50;
     this.applyTraitModifiers();
   }
 
@@ -43,18 +45,27 @@ export class Character {
     this.traits.forEach((trait) => {
       if (trait.statModifiers) {
         for (const [key, value] of Object.entries(trait.statModifiers)) {
-          this.stats[key as CharacterStat] += value;
+          this.setStat(
+            key as CharacterStat,
+            this.stats[key as CharacterStat] + value,
+          );
         }
       }
     });
   }
 
   public getCost() {
-    const { governance, knowledge, diplomacy, might, loyalty } = this._stats;
+    const { might, endurance, agility, charisma, intelligence, leadership } =
+      this._stats;
 
-    const total = governance + knowledge + diplomacy + might + loyalty;
+    const total =
+      might + endurance + agility + charisma + intelligence + leadership;
 
     return Math.floor(total / 5);
+  }
+
+  public setStat(stat: CharacterStat, value: number): void {
+    this._stats[stat] = Math.max(1, Math.min(10, value));
   }
 
   public get id(): string {
@@ -132,5 +143,12 @@ export class Character {
   }
   public set stats(value: Record<CharacterStat, number>) {
     this._stats = value;
+  }
+
+  public get loyalty(): number {
+    return this._loyalty;
+  }
+  public set loyalty(value: number) {
+    this._loyalty = Math.max(0, Math.min(100, value));
   }
 }

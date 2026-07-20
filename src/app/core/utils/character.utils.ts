@@ -23,11 +23,12 @@ export class CharacterFactory {
 
   public static generateStats(): Record<CharacterStat, number> {
     return {
-      governance: 50,
-      might: 50,
-      diplomacy: 50,
-      loyalty: 50,
-      knowledge: 50,
+      might: Math.floor(Math.random() * (5 - 1) + 1),
+      endurance: Math.floor(Math.random() * (5 - 1) + 1),
+      agility: Math.floor(Math.random() * (5 - 1) + 1),
+      charisma: Math.floor(Math.random() * (5 - 1) + 1),
+      intelligence: Math.floor(Math.random() * (5 - 1) + 1),
+      leadership: Math.floor(Math.random() * (5 - 1) + 1),
     };
   }
 

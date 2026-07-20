@@ -5,12 +5,13 @@
       (click)="openAssignModal()"
     >
       <p
-        class="px-2 border-solid w-2/6 text-center border-black border-2 font-semibold lg:text-base text-xs"
+        class="px-2 border-solid w-2/6 text-center border-black border font-semibold lg:text-base text-xs"
         [ngClass]="[command.bgColor, command.textColor]"
       >
-        {{ command.stat }}
+        <span>{{ command.stat ?? "???" | slice: 0 : 3 | uppercase }}</span>
         @if (command.requirement !== null) {
-          <span>: {{ command.requirement }}</span>
+          <span> : </span>
+          <span>{{ command.requirement }}</span>
         }
       </p>
       <p [ngClass]="textInfoStyle()">

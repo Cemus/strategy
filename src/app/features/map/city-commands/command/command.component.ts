@@ -1,14 +1,20 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Character } from '../../../../core/models/character/character.model';
 import { CommandAssignModalComponent } from '../command-assign-modal/command-assign-modal.component';
-import { NgClass } from '@angular/common';
+import { NgClass, SlicePipe, UpperCasePipe } from '@angular/common';
 import { CommandResultModalComponent } from '../command-result-modal/command-result-modal.component';
 import GameManagerService from '../../../../core/services/manager/game-manager.service';
 import { Command } from '../../../../core/types/command/command';
 
 @Component({
   selector: 'app-command',
-  imports: [CommandAssignModalComponent, CommandResultModalComponent, NgClass],
+  imports: [
+    CommandAssignModalComponent,
+    CommandResultModalComponent,
+    NgClass,
+    SlicePipe,
+    UpperCasePipe,
+  ],
   templateUrl: './command.component.html',
   styleUrl: './command.component.css',
 })

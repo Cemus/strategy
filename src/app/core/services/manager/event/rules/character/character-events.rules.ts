@@ -8,8 +8,8 @@ export const characterEventRules: EventRule<[Character]>[] = [
     name: 'Officer defect',
     level: 'Character',
     applicable: (character: Character) =>
-      character.stats.loyalty < 30 && Math.random() * 100 > 75,
-    chance: (character: Character) => character.stats.loyalty,
+      character.loyalty < 25 && Math.random() * 100 > 75,
+    chance: (character: Character) => character.loyalty,
     success: (character: Character) => {
       const loyaltyGain = Formulae.getRandomNumber(1, 10);
 
@@ -23,18 +23,18 @@ export const characterEventRules: EventRule<[Character]>[] = [
           `${character.name} gains ${loyaltyGain} loyalty`,
         ],
         apply: () => {
-          character.stats.loyalty += loyaltyGain;
+          character.loyalty += loyaltyGain;
         },
       };
     },
     failure: (character: Character) => {
       const conscriptLoss = Formulae.getRandomNumber(
         1,
-        character.stats.might * 10,
+        character.stats.charisma * 10,
       );
       const influenceLoss = Formulae.getRandomNumber(
         1,
-        character.stats.diplomacy,
+        character.stats.charisma,
       );
 
       {

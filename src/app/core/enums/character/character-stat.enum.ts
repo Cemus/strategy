@@ -1,7 +1,8 @@
 export enum CharacterStat {
-  Governance = 'governance',
-  Knowledge = 'knowledge',
-  Diplomacy = 'diplomacy',
   Might = 'might',
-  Loyalty = 'loyalty',
+  Endurance = 'endurance',
+  Agility = 'agility',
+  Charisma = 'charisma',
+  Intelligence = 'intelligence',
+  Leadership = 'leadership',
 }

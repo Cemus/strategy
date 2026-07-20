@@ -113,15 +113,22 @@ export class CommandAssignModalComponent extends ModalComponent {
   }
 
   updateStatScore() {
+    if (!this.command?.stat) return;
+
     this.currentStatScore = 0;
 
     for (const key of this.tempCharactersMap.keys()) {
       const character = this.tempCharactersMap.get(key);
 
-      if (character?.stats.governance) {
-        this.currentStatScore += character.stats.governance;
-      }
+      if (!character) return;
+
+      this.currentStatScore += character.stats[this.command.stat];
     }
+  }
+
+  getCharacterStat(character?: Character) {
+    if (!character || !this.command?.stat) return;
+    return character.stats[this.command.stat];
   }
 
   emitConfirmCommand() {

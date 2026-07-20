@@ -11,6 +11,7 @@ import { Faction } from '../../../../core/models/faction/faction.model';
 import { Formulae } from '../../../../core/utils/formulae.utils';
 import { CommandComponent } from '../command/command.component';
 import { Command } from '../../../../core/types/command/command';
+import { CharacterStat } from '../../../../core/enums/character/character-stat.enum';
 
 @Component({
   selector: 'app-build-commands',
@@ -54,9 +55,9 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
           this.isCityNeighbor() &&
           !this.isCityAtWar() &&
           this.playerFaction.name !== this.selectedCity?.faction?.name,
-        stat: 'ATK',
+        stat: CharacterStat.Charisma,
         requirement: this.getCommandRequirement('declareWar'),
-        bgColor: 'bg-red-700',
+        bgColor: 'bg-emerald-700',
         textColor: 'slate-100',
         context: {
           characters: [],
@@ -71,7 +72,7 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
         description: `Launch an assault to seize control of ${this.selectedCity?.name}.`,
         successText: `${this.selectedCity?.name} has been attacked. The battle outcome has been recorded.`,
         show: this.isCityNeighbor() && this.isCityAtWar(),
-        stat: 'BTL',
+        stat: null,
         requirement: null,
         bgColor: 'bg-red-700',
         textColor: 'slate-100',
@@ -97,7 +98,7 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
             this.selectedCity,
             this.playerFaction,
           ) !== Infinity,
-        stat: 'SPD',
+        stat: CharacterStat.Agility,
         requirement: this.getCommandRequirement('spyNetwork'),
         bgColor: 'bg-yellow-700',
         textColor: 'slate-100',
@@ -116,7 +117,7 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
         show:
           this.selectedCity?.faction?.name === this.playerFaction?.name &&
           this.playerFaction.stats.security > 3,
-        stat: 'DEF',
+        stat: CharacterStat.Endurance,
         requirement: this.getCommandRequirement('fortify'),
         bgColor: 'bg-blue-700',
         textColor: 'slate-100',
@@ -133,7 +134,7 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
         description: `Send officers to negotiate the end of the conflict against the ${this.selectedCity.faction.name} faction.`,
         successText: `negotiations succeeded. The war with ${this.selectedCity?.faction?.name} has ended.`,
         show: this.isCityAtWar(),
-        stat: 'INT',
+        stat: CharacterStat.Charisma,
         requirement: this.getCommandRequirement('askTruce'),
         bgColor: 'bg-emerald-700',
         textColor: 'slate-100',
@@ -152,7 +153,7 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
         successText:
           'An unexpected event has occurred. Its consequences will shape the future of your faction.',
         show: this.selectedCity?.faction?.name === this.playerFaction?.name,
-        stat: '???',
+        stat: null,
         requirement: null,
         bgColor: 'bg-slate-100',
         textColor: 'text-black',

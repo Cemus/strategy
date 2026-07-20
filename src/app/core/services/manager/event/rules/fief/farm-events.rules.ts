@@ -9,11 +9,17 @@ export const farmEventRules: EventRule<[Fief]>[] = [
     name: 'Farm Success',
     level: 'Fief',
     applicable: (fief) => !!fief.assigned && fief.type === FiefType.Farm,
-    chance: (fief) => fief.assigned!.stats.governance,
+
+    chance: (fief) => {
+      return (fief.assigned?.stats.leadership ?? 0) * 10;
+    },
+
     success: (fief) => {
+      const leadership = fief.assigned!.stats.leadership;
+
       const resourceGain = Formulae.getRandomNumber(
-        1,
-        100 - fief.assigned!.stats.governance,
+        leadership * 2,
+        leadership * 5,
       );
 
       return {
@@ -24,30 +30,31 @@ export const farmEventRules: EventRule<[Fief]>[] = [
         title: `${fief.assigned!.name} succeeded at ${fief.type}`,
         descriptions: [`${resourceGain} resource(s) gained!`],
         apply: () => {
-          const faction = fief.faction;
-          faction.stats[CivicStat.Resource] += resourceGain;
+          fief.faction.stats[CivicStat.Resource] += resourceGain;
         },
       };
     },
+
     failure: (fief) => {
+      const leadership = fief.assigned?.stats.leadership ?? 0;
       const resourceLoss = Formulae.getRandomNumber(
         1,
-        100 - fief.assigned!.stats.governance,
+        Math.max(1, 10 - leadership),
       );
 
       return {
         id: crypto.randomUUID(),
         factionId: fief.faction.id,
         fiefId: fief.id,
-        characterId: fief.assigned!.id,
-        title: `${fief.assigned!.name} failed at ${fief.type}`,
+        characterId: fief.assigned?.id,
+        title: `${fief.assigned?.name} failed at ${fief.type}`,
         descriptions: [`Lost ${resourceLoss} resource(s).`],
         apply: () => {
-          const faction = fief.faction;
-          faction.stats[CivicStat.Resource] -= resourceLoss;
+          fief.faction.stats[CivicStat.Resource] -= resourceLoss;
         },
       };
     },
+
     weight: 50,
   },
 ];

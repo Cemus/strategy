@@ -16,12 +16,13 @@
 
           <div class="self-baseline">
             <p class="text-sm">
-              Martial: {{ character.stats.might }} | Int.:{{
-                character.stats.knowledge
+              Might: {{ character.stats.might }} | End.:{{
+                character.stats.endurance
               }}
-              | Dipl.: {{ character.stats.diplomacy }} | Gov.:
-              {{ character.stats.governance }} | Know.:
-              {{ character.stats.knowledge }}
+              | Agi.: {{ character.stats.agility }} | Cha.:
+              {{ character.stats.charisma }} | Int.:
+              {{ character.stats.intelligence }}| Lead.:
+              {{ character.stats.leadership }}
             </p>
             @if (character.traits.length) {
               <p class="text-xs italic text-slate-400">
