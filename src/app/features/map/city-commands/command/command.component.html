@@ -2,13 +2,17 @@
   @if (command.show) {
     <li
       class="flex w-full p-1 items-baseline hover:bg-slate-700 hover:cursor-pointer"
-      (click)="openAssignModal()"
+      (click)="commandClick()"
     >
       <p
         class="px-2 border-solid w-2/6 text-center border-black border font-semibold lg:text-base text-xs"
         [ngClass]="[command.bgColor, command.textColor]"
       >
-        <span>{{ command.stat ?? "???" | slice: 0 : 3 | uppercase }}</span>
+        <span>{{
+          command.id === "battle"
+            ? "BTL"
+            : (command.stat ?? "???" | slice: 0 : 3 | uppercase)
+        }}</span>
         @if (command.requirement !== null) {
           <span> : </span>
           <span>{{ command.requirement }}</span>

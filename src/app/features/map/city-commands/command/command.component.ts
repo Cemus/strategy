@@ -30,10 +30,26 @@ export class CommandComponent {
 
   constructor(private readonly manager: GameManagerService) {}
 
-  openAssignModal(): void {
+  commandClick(): void {
     this.usedCharacters = [];
 
-    this.isAssignModalOpened = true;
+    switch (this.command?.id) {
+      case 'random':
+        break;
+
+      case 'battle':
+        console.log(this.command);
+        const fief = this.command.context.fiefs[0];
+        fief.faction === this.characters[0].faction;
+        const f = this.manager.fief.getFiefById(fief.id);
+        if (!f) return;
+        f.faction = this.characters[0].faction;
+        this.updateCommands.emit();
+        break;
+
+      default:
+        this.isAssignModalOpened = true;
+    }
   }
 
   onCloseAssignModal(): void {

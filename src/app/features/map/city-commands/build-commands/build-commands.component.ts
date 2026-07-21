@@ -53,28 +53,11 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
         successText: `declared our intention to go in war against ${this.selectedCity?.faction?.name}. Your armies can now march against their provinces.`,
         show:
           this.isCityNeighbor() &&
-          !this.isCityAtWar() &&
+          !this.isFactionAtWar() &&
           this.playerFaction.name !== this.selectedCity?.faction?.name,
         stat: CharacterStat.Charisma,
         requirement: this.getCommandRequirement('declareWar'),
         bgColor: 'bg-emerald-700',
-        textColor: 'slate-100',
-        context: {
-          characters: [],
-          fiefs: [],
-          factions: [this.playerFaction, this.selectedCity?.faction],
-          cities: [],
-        },
-      },
-      {
-        id: 'battle',
-        label: `Attack ${this.selectedCity?.name}!`,
-        description: `Launch an assault to seize control of ${this.selectedCity?.name}.`,
-        successText: `${this.selectedCity?.name} has been attacked. The battle outcome has been recorded.`,
-        show: this.isCityNeighbor() && this.isCityAtWar(),
-        stat: null,
-        requirement: null,
-        bgColor: 'bg-red-700',
         textColor: 'slate-100',
         context: {
           characters: [],
@@ -133,7 +116,7 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
         label: `Negotiate truce with ${this.selectedCity?.faction?.name}`,
         description: `Send officers to negotiate the end of the conflict against the ${this.selectedCity.faction.name} faction.`,
         successText: `negotiations succeeded. The war with ${this.selectedCity?.faction?.name} has ended.`,
-        show: this.isCityAtWar(),
+        show: this.isFactionAtWar(),
         stat: CharacterStat.Charisma,
         requirement: this.getCommandRequirement('askTruce'),
         bgColor: 'bg-emerald-700',
@@ -165,6 +148,67 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
         },
       },
     ];
+
+    const remainingCityFief = this.selectedCity.fiefs.filter(
+      (f) => f.faction !== this.playerFaction,
+    );
+
+    if (remainingCityFief.length === 1) {
+      const fief = remainingCityFief[0];
+      this.commands.push({
+        id: 'battle',
+        label: `Decisive battle for ${this.selectedCity?.name}!`,
+        description: `Launch an assault to seize control of ${this.selectedCity?.name} by capturing ${fief.type}.`,
+        successText: `${this.selectedCity?.name} is ours!`,
+        show:
+          this.isCityNeighbor() &&
+          this.isFactionAtWar() &&
+          fief.faction !== this.playerFaction &&
+          this.selectedCity.fiefs.filter(
+            (f) => f.faction !== this.playerFaction,
+          ).length === 1,
+        stat: null,
+        requirement: null,
+        bgColor: 'bg-red-700',
+        textColor: 'slate-100',
+        context: {
+          characters: [],
+          fiefs: [fief],
+          factions: [this.playerFaction, this.selectedCity?.faction],
+          cities: [],
+        },
+      });
+
+      return;
+    }
+
+    this.selectedCity.fiefs.forEach((f) => {
+      if (!this.selectedCity || !this.playerFaction || !this.cities) return;
+
+      this.commands.push({
+        id: 'battle',
+        label: `Attack ${this.selectedCity?.name}'s ${f.type}!`,
+        description: `Launch an assault to seize control of ${this.selectedCity?.name}'s ${f.type}.`,
+        successText: `${this.selectedCity?.name}'s ${f.type} is ours!`,
+        show:
+          this.isCityNeighbor() &&
+          this.isFactionAtWar() &&
+          f.faction !== this.playerFaction &&
+          this.selectedCity.fiefs.filter(
+            (f) => f.faction !== this.playerFaction,
+          ).length > 1,
+        stat: null,
+        requirement: null,
+        bgColor: 'bg-red-700',
+        textColor: 'slate-100',
+        context: {
+          characters: [],
+          fiefs: [f],
+          factions: [this.playerFaction, this.selectedCity?.faction],
+          cities: [],
+        },
+      });
+    });
   }
 
   isCityNeighbor(): boolean {
@@ -179,7 +223,7 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
     );
   }
 
-  isCityAtWar(): boolean {
+  isFactionAtWar(): boolean {
     return (
       this.selectedCity?.faction?.atWar.some(
         (f) => f.name === this.playerFaction?.name,
@@ -219,7 +263,7 @@ export class BuildCommandsComponent implements OnInit, OnChanges {
 
       case 'spyNetwork':
         req = base;
-        if (this.isCityAtWar()) req += 3;
+        if (this.isFactionAtWar()) req += 3;
         req += Formulae.getDistanceToClosestCity(
           this.selectedCity,
           this.playerFaction,

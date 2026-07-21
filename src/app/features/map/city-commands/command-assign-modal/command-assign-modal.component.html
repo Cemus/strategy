@@ -38,26 +38,26 @@
               }
             </div>
           </section>
-          <section class="flex-1">
-            <h4 class="text-lg font-semibold">Selected characters</h4>
-            <ul class="flex flex-wrap gap-2 h-full items-center">
-              @for (key of tempCharactersMap.keys(); track $index) {
-                <li class="relative">
-                  <app-character-avatar
-                    [character]="tempCharactersMap.get(key) ?? null"
-                  />
-                  @if (tempCharactersMap.get(key)?.stats) {
-                    <span
-                      class="absolute top-0 translate-x-1 -translate-y-3.5 right-0 p-2 text-4xl rounded text-emerald-500 text-shadow-black text-shadow-lg"
-                    >
-                      {{ getCharacterStat(tempCharactersMap.get(key)) }}</span
-                    >
-                  }
-                </li>
-              }
-            </ul>
-          </section>
         }
+        <section class="flex-1">
+          <h4 class="text-lg font-semibold">Selected characters</h4>
+          <ul class="flex flex-wrap gap-2 h-full items-center">
+            @for (key of tempCharactersMap.keys(); track $index) {
+              <li class="relative">
+                <app-character-avatar
+                  [character]="tempCharactersMap.get(key) ?? null"
+                />
+                @if (tempCharactersMap.get(key)?.stats) {
+                  <span
+                    class="absolute top-0 translate-x-1 -translate-y-3.5 right-0 p-2 text-4xl rounded text-emerald-500 text-shadow-black text-shadow-lg"
+                  >
+                    {{ getCharacterStat(tempCharactersMap.get(key)) }}</span
+                  >
+                }
+              </li>
+            }
+          </ul>
+        </section>
         <section
           class="flex justify-around min-h-8 text-xl bg-slate-800 border-rounded"
         >
